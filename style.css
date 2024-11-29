@@ -4,7 +4,7 @@
 }
 
 body {
-    background-color: lightcyan;
+    background-color: #C6E7FF;
     color: black;
     size: 1rem;
     transition: background-color 0.2s ease;
@@ -47,8 +47,40 @@ body.dark {
 }
 
 .icon-button:hover {
-    transform: scale(1.1);
+    transform: scale(1.5);
 }
 
+.about{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border: 4.5px solid black;
+    border-radius: 15px;
+    margin: 50px;
+    background-color: #FBFBFB;
+    font-size: 1.5rem;
+    padding: 10px;
+}
 
+li{
+    margin: 10px;
+}
+
+h3{
+    align-self: center;
+}
+.edu{
+    display: flex;
+    margin: 50px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    border: 4.5px solid black;
+    border-radius: 15px;
+    background-color: #FBFBFB;
+    font-size: 1.5rem;
+    padding: 10px;
+    padding-left: 25px;
+}
 
