@@ -12,7 +12,7 @@ body {
 
 body.dark {
     background-color: dimgrey;
-    color: whitesmoke;
+    color: #021526;
     font-size: 1rem;
 }
 
@@ -64,6 +64,10 @@ body.dark {
     padding-left: 25px;
 }
 
+.about.dark{
+    background-color: #03346E;
+    color: white;
+}
 li{
     margin: 10px;
 }
@@ -85,9 +89,18 @@ h3{
     padding-left: 25px;
 }
 
+.edu.dark{
+    background-color: #03346E;
+    color: white;
+}
+
 a{
     text-decoration: none;
     color: black;
+}
+
+a.dark{
+    color: white;
 }
 
 a:hover{
@@ -118,4 +131,17 @@ a:hover{
     align-items: center;
     gap: 20px; 
     font-size: 25px;
+}
+
+.footer.dark{
+    background-color: #536493;
+    color: white;
+}
+
+.name{
+    color: black;
+}
+
+.name.dark{
+    color: white;
 }
