@@ -61,6 +61,7 @@ body.dark {
     background-color: #FBFBFB;
     font-size: 1.5rem;
     padding: 10px;
+    padding-left: 25px;
 }
 
 li{
@@ -84,3 +85,37 @@ h3{
     padding-left: 25px;
 }
 
+a{
+    text-decoration: none;
+    color: black;
+}
+
+a:hover{
+    font-weight: bold;
+}
+
+.footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items:center;
+    background-color: #D4F6FF;
+    border: 1px black solid;
+    margin: 10px;
+    padding: 15px;
+}
+.footer-head{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 22.5px;
+}
+
+.footer-body {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px; 
+    font-size: 25px;
+}
