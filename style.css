@@ -11,7 +11,7 @@ body {
 }
 
 body.dark {
-    background-color: dimgrey;
+    background-color: black;
     color: #021526;
     font-size: 1rem;
 }
