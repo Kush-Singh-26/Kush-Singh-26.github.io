@@ -4,91 +4,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kush Singh</title>
+    <title>Kush Singh | Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
-    <div class="header">
+    <nav class="navbar">
         <div class="name"><h2>KUSH SINGH</h2></div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#education">Education</a>
+            <a href="#contact">Contact</a>
+        </div>
         <button id="dark-toggle" class="icon-button">
             <span class="material-icons">dark_mode</span>
         </button>
-    </div>
+    </nav>
 
-    <div class="about">
-        <h3>About Me</h3>
-        <p>
-        <ul>
-            <li>Hi! I’m Kush 👋, currently a student at KIIT University, Bhubaneswar.</li>
-            <li>I am pursuing a degree in Computer
-                Science Engineering (CSE).</li>
-            <li>I’m passionate about exploring the world of
-                technology and constantly working to grow as a programmer.</li>
-            <li>My hobies include coding , listning music , reading and exploring
-                new ways to enhance my skills and creativity.</li>
-        </ul>
-        Feel free to connect—I’d love to share ideas , collaborate , or simply have a chat!
-        </p>
-    </div>
-
-    <div class="edu">
-        <h3>Skills / Languages</h3>
-            <ul>
-                <li>C/C++</li>
-                <li>HTML,CSS,JavaScript</li>
-                <li>Python </li>
-            </ul>
-        <h3>Currently Doing ...</h3>
-            <ul>
-                <li>Machine Learning(ML) and Deep Learinig(DL)</li>
-                <li>DSA</li>
-            </ul>
-    </div>
-
-    <div class="edu">
-        <h3>Projects</h3>
-        <ul>
-            <li>
-                <a  class="a" href="https://kush-singh-26.github.io/Calculator/" target="_blank">Calculator</a>
-            </li>
-            <li>
-                <a class="a" href="https://kush-singh-26.github.io/tic-tac-toe/" target="_blank">Tic-Tac-Toe</a>
-            </li>
-            <li>
-                <a  class="a" href="https://kush-singh-26.github.io/library/" target="_blank">Library System</a>
-            </li>
-            <li>
-                <a  class="a" href="https://github.com/Kush-Singh-26/DS_in_C" target="_blank">Implementation of Various Data Structures in C</a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="edu">
-        <h3>Education Qualifications</h3>
-        <ul>
-            <li>B.Tech, KIIT (CGPA = 9.12)</li>
-            <li>Class 12, DPS Mathrua Road, New Delhi (84%)</li>
-            <li>Class 10, DPS Mathrua Road, New Delhi (92%) </li>
-        </ul>
-    </div>
-
-
-    <div class="footer">
-        <div class="footer-head">Links</div>
-        <div class="footer-body">
-            <a class="a" href="https://github.com/Kush-Singh-26" target="_blank">GitHub</a>
-            <a class="a" href="https://leetcode.com/u/kush-singh-26/" target="_blank">LeetCode</a>
-            <a class="a" href="https://leetcode.com/u/kush-singh-26/" target="_blank">Codeforces</a>          
-            <a class="a" href="https://codeforces.com/profile/Kush26" target="_blank">Linkedin</a>
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <h1>Hello, I'm Kush Singh</h1>
+            <h2>Computer Science Student & Developer</h2>
+            <p>Passionate about technology and constantly growing as a programmer</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn primary-btn">View Projects</a>
+                <a href="#contact" class="btn secondary-btn">Contact Me</a>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <section id="about" class="about">
+        <h3>About Me</h3>
+        <div class="about-content">
+            <div class="about-text">
+                <p>
+                    Hi! I'm Kush 👋, currently a student at KIIT University, Bhubaneswar pursuing a degree in Computer
+                    Science Engineering (CSE).
+                </p>
+                <p>
+                    I'm passionate about exploring the world of technology and constantly working to grow as a programmer.
+                    My hobbies include coding, listening to music, reading, and exploring new ways to enhance my skills and creativity.
+                </p>
+                <p>
+                    Feel free to connect—I'd love to share ideas, collaborate, or simply have a chat!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="skills-section">
+        <h3>Skills & Expertise</h3>
+        <div class="skills-container">
+            <div class="skill-category">
+                <h4>Programming Languages</h4>
+                <div class="skill-items">
+                    <div class="skill-item">
+                        <i class="fas fa-code"></i>
+                        <span>C/C++</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-python"></i>
+                        <span>Python</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-js"></i>
+                        <span>JavaScript</span>
+                    </div>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4>Web Development</h4>
+                <div class="skill-items">
+                    <div class="skill-item">
+                        <i class="fab fa-html5"></i>
+                        <span>HTML5</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-css3-alt"></i>
+                        <span>CSS3</span>
+                    </div>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4>Currently Learning</h4>
+                <div class="skill-items">
+                    <div class="skill-item">
+                        <i class="fas fa-brain"></i>
+                        <span>Machine Learning</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-project-diagram"></i>
+                        <span>Deep Learning</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-network-wired"></i>
+                        <span>DSA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects-section">
+        <h3>Projects</h3>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-header">
+                    <i class="fas fa-calculator"></i>
+                    <h4>Calculator</h4>
+                </div>
+                <p class="project-description">A web-based calculator application with a clean interface.</p>
+                <div class="project-links">
+                    <a href="https://kush-singh-26.github.io/Calculator/" target="_blank" class="project-link">
+                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    </a>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-header">
+                    <i class="fas fa-gamepad"></i>
+                    <h4>Tic-Tac-Toe</h4>
+                </div>
+                <p class="project-description">Interactive tic-tac-toe game built with JavaScript.</p>
+                <div class="project-links">
+                    <a href="https://kush-singh-26.github.io/tic-tac-toe/" target="_blank" class="project-link">
+                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    </a>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-header">
+                    <i class="fas fa-book"></i>
+                    <h4>Library System</h4>
+                </div>
+                <p class="project-description">A digital library management system for tracking books.</p>
+                <div class="project-links">
+                    <a href="https://kush-singh-26.github.io/library/" target="_blank" class="project-link">
+                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    </a>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-header">
+                    <i class="fas fa-sitemap"></i>
+                    <h4>Data Structures in C</h4>
+                </div>
+                <p class="project-description">Implementation of various data structures using the C programming language.</p>
+                <div class="project-links">
+                    <a href="https://github.com/Kush-Singh-26/DS_in_C" target="_blank" class="project-link">
+                        <i class="fab fa-github"></i> GitHub Repo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="education-section">
+        <h3>Education</h3>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>B.Tech in Computer Science</h4>
+                    <p class="timeline-institution">KIIT University, Bhubaneswar</p>
+                    <p class="timeline-details">CGPA: 9.12</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Class 12</h4>
+                    <p class="timeline-institution">DPS Mathura Road, New Delhi</p>
+                    <p class="timeline-details">Percentage: 84%</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Class 10</h4>
+                    <p class="timeline-institution">DPS Mathura Road, New Delhi</p>
+                    <p class="timeline-details">Percentage: 92%</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <h3>Get In Touch</h3>
+        <div class="contact-container">
+            <div class="social-links">
+                <a href="https://github.com/Kush-Singh-26" target="_blank" class="social-link">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://leetcode.com/u/kush-singh-26/" target="_blank" class="social-link">
+                    <i class="fas fa-code"></i>
+                    <span>LeetCode</span>
+                </a>
+                <a href="https://codeforces.com/profile/Kush26" target="_blank" class="social-link">
+                    <i class="fas fa-laptop-code"></i>
+                    <span>Codeforces</span>
+                </a>
+                <a href="https://linkedin.com/" target="_blank" class="social-link">
+                    <i class="fab fa-linkedin"></i>
+                    <span>LinkedIn</span>
+                </a>
+            </div>
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn primary-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Kush Singh. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="https://github.com/Kush-Singh-26" target="_blank">GitHub</a>
+                <a href="https://leetcode.com/u/kush-singh-26/" target="_blank">LeetCode</a>
+                <a href="https://codeforces.com/profile/Kush26" target="_blank">Codeforces</a>
+                <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 

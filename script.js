@@ -1,22 +1,60 @@
-let isDark = false;
-const darkbtn = document.querySelector("#dark-toggle");
+const darkToggleBtn = document.querySelector("#dark-toggle");
 const body = document.body;
-const about = document.querySelector(".about");
-const eduSections = document.querySelectorAll(".edu");
-const a = document.querySelectorAll(".a");
-const footer = document.querySelector(".footer");
-const h = document.querySelector(".name");
+let isDark = localStorage.getItem('darkMode') === 'true';
 
-darkbtn.addEventListener('click',() => {
+if (isDark) {
+    enableDarkMode();
+}
+
+darkToggleBtn.addEventListener('click', () => {
     isDark = !isDark;
-    body.classList.toggle('dark');
-    about.classList.toggle('dark');
-    eduSections.forEach((edu) => edu.classList.toggle("dark"));
-    a.forEach((aunit) => aunit.classList.toggle("dark"));
-    footer.classList.toggle('dark');
-    h.classList.toggle('dark');
-
-    darkbtn.innerHTML = isDark 
-    ? '<span class="material-icons"  style="color : yellow;">light_mode</span>' 
-    : '<span class="material-icons">dark_mode</span>'; 
+    localStorage.setItem('darkMode', isDark);
+    
+    if (isDark) {
+        enableDarkMode();
+    } else {
+        disableDarkMode();
+    }
 });
+
+function enableDarkMode() {
+    body.classList.add('dark');
+    darkToggleBtn.innerHTML = '<span class="material-icons" style="color: yellow;">light_mode</span>';
+}
+
+function disableDarkMode() {
+    body.classList.remove('dark');
+    darkToggleBtn.innerHTML = '<span class="material-icons">dark_mode</span>';
+}
+
+function createMobileNav() {
+    const navbar = document.querySelector('.navbar');
+    const navLinks = document.querySelector('.nav-links');
+    
+    const mobileMenuBtn = document.createElement('button');
+    mobileMenuBtn.classList.add('mobile-menu-btn');
+    mobileMenuBtn.innerHTML = '<span class="material-icons">menu</span>';
+    
+    navbar.insertBefore(mobileMenuBtn, darkToggleBtn);
+    
+    mobileMenuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        
+        if (navLinks.classList.contains('active')) {
+            mobileMenuBtn.innerHTML = '<span class="material-icons">close</span>';
+        } else {
+            mobileMenuBtn.innerHTML = '<span class="material-icons">menu</span>';
+        }
+    });
+    
+    // Close mobile menu when a link is clicked
+    const navLinksArray = document.querySelectorAll('.nav-links a');
+    navLinksArray.forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            mobileMenuBtn.innerHTML = '<span class="material-icons">menu</span>';
+        });
+    });
+}
+
+//
