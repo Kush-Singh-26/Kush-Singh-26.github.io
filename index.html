@@ -1,334 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kush Singh | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="./img/favicon.png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <nav class="navbar">
-        <div class="name"><h2>KUSH SINGH</h2></div>
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#projects">Projects</a>
-            <a href="#education">Education</a>
-            <a href="#links">Links</a>
-            <a href="https://kush-singh-26.github.io/blogs/", target="_blank">Blogs</a>
-        </div>
-        <button id="dark-toggle" class="icon-button">
-            <span class="material-icons">dark_mode</span>
-        </button>
-    </nav>
+    <canvas id="neural-canvas"></canvas>
 
-    <section id="hero" class="hero">
-        <div class="hero-content">
-            <h1>Hello, I'm Kush</h1>
-            <h2>Computer Science Student & Developer</h2>
-            <p>Passionate about technology and constantly growing as a programmer</p>
-            <div class="hero-buttons">
-                <a href="#projects" class="btn primary-btn">View Projects</a>
-                <a href="#links" class="btn secondary-btn">Connect</a>
+    <header>
+        <nav>
+            <a href="#hero" class="site-logo">
+                <img src="./img/favicon.png" alt="Kush Singh">
+                <span class="logo-text">Kush Singh</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#education">Education</a>
+                <a href="#contact">Contact</a>
+                <a href="https://kush-singh-26.github.io/blogs/" target="_blank">Blogs</a>
             </div>
-        </div>
-    </section>
+        </nav>
+    </header>
 
-    <section id="about" class="about">
-        <h3>About Me</h3>
-        <div class="about-content">
-            <div class="about-text">
+    <main>
+        <section id="hero" class="hero">
+            <div class="hero-content">
+                <h1>Hello, I'm <span class="name-highlight">Kush Singh</span></h1>
+                <div class="hero-subtitle">
+                    <span class="typewriter" data-text='["Computer Science Student", "Developer", "DL Enthusiast"]'></span><span class="cursor">|</span>
+                </div>
+                <p class="hero-description">
+                    Passionate about Deep Learning, Systems Engineering, and building efficient software solutions. 
+                    Currently focused on training and finetuning language models.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <h2 class="section-title">About Me</h2>
+            <div class="glass-card about-content">
                 <p>
-                    Hi! I'm Kush 👋, currently a student at KIIT University, Bhubaneswar pursuing a degree in Computer
-                    Science Engineering (CSE).
+                    I am a Computer Science undergraduate at <strong>KIIT University</strong>, driven by a curiosity for <b>Deep Learning</b> and <b>Systems Engineering</b>. 
                 </p>
                 <p>
-                    I'm passionate about exploring the world of technology and constantly working to grow as a programmer.
-                    My hobbies include coding, listening to music, reading, and exploring new ways to enhance my skills and creativity.
-                </p>
-                <p>
-                    Feel free to connect—I'd love to share ideas, collaborate, or simply have a chat!
+                    My work focuses on the intersection of AI and efficiency—specifically training small language models, fine-tuning LLMs, and building high-performance inference engines. When I'm not coding, I document my experiments and findings on my <a href="https://kush-singh-26.github.io/blogs/" target="_blank" class="inline-link">technical blog</a>.
                 </p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="skills" class="skills-section">
-        <h3>Skills & Expertise</h3>
-        <div class="skills-container">
-            <div class="skill-category">
-                <h4>Programming Languages</h4>
-                <div class="skill-items">
-                    <div class="skill-item">
-                        <i class="fa-solid fa-c"></i>
-                        <span>C/C++</span>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-python"></i>
-                        <span>Python</span>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-java"></i>
-                        <span>Java</span>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-js"></i>
-                        <span>JavaScript</span>
+        <section id="skills">
+            <h2 class="section-title">Skills & Expertise</h2>
+            <div class="skills-grid">
+                <div class="glass-card skill-card">
+                    <h3>Programming Languages</h3>
+                    <div class="skill-items">
+                        <span class="skill-tag">C++</span>
+                        <span class="skill-tag">C</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">Golang</span>
                     </div>
                 </div>
-            </div>
-            <div class="skill-category">
-                <h4>Web Development</h4>
-                <div class="skill-items">
-                    <div class="skill-item">
-                        <i class="fab fa-html5"></i>
-                        <span>HTML5</span>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-css3-alt"></i>
-                        <span>CSS3</span>
+                <div class="glass-card skill-card">
+                    <h3>Deep Learning</h3>
+                    <div class="skill-items">
+                        <span class="skill-tag">PyTorch</span>
+                        <span class="skill-tag">HF Transformers</span>
+                        <span class="skill-tag">NumPy</span>
+                        <span class="skill-tag">Pandas</span>
+                        <span class="skill-tag">Scikit-Learn</span>
+                        <span class="skill-tag">Matplotlib</span>
                     </div>
                 </div>
-            </div>
-            <div class="skill-category">
-                <h4>Currently Learning</h4>
-                <div class="skill-items">
-                    <div class="skill-item">
-                        <i class="fas fa-brain"></i>
-                        <span>Machine Learning</span>
+                <div class="glass-card skill-card">
+                    <h3>Web Development</h3>
+                    <div class="skill-items">
+                        <span class="skill-tag">HTML5</span>
+                        <span class="skill-tag">CSS3</span>
+                        <span class="skill-tag">JavaScript</span>
                     </div>
-                    <div class="skill-item">
-                        <i class="fas fa-project-diagram"></i>
-                        <span>Deep Learning</span>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fas fa-network-wired"></i>
-                        <span>DSA</span>
+                </div>
+                <div class="glass-card skill-card">
+                    <h3>DevOps & Tools</h3>
+                    <div class="skill-items">
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">GitHub Actions</span>
+                        <span class="skill-tag">Linux</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Kubernetes</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="projects" class="projects-section">
-        <h3>Projects</h3>
-        <div class="projects-grid">
-            
-            <div class="project-card">
-                <div class="project-header">
-                    <i class="fa-solid fa-book"></i>
-                    <h4>Blogs</h4>
+        <section id="projects">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="glass-card project-card">
+                    <h3>SSG Generator</h3>
+                    <p class="project-description">
+                        Custom static site generator using Golang with Markdown-to-HTML conversion and CI/CD pipelines.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/Kush-Singh-26/blogs" target="_blank">GitHub →</a>
+                        <a href="https://kush-singh-26.github.io/blogs/" target="_blank">Live Demo →</a>
+                    </div>
                 </div>
-                <p class="project-description">Blog site built using Jekyll Pages.</p>
-                <div class="project-links">
-                    <a href="https://github.com/Kush-Singh-26/blogs" target="_blank" class="project-link">
-                        <i class="fab fa-github"></i> GitHub Repo
+
+                <div class="glass-card project-card">
+                    <h3>Inference Engine</h3>
+                    <p class="project-description">
+                        High-performance C++ inference engine for LLMs using SIMD, with KV-Cache and quantization strategies.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/Kush-Singh-26/Inference_Engine" target="_blank">GitHub →</a>
+                    </div>
+                </div>
+
+                <div class="glass-card project-card">
+                    <h3>Transformer Translate</h3>
+                    <p class="project-description">
+                        Transformer model from scratch with mixed precision training. Achieved BLEU score of 23.64 on English-Hindi dataset.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/Kush-Singh-26/Transformer_Translate" target="_blank">GitHub →</a>
+                        <a href="https://transformer-translate.vercel.app/" target="_blank">Live Demo →</a>
+                    </div>
+                </div>
+
+                <div class="glass-card project-card">
+                    <h3>Image Caption Generation</h3>
+                    <p class="project-description">
+                        Image caption generator using CNN and LSTM for automatic image description.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/Kush-Singh-26/Image_Caption" target="_blank">GitHub →</a>
+                        <a href="https://huggingface.co/spaces/Kush26/Caption_Generator" target="_blank">Live Demo →</a>
+                    </div>
+                </div>
+
+                <div class="glass-card project-card">
+                    <h3>Image Style Transfer</h3>
+                    <p class="project-description">
+                        Neural Image Style Transfer for transferring style from one image to another using deep learning.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/Kush-Singh-26/Image_Caption" target="_blank">GitHub →</a>
+                    </div>
+                </div>
+
+                <div class="glass-card project-card">
+                    <h3>Micrograd</h3>
+                    <p class="project-description">
+                        Implementation of an autograd engine from scratch in Python for educational purposes.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/Kush-Singh-26/Micrograd" target="_blank">GitHub →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2 class="section-title">Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2023 - 2027</div>
+                    <div class="timeline-content glass-card">
+                        <h3>B.Tech in Computer Science</h3>
+                        <div class="institution">KIIT University, Bhubaneswar</div>
+                        <div class="details">CGPA: 9.24</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2023</div>
+                    <div class="timeline-content glass-card">
+                        <h3>Senior Secondary (Class 12)</h3>
+                        <div class="institution">DPS Mathura Road, New Delhi</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2021</div>
+                    <div class="timeline-content glass-card">
+                        <h3>Secondary (Class 10)</h3>
+                        <div class="institution">DPS Mathura Road, New Delhi</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2 class="section-title">Get in Touch</h2>
+            <div class="glass-card contact-container">
+                <div class="contact-icons">
+                    <a href="https://github.com/Kush-Singh-26" target="_blank" class="icon-link" aria-label="GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        <span>GitHub</span>
+                    </a>
+                    
+                    <a href="https://www.linkedin.com/in/kush-singh-2b2440280" target="_blank" class="icon-link" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        <span>LinkedIn</span>
                     </a>
 
-                    <a href="https://kush-singh-26.github.io/blogs/" target="_blank" class="project-link">
-                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    <a href="https://leetcode.com/u/kush-singh-26/" target="_blank" class="icon-link" aria-label="LeetCode">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                        <span>LeetCode</span>
+                    </a>
+
+                    <a href="https://codeforces.com/profile/Kush26" target="_blank" class="icon-link" aria-label="Codeforces">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                        <span>Codeforces</span>
+                    </a>
+
+                    <a href="https://drive.google.com/file/d/1b1xyRDVqBhWQOCPzDuTkV7dunH3OPgw6/view?usp=drive_link" target="_blank" class="icon-link" aria-label="Resume">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        <span>Resume</span>
+                    </a>
+
+                    <a href="https://kush-singh-26.github.io/blogs/" target="_blank" class="icon-link" aria-label="Blog">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
+                        <span>Blog</span>
                     </a>
                 </div>
             </div>
+        </section>
+    </main>
 
-            <div class="project-card">
-                <div class="project-header">
-                    <i class="fa-solid fa-image"></i>
-                    <h4>Image Caption Generation</h4>
-                </div>
-                <p class="project-description">An image caption genrator using CNN and LSTM</p>
-                <div class="project-links">
-                    <a href="https://github.com/Kush-Singh-26/Image_Caption" target="_blank" class="project-link">
-                        <i class="fab fa-github"></i> GitHub Repo
-                    </a>
-
-                    <a href="https://huggingface.co/spaces/Kush26/Caption_Generator" target="_blank" class="project-link">
-                        <i class="fas fa-external-link-alt"></i> Live Demo
-                    </a>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-header">
-                    <i class="fa-solid fa-image"></i>
-                    <h4>Image Style Transfer</h4>
-                </div>
-                <p class="project-description">Neural Image Style Transfer for transfering a style of a <b>style image</b> to a <b>content image</b>.</p>
-                <div class="project-links">
-                    <a href="https://github.com/Kush-Singh-26/Image_Caption" target="_blank" class="project-link">
-                        <i class="fab fa-github"></i> GitHub Repo
-                    </a>
-
-                    <a href="https://huggingface.co/spaces/Kush26/Caption_Generator" target="_blank" class="project-link">
-                        <i class="fas fa-external-link-alt"></i> Live Demo
-                    </a>
-                </div>
-            </div>
-
-
-            <div class="project-card">
-                <div class="project-header">
-                    <i class="fas fa-calculator"></i>
-                    <h4>Calculator</h4>
-                </div>
-                <p class="project-description">A web-based calculator application with a clean interface.</p>
-                <div class="project-links">
-                    <a href="https://github.com/Kush-Singh-26/Calculator" target="_blank" class="project-link">
-                        <i class="fab fa-github"></i> GitHub Repo
-                    </a>
-
-                    <a href="https://kush-singh-26.github.io/Calculator/" target="_blank" class="project-link">
-                        <i class="fas fa-external-link-alt"></i> Live Demo
-                    </a>
-                </div>
-            </div>        
-
-
-            <div class="project-card">
-                <div class="project-header">
-                    <i class="fas fa-gamepad"></i>
-                    <h4>Tic-Tac-Toe</h4>
-                </div>
-                <p class="project-description">Interactive tic-tac-toe game built with JavaScript.</p>
-                <div class="project-links">
-                    <a href="https://github.com/Kush-Singh-26/tic-tac-toe" target="_blank" class="project-link">
-                        <i class="fab fa-github"></i> GitHub Repo
-                    </a>
-
-                    <a href="https://kush-singh-26.github.io/tic-tac-toe/" target="_blank" class="project-link">
-                        <i class="fas fa-external-link-alt"></i> Live Demo
-                    </a>
-                </div>
-            </div>
-            
-            <div class="project-card">
-                <div class="project-header">
-                    <i class="fas fa-book"></i>
-                    <h4>Library System</h4>
-                </div>
-                <p class="project-description">A digital library management system for tracking books.</p>
-                <div class="project-links">
-                    <a href="https://github.com/Kush-Singh-26/library" target="_blank" class="project-link">
-                        <i class="fab fa-github"></i> GitHub Repo
-                    </a>
-
-                    <a href="https://kush-singh-26.github.io/library/" target="_blank" class="project-link">
-                        <i class="fas fa-external-link-alt"></i> Live Demo
-                    </a>
-                </div>
-            </div>
-            
-            <div class="project-card">
-                <div class="project-header">
-                    <i class="fas fa-sitemap"></i>
-                    <h4>Data Structures in C</h4>
-                </div>
-                <p class="project-description">Implementation of various data structures using the C programming language.</p>
-                <div class="project-links">
-                    <a href="https://github.com/Kush-Singh-26/DS_in_C" target="_blank" class="project-link">
-                        <i class="fab fa-github"></i> GitHub Repo
-                    </a>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-header">
-                    <i class="fas fa-image"></i>
-                    <h4>Image Classification</h4>
-                </div>
-                <p class="project-description">Trained a convolutional neural network (CNN) to classify images from CIFAR-10 dataset.</p>
-                <div class="project-links">
-                    <a href="https://github.com/Kush-Singh-26/Image-Classification-CIFAR_10" target="_blank" class="project-link">
-                        <i class="fab fa-github"></i> GitHub Repo
-                    </a>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-header">
-                    <i class="fas fa-code-branch"></i>
-                    <h4>Mircrograd</h4>
-                </div>
-                <p class="project-description">Implementation of an autograd engine from scratch in python</p>
-                <div class="project-links">
-                    <a href="https://github.com/Kush-Singh-26/Micrograd" target="_blank" class="project-link">
-                        <i class="fab fa-github"></i> GitHub Repo
-                    </a>
-                </div>
-        </div>
-    </section>
-
-    <section id="education" class="education-section">
-        <h3>Education</h3>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h4>B.Tech in Computer Science</h4>
-                    <p class="timeline-institution">KIIT University, Bhubaneswar</p>
-                    <p class="timeline-details">CGPA: 9.24</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h4>Class 12</h4>
-                    <p class="timeline-institution">DPS Mathura Road, New Delhi</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h4>Class 10</h4>
-                    <p class="timeline-institution">DPS Mathura Road, New Delhi</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="links" class="links-section">
-        <h3>Connect With Me</h3>
-        <div class="social-links">
-            <a href="https://github.com/Kush-Singh-26" target="_blank" class="social-link">
-                <i class="fab fa-github"></i>
-                <span>GitHub</span>
-            </a>
-            <a href="https://leetcode.com/u/kush-singh-26/" target="_blank" class="social-link">
-                <i class="fas fa-code"></i>
-                <span>LeetCode</span>
-            </a>
-            <a href="https://codeforces.com/profile/Kush26" target="_blank" class="social-link">
-                <i class="fas fa-laptop-code"></i>
-                <span>Codeforces</span>
-            </a>
-            <a href="https://www.linkedin.com/in/kush-singh-2b2440280?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="social-link">
-                <i class="fab fa-linkedin"></i>
-                <span>LinkedIn</span>
-            </a>
-            <a href="https://drive.google.com/file/d/1b1xyRDVqBhWQOCPzDuTkV7dunH3OPgw6/view?usp=drive_link" target="_blank" class="social-link">
-                <i class="fa-solid fa-file"></i>
-                <span>Resume</span>
-            </a>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; 2025 Kush Singh. All rights reserved.</p>
-        </div>
+    <footer>
+        <p>&copy; 2025 Kush Singh.</p>
     </footer>
 
     <script src="script.js"></script>
 </body>
-
 </html>
