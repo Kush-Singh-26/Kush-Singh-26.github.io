@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Link to the Sitemap of the Blogs project
+Sitemap: https://kush-singh-26.github.io/blogs/sitemap.xml
