@@ -34,11 +34,31 @@ jobs:
 
       - name: Install Kosh
         run: go install github.com/Kush-Singh-26/kosh/cmd/kosh@latest
-
+        
+      - name: Prepare Theme Directory
+        run: mkdir -p blogs-src/themes
+      
       - name: Clone Blog Theme
         run: |
-          mkdir -p blogs-src/themes
-          git clone https://github.com/Kush-Singh-26/kosh-theme-blog blogs-src/themes/blog
+          if git clone https://github.com/Kush-Singh-26/kosh-theme-blog blogs-src/themes/blog; then
+            echo "Theme cloned successfully"
+            ls -la blogs-src/themes/blog/
+          else
+            echo "Failed to clone theme"
+            exit 1
+          fi
+      
+      - name: Verify Theme Files
+        run: |
+          if [ ! -d "blogs-src/themes/blog" ]; then
+            echo "ERROR: Theme directory not found!"
+            exit 1
+          fi
+          if [ ! -f "blogs-src/themes/blog/theme.yaml" ]; then
+            echo "ERROR: theme.yaml not found!"
+            exit 1
+          fi
+          echo "Theme validation passed"
 
       - name: Restore File Timestamps
         uses: chetan/git-restore-mtime-action@v2
