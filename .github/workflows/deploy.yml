@@ -36,7 +36,9 @@ jobs:
         run: go install github.com/Kush-Singh-26/kosh/cmd/kosh@latest
 
       - name: Clone Blog Theme
-        run: git clone https://github.com/Kush-Singh-26/kosh-theme-blog blogs-src/themes/blog
+        run: |
+          mkdir -p blogs-src/themes
+          git clone https://github.com/Kush-Singh-26/kosh-theme-blog blogs-src/themes/blog
 
       - name: Restore File Timestamps
         uses: chetan/git-restore-mtime-action@v2
