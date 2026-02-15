@@ -75,7 +75,7 @@ It decomposes the matrix $A$ into :
 ---
 
 1. **Orthogonal** :
-- Two vectors are orthogonal if they are at a $90 \degree$ angle to each other.
+- Two vectors are orthogonal if they are at a $ 90 \degree $ angle to each other.
     - Their dot product is zero. ($u \cdot v = 0$).
 
 2. **Orthonormal** :
@@ -249,7 +249,7 @@ This is exactly like the **Eigendecomposition formula** ($PD^{-1}P$).
 
 $$A = \begin{bmatrix} 3 & 2 & 2 \\ 2 & 3 & -2 \end{bmatrix}$$
 
-- **Goal** : Find $U$ ($2\times2$), $\Sigma$ ($2\times3$), and $V$ ($3\times3$).
+- **Goal** : Find $U$ $ (2\times2) $, $\Sigma$ $(2\times3)$, and $V$ $(3 \times3 )$.
 
 ### 1. Compute $A^\top A$ :
 
@@ -291,7 +291,7 @@ $$U = \begin{bmatrix} \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt
 
 ### 5. Construct $\Sigma$ (The Stretch)
 
-$\Sigma$ must have the same dimensions as the original matrix $A$ ($2 \times 3$). Place the singular values on the diagonal and pad the rest with zeros.
+$\Sigma$ must have the same dimensions as the original matrix $A$ $(2 \times 3)$. Place the singular values on the diagonal and pad the rest with zeros.
 
 $$\Sigma = \begin{bmatrix} 5 & 0 & 0 \\ 0 & 3 & 0 \end{bmatrix}$$
 
@@ -312,7 +312,7 @@ $$A^T = V \Sigma U^T$$
  
 Multiply both sides by a vector $u$, one of the columns of $U$ : $u_i$.
 
->$U^T u_i$ will result in a vector of zeros with a single $1$ at index $i$, because $U$ is orthonormal.
+>$U^T u_i$ will result in a vector of zeros with a single $ 1 $ at index $i$, because $U$ is orthonormal.
 
 $$A^T u_i = V \Sigma (U^T u_i)$$
 

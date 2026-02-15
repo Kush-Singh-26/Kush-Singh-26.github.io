@@ -20,8 +20,6 @@ themeDir: "themes"
 
 # Navigation
 menu:
-  - name: "Home"
-    url: "https://kush-singh-26.github.io/"
   - name: "Tags"
     url: "/tags/index.html"
   - name: "Graph"
