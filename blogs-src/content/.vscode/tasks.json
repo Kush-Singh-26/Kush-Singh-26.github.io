@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Open Split PowerShell Terminals",
+      "type": "shell",
+      "command": "powershell",
+      "presentation": {
+        "panel": "new",
+        "split": true,
+        "focus": false
+      },
+      "problemMatcher": []
+    }
+  ]
+}

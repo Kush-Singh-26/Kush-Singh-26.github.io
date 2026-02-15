@@ -1,5 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
     
+    /* --- THEME TOGGLE --- */
+    const themeToggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            if (newTheme === 'light') {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    }
+    
     /* --- INTERSECTION OBSERVER FOR FADE-IN ANIMATION --- */
     const observerOptions = {
         root: null,

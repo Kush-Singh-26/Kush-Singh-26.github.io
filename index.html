@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kush Singh</title>
-    <link rel="icon" type="image/png" href="./assets/img/favicon.png">
+    <link rel="icon" type="image/png" href="static/images/logo.png">
 
     <meta name="description"
         content="Portfolio of Kush Singh, a Computer Science undergraduate specializing in Deep Learning, LLMs, and High-Performance Systems Engineering.">
@@ -33,7 +33,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Theme Detection Script -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
 </head>
 
 <body>
@@ -48,7 +58,11 @@
                 <a href="#education">Timeline</a>
                 <a href="#contact">Contact</a>
             </div>
-            <a href="https://kush-singh-26.github.io/blogs/" target="_blank" class="nav-cta">Blogs</a>
+            <button id="theme-toggle" aria-label="Toggle Theme">
+                <span class="theme-icon-light">☀️</span>
+                <span class="theme-icon-dark">🌙</span>
+            </button>
+            <a href="/blogs/" target="_blank" class="nav-cta">Blogs</a>
         </div>
     </nav>
 
