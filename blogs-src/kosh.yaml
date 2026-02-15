@@ -16,7 +16,7 @@ cacheDir: ".kosh-cache"
 
 # Theme - will be cloned by CI
 theme: "blog"
-themeDir: "./themes"
+themeDir: "themes"
 
 # Navigation
 menu:
