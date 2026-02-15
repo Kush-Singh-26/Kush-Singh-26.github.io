@@ -1,7 +1,7 @@
 # Blog Source Configuration
 title: "Kush Blogs"
 description: "I write about machine learning, deep learning and lately more about NLP."
-logo: "../static/images/logo.png"
+logo: "static/images/logo.png"
 baseURL: ""  # Overridden by CI with -baseurl flag
 language: "en"
 
