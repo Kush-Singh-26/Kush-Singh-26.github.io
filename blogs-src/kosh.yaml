@@ -20,6 +20,9 @@ themeDir: "themes"
 
 # Navigation
 menu:
+  - name: "Search"
+    id: "search-btn"
+    class: "nav-btn"
   - name: "Tags"
     url: "/tags/index.html"
   - name: "Graph"
