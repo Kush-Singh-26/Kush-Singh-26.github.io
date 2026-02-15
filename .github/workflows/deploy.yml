@@ -69,7 +69,22 @@ jobs:
           path: blogs-src/.kosh-cache
           key: kosh-cache-${{ runner.os }}-${{ github.sha }}
           restore-keys: kosh-cache-${{ runner.os }}-
-
+      - name: Debug Theme Path
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "blogs-src contents:"
+          ls -la blogs-src/
+          echo "blogs-src/themes contents:"
+          ls -la blogs-src/themes/
+          echo "blogs-src/themes/blog contents:"
+          ls -la blogs-src/themes/blog/
+          echo "blogs-src/kosh.yaml:"
+          cat blogs-src/kosh.yaml
+      - name: Debug Before Build
+        working-directory: blogs-src
+        run: |
+          echo "PWD: $(pwd)"
+          ls -la themes/blog/
       - name: Build Blog
         working-directory: blogs-src
         run: kosh build -baseurl https://kush-singh-26.github.io/blogs
