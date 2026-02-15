@@ -7,7 +7,7 @@ language: "en"
 
 author:
   name: "Kush Singh"
-  url: "https://kush-singh-26.github.io/"
+  url: "../"
 
 # Output configuration - outputs to ../blogs/ (sibling directory)
 outputDir: "../blogs"
