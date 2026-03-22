@@ -12,8 +12,9 @@ It is a statistical process for estimating the relationships between a **depende
 - **Input $X$** : Attribute variables or features (typically numerical values).
 - **Output $Y$** : Response variable that is aimed to be predicted.
  
-> Cyan: Goal is to estimate a function $f(X, \beta)$ such that $Y \approx f(X, \beta)$.
-
+!!! abstract Objective
+    The goal is to estimate a function $f(X, \beta)$ such that $Y \approx f(X, \beta)$.
+    
 It is called linear regression because this relation is assumed to be linear with an additive error term $\epsilon$ representing statistical noise.
 
 ---
@@ -52,8 +53,9 @@ Residual Sum of Squares (SSE) cost function $L$ is defined as :
 
 $$ L(\beta_0,\beta_1) = \sum_{i=1}^n \epsilon_i^2 = \sum_{i=1}^n (y_i - \hat y_i)^2 = \sum_{i=1}^n (y_i - (\beta_0 + \beta_1 x_i))^2 $$
 
-> Green: Goal is to : $min(\sum_{i=1}^n (y_i - \hat y_i)^2 ) $
-
+!!! success Goal
+    Minimize $\sum_{i=1}^n (y_i - \hat y_i)^2$
+    
 To find the optimal $\beta_0$ and $\beta_1$, we take partial derivative w.r.t each parameter and set them to 0.
 
 #### 1. Derivative w.r.t $\beta_0$ :
@@ -219,8 +221,9 @@ $$ \underbrace{\hat{Y}}_{N \times 1} = \underbrace{X}_{N \times (n+1)} \cdot \un
 
 ## Closed Form / Normal Form Equation
 
-> Green: To find the coefficient $w$, minimize the sum of squared error (SSE) 
-
+!!! tip
+    To find the coefficient $w$, minimize the sum of squared error (SSE).
+    
 ### Define the cost function
 
 Cost function (quantifies the error between a model's predicted outputs and the actual target values) :

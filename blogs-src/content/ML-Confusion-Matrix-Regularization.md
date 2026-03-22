@@ -63,7 +63,8 @@ $$F_1 = \frac{2 \cdot \text{Precision} \cdot \text{Recall}}{\text{Precision} + \
 
 ### 6. Area Under ROC Curve (AUC-ROC)
 
-> Pink: **Receiver Operating Characteristic (ROC)** curve plots the **Recall (TPR)** against the **False Positive Rate** $(1 - \text{Specificity})$ at various threshold settings.
+!!! info ROC Curve Definition
+    The **Receiver Operating Characteristic (ROC)** curve plots the **Recall (TPR)** against the **False Positive Rate** $(1 - \text{Specificity})$ at various threshold settings.
 
 The Area Under this Curve (AUC) represents the probability that the classifier will rank a randomly chosen positive instance higher than a randomly chosen negative one.
 
@@ -162,7 +163,8 @@ $$\hat{\beta}_{ridge} = \underset{\beta}{\text{argmin}} \left( \sum_{i=1}^n (y_i
 
 - **Shrinks coefficients toward zero but never exactly to zero**. It includes all features in the final model (no variable selection).
 
-> Green: The constraint region $\beta_1^2 + \beta_2^2 \leq s$ is a circle. The RSS ellipses usually hit the circle at a non-axis point, keeping $\beta$ non-zero.
+!!! tip L2 Regularization (Ridge)
+    The constraint region $\beta_1^2 + \beta_2^2 \leq s$ is a circle. The RSS ellipses usually hit the circle at a non-axis point, keeping $\beta$ non-zero.
 
 ---
 
@@ -178,7 +180,8 @@ $$\hat{\beta}_{lasso} = \underset{\beta}{\text{argmin}} \left( \sum_{i=1}^n (y_i
 
 - **Can shrink coefficients exactly to zero, effectively performing feature selection**. It creates sparse models.
 
-> Green: The constraint region $|\beta_1| + |\beta_2| \leq s$ is a diamond. The RSS ellipses often hit the "corners" of the diamond (the axes), forcing some coefficients to zero.
+!!! tip L1 Regularization (Lasso)
+    The constraint region $|\beta_1| + |\beta_2| \leq s$ is a diamond. The RSS ellipses often hit the "corners" of the diamond (the axes), forcing some coefficients to zero.
 
 - It is not differentiable at 0.
 

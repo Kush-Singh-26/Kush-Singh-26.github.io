@@ -5,6 +5,7 @@ logo: "static/images/logo.png"
 baseURL: ""  # Overridden by CI with -baseurl flag
 language: "en"
 
+
 author:
   name: "Kush Singh"
   url: "../"
@@ -24,7 +25,7 @@ menu:
     id: "search-btn"
     class: "nav-btn"
   - name: "Tags"
-    url: "/tags/index.html"
+    url: "/tags/"
   - name: "Graph"
     url: "/graph.html"
   - name: "Home"
@@ -57,3 +58,6 @@ socialCards:
 # Build Settings
 postsPerPage: 10
 compressImages: true
+imageWorkers: 8
+vipsConcurrency: 4
+parserWorkers: 8  

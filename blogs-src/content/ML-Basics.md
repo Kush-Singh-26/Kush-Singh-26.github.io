@@ -80,8 +80,9 @@ If even no. of values :
 
 $$ \text{Median} = \frac{1}{2} [x_{\frac{n}{2}} + x_{\frac{n+1}{2}}] $$
 
-> Red: When outliers are present in the dataset, it is better to use **median**.
-
+!!! important
+    When outliers are present in the dataset, it is better to use **median**.
+    
 ### Moment 2 (Measures of Dispersion)
 
 #### 3. Variance
@@ -121,8 +122,9 @@ It defines the shape in terms of peak (sharpness) and tail (heaviness).
 
 $$ \text{Kurtosis} = \frac{1}{n} \sum{\left(\frac{x_i - \mu}{\sigma}\right)^4} $$
 
-> Green: In denominator, **Bessels correction** (use of $n-1$) will be done when a **sample of the population** is considered. Otherwise, when the whole population is used, use $n$.
-
+!!! tip Bessel's Correction
+    In the denominator, use $n-1$ when a **sample of the population** is considered. Otherwise, when the whole population is used, use $n$.
+    
 ---
 
 ## Box Plot
@@ -179,8 +181,9 @@ $$ \rho_{X,Y} = \frac{Cov(X,Y)}{\sigma_X \sigma_Y} $$
 
 ---
 
-> Orange: Covariance of a RV '$X$' with itself will be $(E[X-E[X])(E[X-E[X]]) = E[(X-E[X])^2] = \sigma_X^2 $.   
-> Thus, $Cov(X,X) = Var(X)$.
+!!! example Mathematical Property
+    Covariance of a RV '$X$' with itself will be $(E[X-E[X])(E[X-E[X]]) = E[(X-E[X])^2] = \sigma_X^2 $. <br>
+    Thus, $Cov(X,X) = Var(X)$.
 
 ### Covariance Matrix
 
@@ -199,7 +202,8 @@ Cov(X_d, X_1) & Cov(X_d, X_2) & \cdots & Var(X_d)
 - **Off-Diagonal elements** : Covariances between feature pairs.
   - $Cov(X,Y) = Cov(Y,X)$ , this means that the matrix is symmetric.
 
-> Green: If one feature is a perfect linear combination of other features, then there is redundancy in the information, and the covariance matrix is singular (i.e., its rank is less than the number of features).
+!!! tip Key Insight
+    If one feature is a perfect linear combination of other features, then there is redundancy in the information, and the covariance matrix is singular (i.e., its rank is less than the number of features).
 
 ---
 
