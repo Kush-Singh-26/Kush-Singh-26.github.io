@@ -1,3 +1,4 @@
 themes/
 .kosh-cache/
 blogs/
+*.exe

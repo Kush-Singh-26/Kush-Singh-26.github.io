@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kush Singh</title>
-    <link rel="icon" type="image/png" href="static/images/logo.png">
+    <link rel="icon" type="image/png" href="blogs-src\static\images\logo.png">
 
     <meta name="description"
         content="Portfolio of Kush Singh, a Computer Science undergraduate specializing in Deep Learning, LLMs, and High-Performance Systems Engineering.">
@@ -31,7 +31,7 @@
     <link rel="canonical" href="https://kush-singh-26.github.io/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="assets/css/styles.css">
     
@@ -59,22 +59,35 @@
                 <a href="#contact">Contact</a>
             </div>
             <button id="theme-toggle" aria-label="Toggle Theme">
-                <span class="theme-icon-light">☀️</span>
-                <span class="theme-icon-dark">🌙</span>
+                <svg class="theme-icon-light" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                <svg class="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
             </button>
-            <a href="/blogs/" target="_blank" class="nav-cta">Blogs</a>
+            <a href="https://kush-singh-26.github.io/blogs/" target="_blank" class="nav-cta">Blogs</a>
         </div>
     </nav>
 
     <main>
+        <!-- Scroll Progress Bar -->
+        <div id="scroll-progress"></div>
+
+        <!-- Custom Cursor Glow -->
+        <div id="cursor-glow"></div>
+        
+        <!-- Ambient Depth and Texture -->
+        <canvas id="neural-canvas"></canvas>
+        <div class="noise-overlay"></div>
+        <div class="grid-overlay"></div>
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+
         <section id="hero" class="hero-section">
             <div class="hero-content fade-in">
-                <span class="hero-identity">Kush Singh</span>
+                <span class="hero-identity fade-in-stagger mono-text">SYS.ENG // Kush Singh</span>
 
-                <h1 class="headline">Beyond.<br>Binary.</h1>
-                <p class="sub-headline">Translating complex deep learning theory into efficient, human-centric reality.
+                <h1 class="headline fade-in-stagger">Beyond.<br><span class="accent-text">Binary.</span></h1>
+                <p class="sub-headline fade-in-stagger">Translating complex deep learning theory into efficient, <span class="highlight">human-centric reality.</span>
                 </p>
-                <div class="hero-links">
+                <div class="hero-links fade-in-stagger">
                     <a href="#projects" class="link-arrow">View Projects <span class="arrow">→</span></a>
                 </div>
             </div>
@@ -93,22 +106,22 @@
 
         <section id="projects" class="section-container">
             <h2 class="section-label fade-in">Selected Work</h2>
-            <div class="bento-grid">
+            <div class="bento-grid masonry">
 
-                <div class="bento-card large fade-in">
+                <div class="bento-card col-span-2 row-span-2 fade-in stagger-1 card-spotlight">
                     <div class="card-content">
-                        <span class="card-eyebrow">Systems Engineering</span>
+                        <span class="card-eyebrow mono-text">Systems Engineering</span>
                         <h3>Inference Engine</h3>
                         <p>High-performance C++ inference engine for LLMs using SIMD, with KV-Cache and quantization
-                            strategies.</p>
+                            strategies. Built for raw speed on edge devices.</p>
                         <a href="https://github.com/Kush-Singh-26/Inference_Engine" target="_blank"
                             class="card-link">View Repository &rarr;</a>
                     </div>
                 </div>
 
-                <div class="bento-card large fade-in">
+                <div class="bento-card col-span-1 row-span-2 fade-in stagger-2 card-spotlight">
                     <div class="card-content">
-                        <span class="card-eyebrow">LLM Fine-tuning</span>
+                        <span class="card-eyebrow mono-text">LLM Fine-tuning</span>
                         <h3>Mental Health ChatBot</h3>
                         <p>
                             Fine-tuned Llama 3 8B on counseling datasets to enhance empathetic reasoning using PEFT
@@ -122,9 +135,9 @@
                     </div>
                 </div>
 
-                <div class="bento-card medium fade-in">
+                <div class="bento-card col-span-1 row-span-1 fade-in stagger-3 card-spotlight">
                     <div class="card-content">
-                        <span class="card-eyebrow">Deep Learning</span>
+                        <span class="card-eyebrow mono-text">Deep Learning</span>
                         <h3>Transformer Translate</h3>
                         <p>Built from scratch with mixed precision. Achieved BLEU 23.64 (En-Hi).</p>
                         <div class="link-group">
@@ -136,9 +149,9 @@
                     </div>
                 </div>
 
-                <div class="bento-card medium fade-in">
+                <div class="bento-card col-span-1 row-span-1 fade-in stagger-4 card-spotlight">
                     <div class="card-content">
-                        <span class="card-eyebrow">Web Systems</span>
+                        <span class="card-eyebrow mono-text">Web Systems</span>
                         <h3>SSG Generator</h3>
                         <p>Custom static site generator using Golang with Markdown-to-HTML conversion.</p>
                         <div class="link-group">
@@ -150,9 +163,9 @@
                     </div>
                 </div>
 
-                <div class="bento-card medium fade-in">
+                <div class="bento-card col-span-1 row-span-1 fade-in stagger-5 card-spotlight">
                     <div class="card-content">
-                        <span class="card-eyebrow">Computer Vision</span>
+                        <span class="card-eyebrow mono-text">Computer Vision</span>
                         <h3>Image Captioning</h3>
                         <p>CNN and LSTM based model for automatic image description generation.</p>
                         <div class="link-group">
@@ -164,23 +177,23 @@
                     </div>
                 </div>
 
-                <div class="bento-card medium fade-in">
+                <div class="bento-card col-span-2 row-span-1 fade-in stagger-7 card-spotlight">
                     <div class="card-content">
-                        <span class="card-eyebrow">Neural Networks</span>
-                        <h3>Style Transfer</h3>
-                        <p>Neural Image Style Transfer algorithm to merge content and artistic style.</p>
-                        <a href="https://github.com/Kush-Singh-26/Image_Caption" target="_blank" class="card-link">View
+                        <span class="card-eyebrow mono-text">Education</span>
+                        <h3>Micrograd</h3>
+                        <p>Implementation of an autograd engine from scratch in Python. Understanding the roots of
+                            backpropagation and neural networks.</p>
+                        <a href="https://github.com/Kush-Singh-26/Micrograd" target="_blank" class="card-link">View
                             Repository &rarr;</a>
                     </div>
                 </div>
 
-                <div class="bento-card large fade-in">
+                <div class="bento-card col-span-1 row-span-1 fade-in stagger-6 card-spotlight">
                     <div class="card-content">
-                        <span class="card-eyebrow">Education</span>
-                        <h3>Micrograd</h3>
-                        <p>Implementation of an autograd engine from scratch in Python. Understanding the roots of
-                            backpropagation.</p>
-                        <a href="https://github.com/Kush-Singh-26/Micrograd" target="_blank" class="card-link">View
+                        <span class="card-eyebrow mono-text">Neural Networks</span>
+                        <h3>Style Transfer</h3>
+                        <p>Neural Image Style Transfer algorithm to merge content and artistic style.</p>
+                        <a href="https://github.com/Kush-Singh-26/Image_Caption" target="_blank" class="card-link">View
                             Repository &rarr;</a>
                     </div>
                 </div>
@@ -212,15 +225,15 @@
             <h2 class="section-label fade-in">Timeline</h2>
             <div class="timeline-simple fade-in">
                 <div class="timeline-row">
-                    <span class="year">2023 — 2027</span>
+                    <span class="year mono-text">2023 — 2027</span>
                     <div class="details">
                         <strong>KIIT University, Bhubaneswar</strong>
                         <p>B.Tech in Computer Science</p>
-                        <span class="meta-tag">CGPA: 9.16</span>
+                        <span class="meta-tag mono-text">CGPA: 9.16</span>
                     </div>
                 </div>
                 <div class="timeline-row">
-                    <span class="year">2022</span>
+                    <span class="year mono-text">2022</span>
                     <div class="details">
                         <strong>DPS Mathura Road, New Delhi</strong>
                         <p>Senior Secondary (Class 12)</p>
