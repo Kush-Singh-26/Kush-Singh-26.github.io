@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kush Singh</title>
-    <link rel="icon" type="image/png" href="blogs-src\static\images\logo.png">
+    <link rel="icon" type="image/png" href="blogs-src/static/images/logo.png">
 
     <meta name="description"
         content="Portfolio of Kush Singh, a Computer Science undergraduate specializing in Deep Learning, LLMs, and High-Performance Systems Engineering.">
@@ -31,10 +31,34 @@
     <link rel="canonical" href="https://kush-singh-26.github.io/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="assets/css/styles.css">
-    
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Kush Singh",
+      "url": "https://kush-singh-26.github.io/",
+      "email": "kushsingh2604@gmail.com",
+      "jobTitle": "CS Undergraduate & ML/Systems Engineer",
+      "description": "Computer Science undergraduate specializing in Deep Learning, LLMs, and High-Performance Systems Engineering.",
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "KIIT University",
+        "address": { "@type": "PostalAddress", "addressLocality": "Bhubaneswar", "addressCountry": "IN" }
+      },
+      "knowsAbout": ["Deep Learning", "LLMs", "C++", "Python", "PyTorch", "Systems Engineering", "Inference Engines", "SIMD", "Golang"],
+      "sameAs": [
+        "https://github.com/Kush-Singh-26",
+        "https://www.linkedin.com/in/kush-singh-2b2440280",
+        "https://kush-singh-26.github.io/blogs/"
+      ]
+    }
+    </script>
+
     <!-- Theme Detection Script -->
     <script>
         (function() {
@@ -48,21 +72,22 @@
 
 <body>
 
+    <!-- Navigation -->
     <nav class="nav-container">
         <div class="nav-content">
-            <a href="#" class="nav-logo">Kush Singh</a>
+            <a href="#" class="nav-logo">kush.singh</a>
             <div class="nav-links">
-                <a href="#about">About</a>
-                <a href="#projects">Work</a>
-                <a href="#skills">Skills</a>
-                <a href="#education">Timeline</a>
-                <a href="#contact">Contact</a>
+                <a href="#about">about</a>
+                <a href="#projects">work</a>
+                <a href="#skills">skills</a>
+                <a href="#education">timeline</a>
+                <a href="#contact">contact</a>
             </div>
             <button id="theme-toggle" aria-label="Toggle Theme">
-                <svg class="theme-icon-light" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                <svg class="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg class="theme-icon-light" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                <svg class="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
             </button>
-            <a href="https://kush-singh-26.github.io/blogs/" target="_blank" class="nav-cta">Blogs</a>
+            <a href="https://kush-singh-26.github.io/blogs/" target="_blank" class="nav-cta">blogs↗</a>
         </div>
     </nav>
 
@@ -72,7 +97,7 @@
 
         <!-- Custom Cursor Glow -->
         <div id="cursor-glow"></div>
-        
+
         <!-- Ambient Depth and Texture -->
         <canvas id="neural-canvas"></canvas>
         <div class="noise-overlay"></div>
@@ -80,42 +105,104 @@
         <div class="ambient-orb orb-1"></div>
         <div class="ambient-orb orb-2"></div>
 
+        <!-- HERO -->
         <section id="hero" class="hero-section">
             <div class="hero-content fade-in">
-                <span class="hero-identity fade-in-stagger mono-text">SYS.ENG // Kush Singh</span>
+
+                <!-- Typing identity -->
+                <span class="hero-identity fade-in-stagger mono-text">sys.eng // kush_singh</span>
 
                 <h1 class="headline fade-in-stagger">Beyond.<br><span class="accent-text">Binary.</span></h1>
-                <p class="sub-headline fade-in-stagger">Translating complex deep learning theory into efficient, <span class="highlight">human-centric reality.</span>
+
+                <p class="sub-headline fade-in-stagger">
+                    Translating complex deep learning theory into efficient,
+                    <span class="highlight">human-centric reality.</span>
                 </p>
+
                 <div class="hero-links fade-in-stagger">
                     <a href="#projects" class="link-arrow">View Projects <span class="arrow">→</span></a>
+                    <a href="./resume.pdf" target="_blank" class="link-arrow link-arrow-secondary">Resume ↗</a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about" class="section-container">
+            <div class="content-block fade-in">
+                <div class="section-label-wrap">
+                    <span class="section-line"></span>
+                    <h2 class="section-label">The Profile</h2>
+                    <span class="section-line"></span>
+                </div>
+                <p class="large-text">
+                    I am a Computer Science undergraduate at KIIT University. My work exists at the
+                    <span class="highlight">intersection of AI and efficiency</span>—specifically training small
+                    language models, fine-tuning LLMs, and building high-performance inference engines.
+                </p>
+
+                <!-- Terminal Block -->
+                <div class="terminal-block fade-in">
+                    <div class="terminal-header">
+                        <span class="term-dot term-red"></span>
+                        <span class="term-dot term-yellow"></span>
+                        <span class="term-dot term-green"></span>
+                        <span class="term-title mono-text">kush@portfolio ~ </span>
+                    </div>
+                    <div class="terminal-body mono-text">
+                        <div class="term-line">
+                            <span class="term-prompt">$ </span><span class="term-cmd">cat profile.json</span>
+                        </div>
+                        <div class="term-output">
+                            <span class="term-brace">{</span><br>
+                            &nbsp;&nbsp;<span class="term-key">"name"</span><span class="term-colon">:</span> <span class="term-str">"Kush Singh"</span>,<br>
+                            &nbsp;&nbsp;<span class="term-key">"role"</span><span class="term-colon">:</span> <span class="term-str">"ML/Systems Engineer"</span>,<br>
+                            &nbsp;&nbsp;<span class="term-key">"stack"</span><span class="term-colon">:</span> <span class="term-bracket">[</span><span class="term-str">"C++"</span>, <span class="term-str">"Python"</span>, <span class="term-str">"PyTorch"</span>, <span class="term-str">"Golang"</span><span class="term-bracket">]</span>,<br>
+                            &nbsp;&nbsp;<span class="term-key">"focus"</span><span class="term-colon">:</span> <span class="term-bracket">[</span><span class="term-str">"LLM Training"</span>, <span class="term-str">"Inference Optimization"</span>, <span class="term-str">"SIMD"</span><span class="term-bracket">]</span>,<br>
+                            &nbsp;&nbsp;<span class="term-key">"currently"</span><span class="term-colon">:</span> <span class="term-str">"Building lm_forge — a modular LM training engine"</span>,<br>
+                            &nbsp;&nbsp;<span class="term-key">"cgpa"</span><span class="term-colon">:</span> <span class="term-num">9.16</span>,<br>
+                            &nbsp;&nbsp;<span class="term-key">"status"</span><span class="term-colon">:</span> <span class="term-str">"open_to_opportunities"</span><br>
+                            <span class="term-brace">}</span>
+                        </div>
+                        <div class="term-line term-line-gap">
+                            <span class="term-prompt">$ </span><span class="term-cmd">whoami</span>
+                        </div>
+                        <div class="term-output">
+                            <span class="term-plain">cs-undergrad · systems-thinker · ml-researcher</span>
+                        </div>
+                        <div class="term-line term-line-gap">
+                            <span class="term-prompt">$ </span><span class="term-cursor">▊</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="section-container">
-            <div class="content-block fade-in">
-                <h2 class="section-label">The Profile</h2>
-                <p class="large-text">
-                    I am a Computer Science undergraduate at KIIT University. My work exists at the <span
-                        class="highlight">intersection of AI and efficiency</span>—specifically training small language
-                    models, fine-tuning LLMs, and building high-performance inference engines.
-                </p>
-            </div>
-        </section>
+        <div class="section-divider"><span class="divider-glyph">◆</span></div>
 
+        <!-- PROJECTS -->
         <section id="projects" class="section-container">
-            <h2 class="section-label fade-in">Selected Work</h2>
+            <div class="section-label-wrap fade-in">
+                <span class="section-line"></span>
+                <h2 class="section-label">Selected Work</h2>
+                <span class="section-line"></span>
+            </div>
             <div class="bento-grid masonry">
 
                 <div class="bento-card col-span-2 row-span-2 fade-in stagger-1 card-spotlight">
                     <div class="card-content">
                         <span class="card-eyebrow mono-text">Systems Engineering</span>
                         <h3>Inference Engine</h3>
-                        <p>High-performance C++ inference engine for LLMs using SIMD, with KV-Cache and quantization
-                            strategies. Built for raw speed on edge devices.</p>
+                        <p>High-performance C++ inference engine for LLMs using SIMD/AVX2, with KV-Cache and
+                            quantization strategies. Built for raw speed on edge devices—optimized at the silicon level.</p>
+                        <div class="stack-tags">
+                            <span class="stack-tag">C++</span>
+                            <span class="stack-tag">SIMD/AVX2</span>
+                            <span class="stack-tag">KV-Cache</span>
+                            <span class="stack-tag">Quantization</span>
+                        </div>
                         <a href="https://github.com/Kush-Singh-26/Inference_Engine" target="_blank"
-                            class="card-link">View Repository &rarr;</a>
+                            class="card-link">View Repository →</a>
                     </div>
                 </div>
 
@@ -125,12 +212,17 @@
                         <h3>Mental Health ChatBot</h3>
                         <p>
                             Fine-tuned Llama 3 8B on counseling datasets to enhance empathetic reasoning using PEFT
-                            adapters.
-                            Compressed via 4-bit Quantization (GGUF) for efficient edge deployment.
+                            adapters. Compressed via 4-bit Quantization (GGUF) for efficient edge deployment.
                         </p>
+                        <div class="stack-tags">
+                            <span class="stack-tag">Llama 3 8B</span>
+                            <span class="stack-tag">PEFT/LoRA</span>
+                            <span class="stack-tag">GGUF</span>
+                            <span class="stack-tag">PyTorch</span>
+                        </div>
                         <div class="link-group">
                             <a href="https://huggingface.co/Kush26/Mental_Health_ChatBot" target="_blank"
-                                class="card-link">HuggingFace Space &rarr;</a>
+                                class="card-link">HuggingFace →</a>
                         </div>
                     </div>
                 </div>
@@ -139,12 +231,16 @@
                     <div class="card-content">
                         <span class="card-eyebrow mono-text">Deep Learning</span>
                         <h3>Transformer Translate</h3>
-                        <p>Built from scratch with mixed precision. Achieved BLEU 23.64 (En-Hi).</p>
+                        <p>Built from scratch with mixed precision. Achieved BLEU 23.64 (En→Hi).</p>
+                        <div class="stack-tags">
+                            <span class="stack-tag">PyTorch</span>
+                            <span class="stack-tag">Transformers</span>
+                            <span class="stack-tag">AMP</span>
+                        </div>
                         <div class="link-group">
                             <a href="https://github.com/Kush-Singh-26/Transformer_Translate" target="_blank"
                                 class="card-link">GitHub</a>
-                            <a href="https://transformer-translate.vercel.app/" target="_blank" class="card-link">Live
-                                Demo</a>
+                            <a href="https://transformer-translate.vercel.app/" target="_blank" class="card-link">Live Demo</a>
                         </div>
                     </div>
                 </div>
@@ -152,13 +248,17 @@
                 <div class="bento-card col-span-1 row-span-1 fade-in stagger-4 card-spotlight">
                     <div class="card-content">
                         <span class="card-eyebrow mono-text">Web Systems</span>
-                        <h3>SSG Generator</h3>
-                        <p>Custom static site generator using Golang with Markdown-to-HTML conversion.</p>
+                        <h3>Kosh SSG</h3>
+                        <p>Custom static site generator in Golang with Markdown-to-HTML conversion &amp; KaTeX support.</p>
+                        <div class="stack-tags">
+                            <span class="stack-tag">Golang</span>
+                            <span class="stack-tag">Markdown</span>
+                            <span class="stack-tag">KaTeX</span>
+                        </div>
                         <div class="link-group">
                             <a href="https://github.com/Kush-Singh-26/blogs" target="_blank"
                                 class="card-link">GitHub</a>
-                            <a href="https://kush-singh-26.github.io/blogs/" target="_blank" class="card-link">Live
-                                Demo</a>
+                            <a href="https://kush-singh-26.github.io/blogs/" target="_blank" class="card-link">Live Demo</a>
                         </div>
                     </div>
                 </div>
@@ -167,12 +267,17 @@
                     <div class="card-content">
                         <span class="card-eyebrow mono-text">Computer Vision</span>
                         <h3>Image Captioning</h3>
-                        <p>CNN and LSTM based model for automatic image description generation.</p>
+                        <p>CNN + LSTM model for automatic image description generation, deployed on HuggingFace Spaces.</p>
+                        <div class="stack-tags">
+                            <span class="stack-tag">PyTorch</span>
+                            <span class="stack-tag">CNN</span>
+                            <span class="stack-tag">LSTM</span>
+                        </div>
                         <div class="link-group">
                             <a href="https://github.com/Kush-Singh-26/Image_Caption" target="_blank"
                                 class="card-link">GitHub</a>
                             <a href="https://huggingface.co/spaces/Kush26/Caption_Generator" target="_blank"
-                                class="card-link">HuggingFace</a>
+                                class="card-link">Space →</a>
                         </div>
                     </div>
                 </div>
@@ -181,10 +286,14 @@
                     <div class="card-content">
                         <span class="card-eyebrow mono-text">Education</span>
                         <h3>Micrograd</h3>
-                        <p>Implementation of an autograd engine from scratch in Python. Understanding the roots of
-                            backpropagation and neural networks.</p>
-                        <a href="https://github.com/Kush-Singh-26/Micrograd" target="_blank" class="card-link">View
-                            Repository &rarr;</a>
+                        <p>A scalar-valued autograd engine built from scratch in Python—understanding the roots of
+                            backpropagation and neural networks at the fundamental level.</p>
+                        <div class="stack-tags">
+                            <span class="stack-tag">Python</span>
+                            <span class="stack-tag">Autograd</span>
+                            <span class="stack-tag">Backprop</span>
+                        </div>
+                        <a href="https://github.com/Kush-Singh-26/Micrograd" target="_blank" class="card-link">View Repository →</a>
                     </div>
                 </div>
 
@@ -192,75 +301,160 @@
                     <div class="card-content">
                         <span class="card-eyebrow mono-text">Neural Networks</span>
                         <h3>Style Transfer</h3>
-                        <p>Neural Image Style Transfer algorithm to merge content and artistic style.</p>
-                        <a href="https://github.com/Kush-Singh-26/Image_Caption" target="_blank" class="card-link">View
-                            Repository &rarr;</a>
+                        <p>Neural Image Style Transfer algorithm merging content and artistic style via feature maps.</p>
+                        <div class="stack-tags">
+                            <span class="stack-tag">PyTorch</span>
+                            <span class="stack-tag">VGG-19</span>
+                            <span class="stack-tag">CNN</span>
+                        </div>
+                        <a href="https://github.com/Kush-Singh-26/Neural-Style-Transfer" target="_blank" class="card-link">View Repository →</a>
                     </div>
                 </div>
 
             </div>
         </section>
 
+        <div class="section-divider"><span class="divider-glyph">◆</span></div>
+
+        <!-- SKILLS -->
         <section id="skills" class="section-container">
             <div class="skills-wrapper fade-in">
-                <h2 class="section-label">Competencies</h2>
+                <div class="section-label-wrap">
+                    <span class="section-line"></span>
+                    <h2 class="section-label">Competencies</h2>
+                    <span class="section-line"></span>
+                </div>
                 <div class="skills-list">
                     <div class="skill-category">
-                        <h3>Languages</h3>
+                        <h3>// languages</h3>
                         <p>C++ · C · Python · JavaScript · Java · Golang</p>
                     </div>
                     <div class="skill-category">
-                        <h3>Deep Learning</h3>
+                        <h3>// deep learning</h3>
                         <p>PyTorch · HF Transformers · NumPy · Pandas · Scikit-Learn</p>
                     </div>
                     <div class="skill-category">
-                        <h3>DevOps & Web</h3>
+                        <h3>// devops &amp; web</h3>
                         <p>Docker · Kubernetes · Linux · GitHub Actions · HTML5/CSS3</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <div class="section-divider"><span class="divider-glyph">◆</span></div>
         <section id="education" class="section-container">
-            <h2 class="section-label fade-in">Timeline</h2>
-            <div class="timeline-simple fade-in">
-                <div class="timeline-row">
-                    <span class="year mono-text">2023 — 2027</span>
-                    <div class="details">
+            <div class="section-label-wrap fade-in">
+                <span class="section-line"></span>
+                <h2 class="section-label">Timeline</h2>
+                <span class="section-line"></span>
+            </div>
+            <div class="git-log fade-in">
+
+                <div class="git-row">
+                    <div class="git-left">
+                        <span class="git-hash mono-text">a3f9c12</span>
+                        <div class="git-branch-line">
+                            <div class="git-dot"></div>
+                        </div>
+                    </div>
+                    <div class="git-right">
+                        <div class="git-meta mono-text">
+                            <span class="git-ref">HEAD → main</span>
+                            <span class="git-date">2023 — present</span>
+                        </div>
                         <strong>KIIT University, Bhubaneswar</strong>
                         <p>B.Tech in Computer Science</p>
                         <span class="meta-tag mono-text">CGPA: 9.16</span>
                     </div>
                 </div>
-                <div class="timeline-row">
-                    <span class="year mono-text">2022</span>
-                    <div class="details">
+
+                <div class="git-row">
+                    <div class="git-left">
+                        <span class="git-hash mono-text">d71b804</span>
+                        <div class="git-branch-line">
+                            <div class="git-dot"></div>
+                        </div>
+                    </div>
+                    <div class="git-right">
+                        <div class="git-meta mono-text">
+                            <span class="git-date">2022</span>
+                        </div>
                         <strong>DPS Mathura Road, New Delhi</strong>
                         <p>Senior Secondary (Class 12)</p>
                     </div>
                 </div>
+
             </div>
         </section>
 
+        <div class="section-divider"><span class="divider-glyph">◆</span></div>
+
+        <!-- GITHUB ACTIVITY -->
+        <section class="section-container github-section">
+            <div class="section-label-wrap fade-in">
+                <span class="section-line"></span>
+                <h2 class="section-label">Activity</h2>
+                <span class="section-line"></span>
+            </div>
+            <div class="github-activity fade-in">
+                <div class="github-header">
+                    <span class="mono-text github-user">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                        Kush-Singh-26
+                    </span>
+                    <a href="https://github.com/Kush-Singh-26" target="_blank" rel="noopener noreferrer" class="github-view-all mono-text">View Profile →</a>
+                </div>
+                <div class="contrib-grid-wrap">
+                    <div class="contrib-grid" id="contrib-grid">
+                        <!-- filled by JS -->
+                    </div>
+                    <div class="contrib-legend mono-text">
+                        <span>less</span>
+                        <span class="legend-cell" style="--lvl:0"></span>
+                        <span class="legend-cell" style="--lvl:1"></span>
+                        <span class="legend-cell" style="--lvl:2"></span>
+                        <span class="legend-cell" style="--lvl:3"></span>
+                        <span class="legend-cell" style="--lvl:4"></span>
+                        <span>more</span>
+                    </div>
+                </div>
+                <p class="contrib-note mono-text">// contributions over the past year </p>
+            </div>
+        </section>
+
+        <div class="section-divider"><span class="divider-glyph">◆</span></div>
+
+        <!-- CONTACT / FOOTER -->
         <section id="contact" class="footer-section">
             <div class="footer-content fade-in">
                 <h2>Connect.</h2>
+                <p class="footer-sub">// open to ML/AI &amp; Systems internships</p>
                 <div class="social-grid">
-                    <a href="https://github.com/Kush-Singh-26" target="_blank" class="social-item">GitHub</a>
-                    <a href="https://www.linkedin.com/in/kush-singh-2b2440280" target="_blank"
-                        class="social-item">LinkedIn</a>
-                    <a href="https://leetcode.com/u/kush-singh-26/" target="_blank" class="social-item">LeetCode</a>
-                    <a href="https://codeforces.com/profile/Kush26" target="_blank" class="social-item">Codeforces</a>
-                    <a href="https://kush-singh-26.github.io/blogs/" target="_blank" class="social-item">Blog</a>
-                    <a href="./resume.pdf"
-                        target="_blank" class="social-item highlight-link">Resume ↗</a>
+                    <!-- Email with copy button -->
+                    <div class="email-wrapper">
+                        <a href="mailto:kushsingh2604@gmail.com" class="social-item highlight-link" id="email-link">kushsingh2604@gmail.com</a>
+                        <button class="copy-btn" id="copy-email" aria-label="Copy email" title="Copy email">
+                            <svg id="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                            <svg id="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+                        </button>
+                    </div>
+                    <a href="https://github.com/Kush-Singh-26" target="_blank" rel="noopener noreferrer" class="social-item">GitHub</a>
+                    <a href="https://www.linkedin.com/in/kush-singh-2b2440280" target="_blank" rel="noopener noreferrer" class="social-item">LinkedIn</a>
+                    <a href="https://leetcode.com/u/kush-singh-26/" target="_blank" rel="noopener noreferrer" class="social-item">LeetCode</a>
+                    <a href="https://codeforces.com/profile/Kush26" target="_blank" rel="noopener noreferrer" class="social-item">Codeforces</a>
+                    <a href="https://kush-singh-26.github.io/blogs/" target="_blank" rel="noopener noreferrer" class="social-item">Blog</a>
+                    <a href="./resume.pdf" target="_blank" rel="noopener noreferrer" class="social-item highlight-link">Resume ↗</a>
                 </div>
-                <p class="copyright">&copy; 2026 Kush Singh.</p>
+                <p class="copyright">© 2026 Kush Singh</p>
             </div>
         </section>
     </main>
 
+    <!-- Back to Top Button -->
+    <button id="back-to-top" aria-label="Back to top" title="Back to top">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
+
     <script src="assets/js/script.js"></script>
 </body>
-
 </html>
