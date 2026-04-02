@@ -628,8 +628,50 @@ body {
 .section-container {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 7rem 2rem;
+    padding: 6.5rem 2rem;
     width: 100%;
+}
+
+#about {
+    padding-bottom: 2rem;
+}
+
+#projects {
+    padding-top: 2rem;
+}
+
+.section-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 2.5rem 2rem;
+    position: relative;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+        opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#about {
+    padding-bottom: 1rem;
+}
+
+#projects {
+    padding-top: 1.5rem;
+}
+
+.section-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0.75rem 2rem;
+    position: relative;
 }
 
 .content-block {
@@ -1128,10 +1170,10 @@ body {
 /* --- ANIMATIONS --- */
 .fade-in {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translateY(20px);
     transition:
-        opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .fade-in.visible {
@@ -1141,25 +1183,25 @@ body {
 
 /* Stagger Helpers */
 .stagger-1 {
-    transition-delay: 0.08s;
+    transition-delay: 0.05s;
 }
 .stagger-2 {
-    transition-delay: 0.16s;
+    transition-delay: 0.1s;
 }
 .stagger-3 {
-    transition-delay: 0.24s;
+    transition-delay: 0.15s;
 }
 .stagger-4 {
-    transition-delay: 0.32s;
+    transition-delay: 0.2s;
 }
 .stagger-5 {
-    transition-delay: 0.4s;
+    transition-delay: 0.25s;
 }
 .stagger-6 {
-    transition-delay: 0.48s;
+    transition-delay: 0.3s;
 }
 .stagger-7 {
-    transition-delay: 0.56s;
+    transition-delay: 0.35s;
 }
 
 /* Reduced Motion */
@@ -1500,12 +1542,20 @@ body {
 }
 
 /* --- SECTION DIVIDER --- */
+#about {
+    padding-bottom: 2rem;
+}
+
+#projects {
+    padding-top: 2rem;
+}
+
 .section-divider {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0;
-    padding: 0 2rem;
+    padding: 1.5rem 2rem;
     position: relative;
 }
 

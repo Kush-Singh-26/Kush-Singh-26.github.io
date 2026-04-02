@@ -14,6 +14,8 @@
     <meta name="author" content="Kush Singh">
     <meta name="robots" content="index, follow">
     <meta name="google-site-verification" content="Xr0Ov0Imhz_enNxV6fyMfzSrJyICO_V5PZV49w4b2DM" />
+    <meta name="theme-color" content="#1a1816" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f5f2ed" media="(prefers-color-scheme: light)">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kush-singh-26.github.io/">
@@ -34,6 +36,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/enhancements.css">
+    <link rel="stylesheet" href="assets/css/visual2.css">
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -72,6 +76,38 @@
 
 <body>
 
+    <!-- ============ COMMAND PALETTE ============ -->
+    <div id="cmd-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+        <div id="cmd-palette">
+            <div class="cmd-search-row">
+                <svg class="cmd-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input id="cmd-input" type="text" placeholder="Search commands, projects, links..." autocomplete="off" spellcheck="false">
+                <span class="cmd-kbd-hint">ESC to close</span>
+            </div>
+            <div class="cmd-results" id="cmd-results"></div>
+            <div class="cmd-footer">
+                <span class="cmd-footer-key">
+                    <kbd>↑↓</kbd> navigate
+                </span>
+                <span class="cmd-footer-key">
+                    <kbd>↵</kbd> select
+                </span>
+                <span class="cmd-footer-key">
+                    <kbd>ESC</kbd> close
+                </span>
+                <span class="cmd-footer-key" style="margin-left:auto;">
+                    <kbd>⌘K</kbd> toggle
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast"></div>
+
     <!-- Navigation -->
     <nav class="nav-container">
         <div class="nav-content">
@@ -82,6 +118,14 @@
                 <a href="#skills">skills</a>
                 <a href="#education">timeline</a>
                 <a href="#contact">contact</a>
+            </div>
+            <!-- Command Palette trigger hint -->
+            <div class="cmd-trigger-hint cmd-trigger" title="Open command palette (⌘K)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <kbd>⌘K</kbd>
             </div>
             <button id="theme-toggle" aria-label="Toggle Theme">
                 <svg class="theme-icon-light" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -98,8 +142,15 @@
         <!-- Custom Cursor Glow -->
         <div id="cursor-glow"></div>
 
-        <!-- Ambient Depth and Texture -->
+        <!-- GLSL Shader Background (replaces neural canvas) -->
+        <canvas id="glsl-canvas"></canvas>
+
+        <!-- Constellation background -->
+        <canvas id="constellation-canvas" aria-hidden="true"></canvas>
+
+        <!-- Neural canvas kept in DOM for script.js compat but hidden via CSS -->
         <canvas id="neural-canvas"></canvas>
+
         <div class="noise-overlay"></div>
         <div class="grid-overlay"></div>
         <div class="ambient-orb orb-1"></div>
@@ -108,6 +159,9 @@
         <!-- HERO -->
         <section id="hero" class="hero-section">
             <div class="hero-content fade-in">
+
+                <!-- ASCII Art Name — glitches on hover -->
+                <pre id="ascii-canvas" aria-hidden="true"></pre>
 
                 <!-- Typing identity -->
                 <span class="hero-identity fade-in-stagger mono-text">sys.eng // kush_singh</span>
@@ -122,6 +176,11 @@
                 <div class="hero-links fade-in-stagger">
                     <a href="#projects" class="link-arrow">View Projects <span class="arrow">→</span></a>
                     <a href="./resume.pdf" target="_blank" class="link-arrow link-arrow-secondary">Resume ↗</a>
+                    <!-- Command palette trigger as a third CTA -->
+                    <button class="link-arrow cmd-trigger" style="cursor:pointer;border:1px solid var(--border-subtle);background:transparent;font-family:var(--font-mono);font-size:0.82rem;color:var(--text-secondary);gap:0.6rem;" title="Open command palette">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        search <kbd style="opacity:0.5;font-size:0.7rem;">⌘K</kbd>
+                    </button>
                 </div>
 
             </div>
@@ -141,40 +200,32 @@
                     language models, fine-tuning LLMs, and building high-performance inference engines.
                 </p>
 
-                <!-- Terminal Block -->
-                <div class="terminal-block fade-in">
-                    <div class="terminal-header">
+                <!-- INTERACTIVE TERMINAL (replaces static terminal block) -->
+                <div class="interactive-terminal fade-in" id="interactive-terminal">
+                    <div class="iterm-header">
                         <span class="term-dot term-red"></span>
                         <span class="term-dot term-yellow"></span>
                         <span class="term-dot term-green"></span>
-                        <span class="term-title mono-text">kush@portfolio ~ </span>
+                        <span class="iterm-title mono-text">kush@portfolio — bash</span>
                     </div>
-                    <div class="terminal-body mono-text">
-                        <div class="term-line">
-                            <span class="term-prompt">$ </span><span class="term-cmd">cat profile.json</span>
-                        </div>
-                        <div class="term-output">
-                            <span class="term-brace">{</span><br>
-                            &nbsp;&nbsp;<span class="term-key">"name"</span><span class="term-colon">:</span> <span class="term-str">"Kush Singh"</span>,<br>
-                            &nbsp;&nbsp;<span class="term-key">"role"</span><span class="term-colon">:</span> <span class="term-str">"ML/Systems Engineer"</span>,<br>
-                            &nbsp;&nbsp;<span class="term-key">"stack"</span><span class="term-colon">:</span> <span class="term-bracket">[</span><span class="term-str">"C++"</span>, <span class="term-str">"Python"</span>, <span class="term-str">"PyTorch"</span>, <span class="term-str">"Golang"</span><span class="term-bracket">]</span>,<br>
-                            &nbsp;&nbsp;<span class="term-key">"focus"</span><span class="term-colon">:</span> <span class="term-bracket">[</span><span class="term-str">"LLM Training"</span>, <span class="term-str">"Inference Optimization"</span>, <span class="term-str">"SIMD"</span><span class="term-bracket">]</span>,<br>
-                            &nbsp;&nbsp;<span class="term-key">"currently"</span><span class="term-colon">:</span> <span class="term-str">"Building lm_forge — a modular LM training engine"</span>,<br>
-                            &nbsp;&nbsp;<span class="term-key">"cgpa"</span><span class="term-colon">:</span> <span class="term-num">9.16</span>,<br>
-                            &nbsp;&nbsp;<span class="term-key">"status"</span><span class="term-colon">:</span> <span class="term-str">"open_to_opportunities"</span><br>
-                            <span class="term-brace">}</span>
-                        </div>
-                        <div class="term-line term-line-gap">
-                            <span class="term-prompt">$ </span><span class="term-cmd">whoami</span>
-                        </div>
-                        <div class="term-output">
-                            <span class="term-plain">cs-undergrad · systems-thinker · ml-researcher</span>
-                        </div>
-                        <div class="term-line term-line-gap">
-                            <span class="term-prompt">$ </span><span class="term-cursor">▊</span>
+                    <div class="iterm-body">
+                        <div class="iterm-history"></div>
+                        <div class="iterm-input-row">
+                            <div class="iterm-prompt-wrap mono-text">
+                                <span class="iterm-prompt-user">kush</span>
+                                <span class="iterm-prompt-at">@</span>
+                                <span class="iterm-prompt-host">portfolio</span>
+                                <span class="iterm-prompt-colon">:</span>
+                                <span class="iterm-prompt-path">~</span>
+                                <span class="iterm-prompt-sym">$</span>
+                            </div>
+                            <input class="iterm-input" type="text" autocomplete="off" spellcheck="false"
+                                placeholder="type 'help' to start..." aria-label="Terminal input">
                         </div>
                     </div>
+                    <p class="iterm-click-hint mono-text">// click terminal to focus · ↑↓ history · TAB complete</p>
                 </div>
+
             </div>
         </section>
 
@@ -316,7 +367,7 @@
 
         <div class="section-divider"><span class="divider-glyph">◆</span></div>
 
-        <!-- SKILLS -->
+        <!-- SKILLS — with 3D Globe -->
         <section id="skills" class="section-container">
             <div class="skills-wrapper fade-in">
                 <div class="section-label-wrap">
@@ -339,9 +390,18 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 3D Globe -->
+            <div id="globe-section" class="fade-in" style="margin-top:4rem;">
+                <div id="globe-container">
+                    <canvas id="globe-canvas"></canvas>
+                </div>
+                <p class="globe-label mono-text">// drag to explore · hover to interact</p>
+            </div>
         </section>
 
         <div class="section-divider"><span class="divider-glyph">◆</span></div>
+
         <section id="education" class="section-container">
             <div class="section-label-wrap fade-in">
                 <span class="section-line"></span>
@@ -405,9 +465,7 @@
                     <a href="https://github.com/Kush-Singh-26" target="_blank" rel="noopener noreferrer" class="github-view-all mono-text">View Profile →</a>
                 </div>
                 <div class="contrib-grid-wrap">
-                    <div class="contrib-grid" id="contrib-grid">
-                        <!-- filled by JS -->
-                    </div>
+                    <div class="contrib-grid" id="contrib-grid"></div>
                     <div class="contrib-legend mono-text">
                         <span>less</span>
                         <span class="legend-cell" style="--lvl:0"></span>
@@ -418,7 +476,6 @@
                         <span>more</span>
                     </div>
                 </div>
-                <p class="contrib-note mono-text">// contributions over the past year </p>
             </div>
         </section>
 
@@ -430,9 +487,8 @@
                 <h2>Connect.</h2>
                 <p class="footer-sub">// open to ML/AI &amp; Systems internships</p>
                 <div class="social-grid">
-                    <!-- Email with copy button -->
                     <div class="email-wrapper">
-                        <a href="mailto:kushsingh2604@gmail.com" class="social-item highlight-link" id="email-link">kushsingh2604@gmail.com</a>
+                        <a href="/cdn-cgi/l/email-protection#462d33352e352f28212e7470767206212b272f2a6825292b" class="social-item highlight-link" id="email-link"><span class="__cf_email__" data-cfemail="e48f91978c978d8a838cd6d2d4d0a48389858d88ca878b89">[email&#160;protected]</span></a>
                         <button class="copy-btn" id="copy-email" aria-label="Copy email" title="Copy email">
                             <svg id="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                             <svg id="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -440,12 +496,13 @@
                     </div>
                     <a href="https://github.com/Kush-Singh-26" target="_blank" rel="noopener noreferrer" class="social-item">GitHub</a>
                     <a href="https://www.linkedin.com/in/kush-singh-2b2440280" target="_blank" rel="noopener noreferrer" class="social-item">LinkedIn</a>
+                    <a href="https://huggingface.co/Kush26" target="_blank" rel="noopener noreferrer" class="social-item">HuggingFace</a>
                     <a href="https://leetcode.com/u/kush-singh-26/" target="_blank" rel="noopener noreferrer" class="social-item">LeetCode</a>
                     <a href="https://codeforces.com/profile/Kush26" target="_blank" rel="noopener noreferrer" class="social-item">Codeforces</a>
                     <a href="https://kush-singh-26.github.io/blogs/" target="_blank" rel="noopener noreferrer" class="social-item">Blog</a>
                     <a href="./resume.pdf" target="_blank" rel="noopener noreferrer" class="social-item highlight-link">Resume ↗</a>
                 </div>
-                <p class="copyright">© 2026 Kush Singh</p>
+                <p class="copyright">© <span id="copyright-year"></span> Kush Singh</p>
             </div>
         </section>
     </main>
@@ -455,6 +512,15 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
     </button>
 
+    <!-- Three.js for globe -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/enhancements.js"></script>
+    <script src="assets/js/visual2.js"></script>
+
+    <script>
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>

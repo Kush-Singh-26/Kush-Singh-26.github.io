@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Landscape Optimization</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #050505; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        #info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            pointer-events: none;
+            text-shadow: 1px 1px 2px black;
+        }
+        .status { font-weight: bold; color: #00ffcc; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <div id="info">
+        <h2>Landscape Optimization</h2>
+        <p>State: <span id="state" class="status">Initializing...</span></p>
+        <p>Agent Position: <span id="pos" class="status">0, 0</span></p>
+        <p>Hills & Valleys: <span id="count" class="status">0</span></p>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // --- Configuration ---
+        const GRID_SIZE = 40;
+        const GRID_RES = 120;
+        const NUM_FEATURES = 12;
+        const AGENT_SPEED = 0.25;
+        const MOMENTUM = 0.8;
+        
+        // --- State ---
+        let state = 'FLAT'; // FLAT, EVOLVING, OPTIMIZING, MUTATING, COOLDOWN
+        let timer = 0;
+        let features = [];
+        let agentPos = new THREE.Vector2((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10);
+        let agentVel = new THREE.Vector2(0, 0);
+
+        // --- Initialization ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(30, 30, 30);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+
+        // Lights
+        const ambientLight = new THREE.AmbientLight(0x404040, 2);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+        directionalLight.position.set(10, 20, 10);
+        scene.add(directionalLight);
+
+        // Plane Geometry
+        const geometry = new THREE.PlaneGeometry(GRID_SIZE, GRID_SIZE, GRID_RES, GRID_RES);
+        geometry.rotateX(-Math.PI / 2);
+        
+        // Use custom shader or vertex colors to show elevation
+        const material = new THREE.MeshStandardMaterial({
+            vertexColors: true,
+            wireframe: false,
+            flatShading: false,
+            roughness: 0.6,
+            metalness: 0.2
+        });
+        const plane = new THREE.Mesh(geometry, material);
+        scene.add(plane);
+
+        // Agent
+        const agentGeo = new THREE.SphereGeometry(0.5, 32, 32);
+        const agentMat = new THREE.MeshStandardMaterial({ color: 0xff3300, emissive: 0xff0000, emissiveIntensity: 0.5 });
+        const agent = new THREE.Mesh(agentGeo, agentMat);
+        scene.add(agent);
+
+        // Helpers
+        const gridHelper = new THREE.GridHelper(GRID_SIZE, 20, 0x444444, 0x222222);
+        gridHelper.position.y = -0.01;
+        scene.add(gridHelper);
+
+        // UI
+        const stateEl = document.getElementById('state');
+        const posEl = document.getElementById('pos');
+        const countEl = document.getElementById('count');
+
+        // --- Functions ---
+
+        function initFeatures() {
+            features = [];
+            for (let i = 0; i < NUM_FEATURES; i++) {
+                const isHill = Math.random() > 0.4;
+                const targetAmp = isHill ? (2 + Math.random() * 6) : (-4 - Math.random() * 6);
+                const tx = (Math.random() - 0.5) * GRID_SIZE * 0.7; // Keep more centered
+                const tz = (Math.random() - 0.5) * GRID_SIZE * 0.7;
+                features.push({
+                    x: tx,
+                    z: tz,
+                    targetX: tx,
+                    targetZ: tz,
+                    amp: 0, 
+                    targetAmp: targetAmp,
+                    sigma: 3 + Math.random() * 3,
+                    active: true
+                });
+            }
+            countEl.innerText = NUM_FEATURES;
+        }
+
+        function getHeight(x, z) {
+            // Stronger parabolic rise at edges to prevent getting stuck
+            const distSq = x * x + z * z;
+            let y = 1.0 + 0.01 * distSq + Math.pow(Math.max(0, Math.abs(x) - 15), 3) + Math.pow(Math.max(0, Math.abs(z) - 15), 3);
+            
+            for (const f of features) {
+                const dx = x - f.x;
+                const dz = z - f.z;
+                const fDistSq = dx * dx + dz * dz;
+                y += f.amp * Math.exp(-fDistSq / (2 * f.sigma * f.sigma));
+            }
+            return Math.max(0, y);
+        }
+
+        function getGradient(x, z) {
+            // Gradient of the base bowl + soft walls
+            let gradX = 0.02 * x + (Math.abs(x) > 15 ? 3 * Math.sign(x) * Math.pow(Math.abs(x) - 15, 2) : 0);
+            let gradZ = 0.02 * z + (Math.abs(z) > 15 ? 3 * Math.sign(z) * Math.pow(Math.abs(z) - 15, 2) : 0);
+            
+            for (const f of features) {
+                const dx = x - f.x;
+                const dz = z - f.z;
+                const fDistSq = dx * dx + dz * dz;
+                const s2 = f.sigma * f.sigma;
+                const val = f.amp * Math.exp(-fDistSq / (2 * s2));
+                gradX += val * (-dx / s2);
+                gradZ += val * (-dz / s2);
+            }
+            return new THREE.Vector2(gradX, gradZ);
+        }
+
+        function teleportToPeak() {
+            let maxH = -Infinity;
+            let peakX = 0;
+            let peakZ = 0;
+            const STEP = 0.5;
+            const SEARCH_LIMIT = GRID_SIZE * 0.45; // Avoid picking exactly on the boundary
+            for (let x = -SEARCH_LIMIT; x <= SEARCH_LIMIT; x += STEP) {
+                for (let z = -SEARCH_LIMIT; z <= SEARCH_LIMIT; z += STEP) {
+                    const h = getHeight(x, z);
+                    if (h > maxH) {
+                        maxH = h;
+                        peakX = x;
+                        peakZ = z;
+                    }
+                }
+            }
+            agentPos.set(peakX, peakZ);
+            agentVel.set(0, 0);
+        }
+
+        function mutateLandscape() {
+            for (const f of features) {
+                // Change amplitude more aggressively
+                f.targetAmp = (Math.random() - 0.4) * 16; 
+                // Shift positions (0.75 factor to stay within the 'safe zone' of the bowl)
+                f.targetX = (Math.random() - 0.5) * GRID_SIZE * 0.75;
+                f.targetZ = (Math.random() - 0.5) * GRID_SIZE * 0.75;
+            }
+        }
+
+        function updatePlane() {
+            const positions = geometry.attributes.position.array;
+            const colors = [];
+            const color = new THREE.Color();
+
+            for (let i = 0; i < positions.length; i += 3) {
+                const x = positions[i];
+                const z = positions[i + 2];
+                const y = getHeight(x, z);
+                positions[i + 1] = y;
+
+                // Color based on height: 0 to 18 range mapped to 0-1
+                // (Using slightly higher scale to account for some features + bowl)
+                const h = Math.min(Math.max(y / 18, 0), 1);
+                // Valleys (cyan) -> Mid (green) -> Peaks (red/white)
+                color.setHSL(0.5 - h * 0.5, 0.8, 0.5); 
+                colors.push(color.r, color.g, color.b);
+            }
+            
+            geometry.attributes.position.needsUpdate = true;
+            geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            geometry.computeVertexNormals();
+        }
+
+        // --- Loop ---
+        initFeatures();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+
+            switch (state) {
+                case 'FLAT':
+                    timer++;
+                    stateEl.innerText = 'Flat Plane...';
+                    if (timer > 40) {
+                        state = 'EVOLVING';
+                        stateEl.innerText = 'Hills & Troughs Appearing...';
+                        timer = 0;
+                    }
+                    updatePlane();
+                    break;
+
+                case 'EVOLVING':
+                    let settled = true;
+                    for (const f of features) {
+                        const diffA = f.targetAmp - f.amp;
+                        const diffX = f.targetX - f.x;
+                        const diffZ = f.targetZ - f.z;
+                        
+                        if (Math.abs(diffA) > 0.1) { f.amp += diffA * 0.05; settled = false; }
+                        if (Math.abs(diffX) > 0.1) { f.x += diffX * 0.05; settled = false; }
+                        if (Math.abs(diffZ) > 0.1) { f.z += diffZ * 0.05; settled = false; }
+                    }
+                    updatePlane();
+                    if (settled) {
+                        state = 'OPTIMIZING';
+                        stateEl.innerText = 'Descent to Local Minimum...';
+                        teleportToPeak();
+                    }
+                    break;
+
+                case 'OPTIMIZING':
+                    const grad = getGradient(agentPos.x, agentPos.y);
+                    
+                    // Gradient descent with momentum (negative gradient)
+                    agentVel.x = agentVel.x * MOMENTUM - grad.x * AGENT_SPEED;
+                    agentVel.y = agentVel.y * MOMENTUM - grad.y * AGENT_SPEED;
+                    
+                    agentPos.x += agentVel.x;
+                    agentPos.y += agentVel.y;
+
+                    // Bounds check
+                    const limit = GRID_SIZE / 2;
+                    if (Math.abs(agentPos.x) > limit) {
+                        agentPos.x = Math.sign(agentPos.x) * limit;
+                        agentVel.x *= -0.5; // Bounce
+                    }
+                    if (Math.abs(agentPos.y) > limit) {
+                        agentPos.y = Math.sign(agentPos.y) * limit;
+                        agentVel.y *= -0.5;
+                    }
+
+                    // Check for convergence
+                    if (grad.length() < 0.01 && agentVel.length() < 0.01) {
+                        state = 'COOLDOWN';
+                        stateEl.innerText = 'Minimum Reached. Waiting...';
+                        timer = 0;
+                    }
+                    break;
+
+                case 'COOLDOWN':
+                    timer++;
+                    if (timer > 60) {
+                        state = 'MUTATING';
+                        stateEl.innerText = 'Landscape Shifting...';
+                        mutateLandscape();
+                    }
+                    break;
+
+                case 'MUTATING':
+                    let mutated = true;
+                    for (const f of features) {
+                        const diffA = f.targetAmp - f.amp;
+                        const diffX = f.targetX - f.x;
+                        const diffZ = f.targetZ - f.z;
+                        
+                        if (Math.abs(diffA) > 0.1) { f.amp += diffA * 0.04; mutated = false; }
+                        if (Math.abs(diffX) > 0.1) { f.x += diffX * 0.04; mutated = false; }
+                        if (Math.abs(diffZ) > 0.1) { f.z += diffZ * 0.04; mutated = false; }
+                    }
+                    updatePlane();
+                    if (mutated) {
+                        state = 'OPTIMIZING';
+                        stateEl.innerText = 'Finding New Minimum...';
+                        teleportToPeak();
+                    }
+                    break;
+            }
+
+            // Update agent visual
+            const ay = getHeight(agentPos.x, agentPos.y);
+            agent.position.set(agentPos.x, ay + 0.5, agentPos.y);
+            posEl.innerText = `${agentPos.x.toFixed(2)}, ${agentPos.y.toFixed(2)}`;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
