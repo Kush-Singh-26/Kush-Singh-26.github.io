@@ -35,7 +35,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/nav.css">
+    <link rel="stylesheet" href="assets/css/hero.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
     <link rel="stylesheet" href="assets/css/enhancements.css">
     <link rel="stylesheet" href="assets/css/visual2.css">
 
@@ -66,15 +70,18 @@
     <!-- Theme Detection Script -->
     <script>
         (function() {
+            const root = document.documentElement;
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
-                document.documentElement.setAttribute('data-theme', 'light');
+                root.setAttribute('data-theme', 'light');
             }
+
         })();
     </script>
 </head>
 
 <body>
+    <a class="skip-link" href="#hero">Skip to content</a>
 
     <!-- ============ COMMAND PALETTE ============ -->
     <div id="cmd-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
@@ -106,7 +113,7 @@
     </div>
 
     <!-- Toast -->
-    <div id="toast"></div>
+    <div id="toast" role="status" aria-live="polite"></div>
 
     <!-- Navigation -->
     <nav class="nav-container">
@@ -146,10 +153,12 @@
         <canvas id="glsl-canvas"></canvas>
 
         <!-- Constellation background -->
-        <canvas id="constellation-canvas" aria-hidden="true"></canvas>
+        <!-- <canvas id="constellation-canvas" aria-hidden="true"></canvas> -->
 
-        <!-- Neural canvas kept in DOM for script.js compat but hidden via CSS -->
-        <canvas id="neural-canvas"></canvas>
+        <!-- Aurora diffusion -->
+        <div class="aurora-top" aria-hidden="true">
+            <div class="aurora-noise"></div>
+        </div>
 
         <div class="noise-overlay"></div>
         <div class="grid-overlay"></div>
@@ -194,19 +203,40 @@
                     <h2 class="section-label">The Profile</h2>
                     <span class="section-line"></span>
                 </div>
-                <p class="large-text">
-                    I am a Computer Science undergraduate at KIIT University. My work exists at the
-                    <span class="highlight">intersection of AI and efficiency</span>—specifically training small
-                    language models, fine-tuning LLMs, and building high-performance inference engines.
-                </p>
+                <div class="about-profile-content" id="about-profile-content">
+                    <p class="large-text">
+                        I am a Computer Science undergraduate at KIIT University. My work exists at the
+                        <span class="highlight">intersection of AI and efficiency</span>—specifically training small
+                        language models, fine-tuning LLMs, and building high-performance inference engines.
+                    </p>
+                </div>
 
                 <!-- INTERACTIVE TERMINAL (replaces static terminal block) -->
                 <div class="interactive-terminal fade-in" id="interactive-terminal">
                     <div class="iterm-header">
-                        <span class="term-dot term-red"></span>
-                        <span class="term-dot term-yellow"></span>
-                        <span class="term-dot term-green"></span>
-                        <span class="iterm-title mono-text">kush@portfolio — bash</span>
+                        <div class="term-dots">
+                            <span class="term-dot term-red"></span>
+                            <span class="term-dot term-yellow"></span>
+                            <span class="term-dot term-green"></span>
+                        </div>
+                        <div class="iterm-tabs">
+                            <div class="iterm-tab active">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                <span class="mono-text">bash</span>
+                            </div>
+                            <div class="iterm-tab">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                                <span class="mono-text">output.log</span>
+                            </div>
+                        </div>
+                        <div class="iterm-controls">
+                            <span class="iterm-title mono-text">kush@portfolio — zsh</span>
+                        </div>
+                    </div>
+                    <div class="iterm-toolbar">
+                        <span class="mono-text toolbar-item"><span class="toolbar-icon">⟳</span> refresh</span>
+                        <span class="mono-text toolbar-item"><span class="toolbar-icon">↑</span> 0 commands</span>
+                        <span class="mono-text toolbar-item" id="term-time"></span>
                     </div>
                     <div class="iterm-body">
                         <div class="iterm-history"></div>
@@ -217,19 +247,31 @@
                                 <span class="iterm-prompt-host">portfolio</span>
                                 <span class="iterm-prompt-colon">:</span>
                                 <span class="iterm-prompt-path">~</span>
-                                <span class="iterm-prompt-sym">$</span>
+                                <span class="iterm-prompt-sym">❯</span>
                             </div>
                             <input class="iterm-input" type="text" autocomplete="off" spellcheck="false"
                                 placeholder="type 'help' to start..." aria-label="Terminal input">
                         </div>
                     </div>
-                    <p class="iterm-click-hint mono-text">// click terminal to focus · ↑↓ history · TAB complete</p>
+                    <div class="iterm-footer">
+                        <span class="mono-text footer-hint">↑↓ history</span>
+                        <span class="mono-text footer-hint">TAB completion</span>
+                        <span class="mono-text footer-hint">ESC clear</span>
+                    </div>
+                </div>
+
+                <div class="terminal-visual-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-glyphs">
+                        <span>◈</span>
+                        <span>◇</span>
+                        <span>◈</span>
+                    </div>
+                    <div class="divider-line"></div>
                 </div>
 
             </div>
         </section>
-
-        <div class="section-divider"><span class="divider-glyph">◆</span></div>
 
         <!-- PROJECTS -->
         <section id="projects" class="section-container">
@@ -367,6 +409,28 @@
 
         <div class="section-divider"><span class="divider-glyph">◆</span></div>
 
+        <!-- BLOG SNIPPETS -->
+        <section id="blog-snippets" class="section-container">
+            <div class="section-label-wrap fade-in">
+                <span class="section-line"></span>
+                <h2 class="section-label">From The Blog</h2>
+                <span class="section-line"></span>
+            </div>
+            <p class="blog-snippets-sub fade-in">
+                Recent notes and deep dives from the blog. Fresh posts load automatically.
+            </p>
+            <div class="blog-snippets-grid fade-in" id="blog-snippets-grid" aria-live="polite">
+                <div class="blog-snippet-card is-loading">Loading latest posts…</div>
+            </div>
+            <div class="blog-snippets-cta fade-in">
+                <a href="https://kush-singh-26.github.io/blogs/" target="_blank" rel="noopener noreferrer" class="link-arrow">
+                    Read all posts <span class="arrow">→</span>
+                </a>
+            </div>
+        </section>
+
+        <div class="section-divider"><span class="divider-glyph">◆</span></div>
+
         <!-- SKILLS — with 3D Globe -->
         <section id="skills" class="section-container">
             <div class="skills-wrapper fade-in">
@@ -488,7 +552,7 @@
                 <p class="footer-sub">// open to ML/AI &amp; Systems internships</p>
                 <div class="social-grid">
                     <div class="email-wrapper">
-                        <a href="/cdn-cgi/l/email-protection#462d33352e352f28212e7470767206212b272f2a6825292b" class="social-item highlight-link" id="email-link"><span class="__cf_email__" data-cfemail="e48f91978c978d8a838cd6d2d4d0a48389858d88ca878b89">[email&#160;protected]</span></a>
+                        <a href="mailto:kush26cs@gmail.com" class="social-item highlight-link" id="email-link">kush26cs@gmail.com</a>
                         <button class="copy-btn" id="copy-email" aria-label="Copy email" title="Copy email">
                             <svg id="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                             <svg id="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -513,14 +577,19 @@
     </button>
 
     <!-- Three.js for globe -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 
-    <script src="assets/js/script.js"></script>
-    <script src="assets/js/enhancements.js"></script>
-    <script src="assets/js/visual2.js"></script>
-
-    <script>
-        document.getElementById('copyright-year').textContent = new Date().getFullYear();
-    </script>
+    <script src="assets/js/theme.js" defer></script>
+    <script src="assets/js/scroll.js" defer></script>
+    <script src="assets/js/cards.js" defer></script>
+    <script src="assets/js/effects.js" defer></script>
+    <script src="assets/js/github.js" defer></script>
+    <script src="assets/js/glsl.js" defer></script>
+    <script src="assets/js/ascii.js" defer></script>
+    <script src="assets/js/globe.js" defer></script>
+    <script src="assets/js/terminal.js" defer></script>
+    <script src="assets/js/cmd-palette.js" defer></script>
+    <script src="assets/js/Visual2.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
 </body>
 </html>
