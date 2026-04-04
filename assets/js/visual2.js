@@ -1,30 +1,16 @@
-/* visual2.js — Visual Enhancements
-   Variable Font · Oversized BG Text · Split Text
-   Constellation · Scanlines · Depth Fog · Lava Blobs
-   Progress Circuit · Transformer Diagram
-   Section Particles · Avatar
-   Tokenizer Hero · Neural Dividers · Architecture Stack
-*/
+/* visual2.js - Visual Enhancements */
 (function () {
     'use strict';
 
-    /* ================================================
-       UTILITY — run after DOM ready
-    ================================================ */
     function ready(fn) {
         if (document.readyState !== 'loading') fn();
         else document.addEventListener('DOMContentLoaded', fn);
     }
 
-    /* ================================================
-       1. VARIABLE FONT BREATHING
-       Wraps "Beyond." in .breathe-word span
-    ================================================ */
+    /* Variable Font Breathing */
     function initVariableFont() {
         const headline = document.querySelector('.headline');
         if (!headline) return;
-        // headline HTML: "Beyond.<br><span class="accent-text">Binary.</span>"
-        // We wrap the text node "Beyond." — parse the first text node
         const walker = document.createTreeWalker(headline, NodeFilter.SHOW_TEXT);
         const textNode = walker.nextNode();
         if (!textNode || !textNode.textContent.trim()) return;
@@ -34,23 +20,9 @@
         wrap.appendChild(textNode);
     }
 
-    /* ================================================
-       2. OVERSIZED BACKGROUND TEXT
-    /* ================================================
-       3. PLAIN GRADIENT TEXT on "Binary." (removed split effect)
-    ================================================ */
-    function initSplitText() {
-        // Split text effect removed - keeping simple gradient text
-    }
+    function initSplitText() {}
 
-    /* ================================================
-        4. CONSTELLATION BACKGROUND (REMOVED)
-     ================================================ */
-
-    /* ================================================
-        5. SCANLINE CRT OVERLAY
-       Pure CSS — just inject the element
-    ================================================ */
+    /* Scanline CRT Overlay */
     function initScanlines() {
         const el = document.createElement('div');
         el.className = 'scanline-overlay';
@@ -58,80 +30,10 @@
         document.body.appendChild(el);
     }
 
-    /* ================================================
-       6. DEPTH FOG
-       Sections away from viewport center get desaturated
-       DISABLED - filter property is too expensive for scroll performance
-    ================================================ */
-    function initDepthFog() {
-        // Disabled due to performance cost of filter property on scroll
-        return;
-        
-        /* Original implementation preserved below
-        const sections = Array.from(document.querySelectorAll('section[id]'));
-        if (!sections.length) return;
+    function initDepthFog() {}
 
-        const vh = window.innerHeight;
-        let sectionData = [];
-
-        function updateSectionData() {
-            sectionData = sections.map(sec => {
-                const rect = sec.getBoundingClientRect();
-                return {
-                    el: sec,
-                    midY: window.scrollY + rect.top + rect.height / 2
-                };
-            });
-        }
-        updateSectionData();
-        window.addEventListener('resize', updateSectionData);
-
-        function applyFog() {
-            const viewportMidY = window.scrollY + vh / 2;
-            sectionData.forEach(data => {
-                const dist = Math.abs(viewportMidY - data.midY);
-                // Normalize: 0 = perfectly centered, 1 = 2 viewport-heights away
-                const t = Math.min(dist / (vh * 1.6), 1);
-                const sat   = 100 - t * 28;           // desaturate up to 28%
-                const bright = 1 - t * 0.12;           // dim up to 12%
-                data.el.style.filter = `saturate(${sat}%) brightness(${bright})`;
-            });
-        }
-
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    applyFog();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }, { passive: true });
-        applyFog();
-        */
-    }
-
-    /* ================================================
-       7. LAVA LAMP BLOBS — injected to DOM
-    ================================================ */
-    function initLavaBlobs() {
-        const container = document.createElement('div');
-        container.id = 'lava-container';
-        container.setAttribute('aria-hidden', 'true');
-        for (let i = 1; i <= 4; i++) {
-            const blob = document.createElement('div');
-            blob.className = `lava-blob lava-blob-${i}`;
-            container.appendChild(blob);
-        }
-        document.body.appendChild(container);
-    }
-
-    /* ================================================
-       8. PROGRESS-DRIVEN CIRCUIT DRAWING
-    ================================================ */
+    /* Progress-Driven Circuit Drawing */
     function initProgressCircuit() {
-        // Build SVG circuit in right gutter
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         svg.id = 'progress-circuit';
         svg.setAttribute('viewBox', '0 0 40 300');
@@ -144,7 +46,6 @@
                     <path d="M0,0 L0,6 L6,3 z" fill="rgba(201,168,108,0.6)"/>
                 </marker>
             </defs>
-            <!-- Circuit path: vertical line with bends and nodes -->
             <path id="circuit-path" d="
                 M 20 10
                 L 20 50
@@ -165,7 +66,6 @@
                 L 20 270
                 L 20 290
             "/>
-            <!-- Nodes at key points -->
             <circle class="circuit-node" cx="20" cy="10"  r="3"/>
             <circle class="circuit-node" cx="10" cy="70"  r="2.5"/>
             <circle class="circuit-node" cx="30" cy="100" r="2.5"/>
@@ -196,7 +96,6 @@
             const offset = totalLen * (1 - progress);
             pathEl.style.strokeDashoffset = offset;
 
-            // Light up nodes as we pass them
             nodes.forEach((node, i) => {
                 const threshold = i / (nodes.length - 1);
                 node.classList.toggle('lit', progress >= threshold - 0.02);
@@ -216,10 +115,7 @@
         update();
     }
 
-    /* ================================================
-        9. LOSS LANDSCAPE VISUALIZATION - CANVAS
-        Dynamic grid representing optimization landscape
-     ================================================ */
+    /* Loss Landscape Visualization */
     function buildLossLandscape() {
         const container = document.querySelector('.loss-landscape');
         if (!container) return;
@@ -227,19 +123,32 @@
         const canvas = container.querySelector('.loss-canvas');
         if (!canvas) return;
 
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { alpha: true });
+        
+        // High-DPI Resolution Support
+        const dpr = window.devicePixelRatio || 1;
         const W = 720;
         const H = 460;
-        canvas.width = W;
-        canvas.height = H;
+        
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
         canvas.style.width = '100%';
         canvas.style.height = '100%';
+        ctx.scale(dpr, dpr);
 
-        const cols = 24, rows = 16;
-        const spacingX = 20, spacingY = 12;
-        const startX = 40;
+        // Increased mesh density for smoother manifold
+        const cols = 56, rows = 36;
+        const spacingX = 480 / cols; 
+        const spacingY = 192 / rows;
+        const startX = 60;
         const startY = 180;
         const skew = 0.5;
+
+        // --- NEW: Performance Buffers ---
+        const offscreenCanvas = document.createElement('canvas');
+        const offscreenCtx = offscreenCanvas.getContext('2d');
+        const zCache = new Float32Array(cols * rows);
+        let gridNeedsBake = true;
 
         let currentBlobs = [];
         let nextBlobs = [];
@@ -268,6 +177,55 @@
             return blobs;
         }
 
+        function bakeGrid() {
+            offscreenCanvas.width = canvas.width;
+            offscreenCanvas.height = canvas.height;
+            offscreenCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            const colors = getThemeColors();
+            offscreenCtx.lineWidth = 1.0;
+            offscreenCtx.lineJoin = 'round';
+            offscreenCtx.lineCap = 'round';
+
+            // Cache all Z values first
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    zCache[r * cols + c] = getZ(c / (cols - 1), r / (rows - 1));
+                }
+            }
+
+            // Draw Y lines
+            for (let r = 0; r < rows; r++) {
+                offscreenCtx.beginPath();
+                for (let c = 0; c < cols; c++) {
+                    const nx = c / (cols - 1), ny = r / (rows - 1);
+                    const z = zCache[r * cols + c];
+                    const p = project(nx, ny, z);
+                    const op = Math.max(0.04, Math.min(0.35, 0.15 + (z / 300)));
+                    offscreenCtx.strokeStyle = colors.strokeColor.replace(/[\d\.]+\)$/, op + ')');
+                    if (c === 0) offscreenCtx.moveTo(p.x, p.y);
+                    else offscreenCtx.lineTo(p.x, p.y);
+                }
+                offscreenCtx.stroke();
+            }
+
+            // Draw X lines
+            for (let c = 0; c < cols; c++) {
+                offscreenCtx.beginPath();
+                for (let r = 0; r < rows; r++) {
+                    const nx = c / (cols - 1), ny = r / (rows - 1);
+                    const z = zCache[r * cols + c];
+                    const p = project(nx, ny, z);
+                    const op = Math.max(0.04, Math.min(0.35, 0.15 + (z / 300)));
+                    offscreenCtx.strokeStyle = colors.strokeColor.replace(/[\d\.]+\)$/, op + ')');
+                    if (r === 0) offscreenCtx.moveTo(p.x, p.y);
+                    else offscreenCtx.lineTo(p.x, p.y);
+                }
+                offscreenCtx.stroke();
+            }
+            gridNeedsBake = false;
+        }
+
         function initLandscape() {
             if (currentBlobs.length === 0) {
                 currentBlobs = generateBlobs();
@@ -281,6 +239,7 @@
                 agent.path = [];
                 resetTimer = 0;
             }
+            gridNeedsBake = true;
         }
 
         function resetAgent() {
@@ -291,7 +250,15 @@
                 let rz = getZ(rx, ry);
                 if (rz > maxZ) { maxZ = rz; bestX = rx; bestY = ry; }
             }
-            agent = { x: bestX, y: bestY, vx: 0, vy: 0, path: [], converged: false };
+            // NAG momentum state
+            agent = { 
+                x: bestX, y: bestY, 
+                vx: 0, vy: 0,
+                t: 0,
+                stallTimer: 0,
+                path: [], 
+                converged: false 
+            };
             resetTimer = 0;
         }
 
@@ -337,9 +304,10 @@
         function getThemeColors() {
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
             return {
-                strokeColor: isLight ? '#5a4a30' : 'rgba(201, 168, 108, 0.4)',
-                ballColor: isLight ? '#4a3a20' : '#e4c696',
-                pathColor: isLight ? '#6b5a3d' : 'rgba(228, 198, 149, 0.8)'
+                // Extremely subtle grid for maximum contrast with the agent
+                strokeColor: isLight ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.1)',
+                ballColor: isLight ? '#1a1816' : '#ffffff', // High contrast agent
+                pathColor: isLight ? '#7a6240' : '#c9a86c' // Primary accent colors for the trail
             };
         }
 
@@ -360,29 +328,44 @@
             }
 
             if (!agent.converged && !isMorphing) {
-                const grad = getGradient(agent.x, agent.y);
-                const gravity = 0.0001;
-                const friction = 0.94;
+                // Lookahead position (Nesterov style)
+                const mu = 0.92;
+                const lookX = agent.x + mu * agent.vx;
+                const lookY = agent.y + mu * agent.vy;
+                
+                const grad = getGradient(lookX, lookY);
+                agent.t += 1;
+                
+                // Thermal noise component (Langevin Dynamics style)
+                // If velocity is low but we are not converged, increase "temperature"
+                const speed = Math.sqrt(agent.vx * agent.vx + agent.vy * agent.vy);
+                if (speed < 0.001) agent.stallTimer += 1;
+                else agent.stallTimer = Math.max(0, agent.stallTimer - 2);
 
-                agent.vx = (agent.vx - grad.dx * gravity) * friction;
-                agent.vy = (agent.vy - grad.dy * gravity) * friction;
+                const burst = (agent.stallTimer > 40) ? 0.01 : 0.0015;
+                const noiseX = (Math.random() - 0.5) * burst;
+                const noiseY = (Math.random() - 0.5) * burst;
 
+                // NAG Update
+                const gWeight = 0.00007;
+                
+                agent.vx = mu * agent.vx - gWeight * grad.dx + noiseX;
+                agent.vy = mu * agent.vy - gWeight * grad.dy + noiseY;
+                
                 agent.x += agent.vx;
                 agent.y += agent.vy;
 
-                if (agent.x < 0) { agent.x = 0; agent.vx *= -0.2; }
-                if (agent.x > 1) { agent.x = 1; agent.vx *= -0.2; }
-                if (agent.y < 0) { agent.y = 0; agent.vy *= -0.2; }
-                if (agent.y > 1) { agent.y = 1; agent.vy *= -0.2; }
+                // Boundary bounce with energy loss
+                if (agent.x < 0) { agent.x = 0; agent.vx *= -0.4; }
+                if (agent.x > 1) { agent.x = 1; agent.vx *= -0.4; }
+                if (agent.y < 0) { agent.y = 0; agent.vy *= -0.4; }
+                if (agent.y > 1) { agent.y = 1; agent.vy *= -0.4; }
 
                 const p = project(agent.x, agent.y, getZ(agent.x, agent.y));
                 agent.path.push(p);
-                if (agent.path.length > 100) agent.path.shift();
+                if (agent.path.length > 150) agent.path.shift();
 
-                const speed = Math.sqrt(agent.vx * agent.vx + agent.vy * agent.vy);
-                const gradMag = Math.sqrt(grad.dx * grad.dx + grad.dy * grad.dy);
-
-                if (speed < 0.0003 && gradMag < 0.12) {
+                if (agent.t > 100 && speed < 0.0002 && agent.stallTimer < 50) {
                     agent.converged = true;
                 }
             } else if (agent.converged && !isMorphing) {
@@ -394,42 +377,63 @@
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
             ctx.clearRect(0, 0, W, H);
 
-            ctx.strokeStyle = colors.strokeColor;
-            ctx.lineWidth = 0.6;
+            if (!isMorphing) {
+                if (gridNeedsBake) bakeGrid();
+                ctx.drawImage(offscreenCanvas, 0, 0, W, H);
+            } else {
+                ctx.lineWidth = 1.0;
+                ctx.lineJoin = 'round';
+                ctx.lineCap = 'round';
 
-            for (let r = 0; r < rows; r++) {
-                ctx.beginPath();
-                for (let c = 0; c < cols; c++) {
-                    const nx = c / (cols - 1), ny = r / (rows - 1);
-                    const p = project(nx, ny, getZ(nx, ny));
-                    if (c === 0) ctx.moveTo(p.x, p.y);
-                    else ctx.lineTo(p.x, p.y);
-                }
-                ctx.stroke();
-            }
-
-            for (let c = 0; c < cols; c++) {
-                ctx.beginPath();
+                // Draw Y lines
                 for (let r = 0; r < rows; r++) {
-                    const nx = c / (cols - 1), ny = r / (rows - 1);
-                    const p = project(nx, ny, getZ(nx, ny));
-                    if (r === 0) ctx.moveTo(p.x, p.y);
-                    else ctx.lineTo(p.x, p.y);
+                    ctx.beginPath();
+                    for (let c = 0; c < cols; c++) {
+                        const nx = c / (cols - 1), ny = r / (rows - 1);
+                        const z = getZ(nx, ny);
+                        const p = project(nx, ny, z);
+                        const op = Math.max(0.04, Math.min(0.35, 0.15 + (z / 300)));
+                        ctx.strokeStyle = colors.strokeColor.replace(/[\d\.]+\)$/, op + ')');
+                        if (c === 0) ctx.moveTo(p.x, p.y);
+                        else ctx.lineTo(p.x, p.y);
+                    }
+                    ctx.stroke();
                 }
-                ctx.stroke();
+
+                // Draw X lines
+                for (let c = 0; c < cols; c++) {
+                    ctx.beginPath();
+                    for (let r = 0; r < rows; r++) {
+                        const nx = c / (cols - 1), ny = r / (rows - 1);
+                        const z = getZ(nx, ny);
+                        const p = project(nx, ny, z);
+                        const op = Math.max(0.04, Math.min(0.35, 0.15 + (z / 300)));
+                        ctx.strokeStyle = colors.strokeColor.replace(/[\d\.]+\)$/, op + ')');
+                        if (r === 0) ctx.moveTo(p.x, p.y);
+                        else ctx.lineTo(p.x, p.y);
+                    }
+                    ctx.stroke();
+                }
             }
 
             if (agent.path.length > 1) {
                 ctx.strokeStyle = colors.pathColor;
-                ctx.lineWidth = 1.5;
-                ctx.setLineDash([4, 2]);
+                ctx.lineWidth = 2.5;
+                
+                // Increased path visibility and glow
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = colors.pathColor;
+                ctx.globalAlpha = 0.85;
+                
                 ctx.beginPath();
                 ctx.moveTo(agent.path[0].x, agent.path[0].y);
                 for (let i = 1; i < agent.path.length; i++) {
                     ctx.lineTo(agent.path[i].x, agent.path[i].y);
                 }
                 ctx.stroke();
-                ctx.setLineDash([]);
+                
+                ctx.shadowBlur = 0;
+                ctx.globalAlpha = 1;
             }
 
             const curP = project(agent.x, agent.y, getZ(agent.x, agent.y));
@@ -437,15 +441,32 @@
             
             ctx.fillStyle = colors.ballColor;
             ctx.globalAlpha = ballOpacity;
+            
+            // Subtle glow
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = colors.ballColor;
+            
             ctx.beginPath();
-            ctx.arc(curP.x, curP.y, 5, 0, Math.PI * 2);
+            ctx.arc(curP.x, curP.y, 4.5, 0, Math.PI * 2);
             ctx.fill();
+            
+            // Sharp highlight border
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 1.2;
+            ctx.globalAlpha = 0.6 * ballOpacity;
+            ctx.stroke();
+            
+            ctx.shadowBlur = 0;
             ctx.globalAlpha = 1;
 
             animationId = requestAnimationFrame(update);
         }
 
         initLandscape();
+
+        window.addEventListener('themechanged', () => {
+            gridNeedsBake = true;
+        });
 
         const obs = new IntersectionObserver(entries => {
             entries.forEach(e => {
@@ -482,7 +503,7 @@
 
         const caption = document.createElement('p');
         caption.className = 'll-caption mono-text';
-        caption.textContent = '// non-convex optimization — smooth manifold transition & gravity-well physics';
+        caption.textContent = '// non-convex optimization - Nesterov momentum & stochastic thermal bursts';
         wrap.appendChild(caption);
 
         if (divider) {
@@ -495,9 +516,7 @@
         buildLossLandscape();
     }
 
-    /* ================================================
-       10. SECTION DIVIDER PARTICLES
-    ================================================ */
+    /* Section Divider Particles */
     function initDividerParticles() {
         const dividers = document.querySelectorAll('.section-divider');
 
@@ -542,13 +561,11 @@
             }
         }
 
-        // Observe each divider — burst once as it crosses viewport center
         const obs = new IntersectionObserver(entries => {
             entries.forEach(e => {
                 if (e.isIntersecting && !e.target._bursted) {
                     e.target._bursted = true;
                     burst(e.target);
-                    // Reset after a delay so it can burst again on scroll back
                     setTimeout(() => { e.target._bursted = false; }, 3000);
                 }
             });
@@ -557,10 +574,7 @@
         dividers.forEach(d => obs.observe(d));
     }
 
-    /* ================================================
-       11. AVATAR
-       Inserts avatar before the about section text
-    ================================================ */
+    /* Avatar */
     function initAvatar() {
         const profileContent = document.getElementById('about-profile-content');
         if (!profileContent) return;
@@ -568,7 +582,6 @@
         const wrap = document.createElement('div');
         wrap.className = 'avatar-wrap';
 
-        // Corner brackets
         ['tl','tr','bl','br'].forEach(pos => {
             const b = document.createElement('span');
             b.className = 'avatar-bracket avatar-bracket--' + pos;
@@ -581,25 +594,19 @@
         img.alt = 'Kush Singh';
         wrap.appendChild(img);
 
-        // Code label
         const label = document.createElement('span');
         label.className = 'avatar-label';
         label.textContent = '// kush_singh.png';
         wrap.appendChild(label);
 
-        // Insert horizontally next to the profile description text
         profileContent.appendChild(wrap);
     }
 
-    /* ================================================
-       12. LIVE TOKENIZER HERO
-       On hover, characters scatter to reveal Token IDs
-    ================================================ */
+    /* Live Tokenizer Hero */
     function initTokenizerHero() {
         const headline = document.querySelector('.headline');
         if (!headline) return;
 
-        // Specific token definitions for Deep Learning authenticity
         const tokenSpecs = [
             {
                 selector: '.breathe-word',
@@ -627,7 +634,7 @@
             spec.tokens.forEach(tokenData => {
                 const wrapper = document.createElement('span');
                 wrapper.className = 'tokenizer-wrapper';
-                // Add a specific class for accent text tokens to fix CSS clipping
+                wrapper.setAttribute('aria-hidden', 'true');
                 if (spec.selector === '.accent-text') wrapper.classList.add('is-accent');
 
                 const idDisplay = document.createElement('span');
@@ -665,40 +672,19 @@
         });
     }
 
-    /* ================================================
-       13. NEURAL PULSE SECTION DIVIDERS
-       (Disabled - keeping original dividers)
-    ================================================ */
-    function initNeuralDividers() {
-        // Removed - original section dividers work fine
-    }
+    function initNeuralDividers() {}
+    function initArchitectureStack() {}
 
-    /* ================================================
-       14. ARCHITECTURE NAVIGATION STACK (Disabled)
-    ================================================ */
-    function initArchitectureStack() {
-        // Removed
-    }
-
-    /* ================================================
-       INIT ALL
-    ================================================ */
     ready(() => {
         initVariableFont();
         initSplitText();
-        // initConstellation(); // REMOVED
-        initScanlines();
+        // initScanlines();
         initDepthFog();
-        initLavaBlobs();
         initProgressCircuit();
         initDividerParticles();
         initAvatar();
-        // Loss Landscape visualization after a tick (needs DOM stable)
         setTimeout(initLossLandscape, 50);
-        // New features
         setTimeout(initTokenizerHero, 300);
-        setTimeout(initNeuralDividers, 200);
-        setTimeout(initArchitectureStack, 200);
     });
 
 })();

@@ -450,13 +450,13 @@ So, deleting the bottom 50 layers (set $\sigma_{51} \dots \sigma_{100}$ to 0), w
 
 ## Eigenface Compression
 
-To prove that quite patterns can be muted without losing the meaning, let's look at a generated face. A face is highly structured—two eyes, a nose, and a mouth are always in roughly the same place. SVD exploits this structure to compress the image massively.
+To prove that quite patterns can be muted without losing the meaning, let's look at a generated face. A face is highly structured - two eyes, a nose, and a mouth are always in roughly the same place. SVD exploits this structure to compress the image massively.
 
 >Drag the slider from **k=1** up to **k=50**.
 >
 > * **Rank 1 (The Ghost):** The single "loudest" pattern. It captures the average head shape and lighting direction. It looks like a blurred mask.
 > * **Rank 10 (The Identity):** By adding just 9 more layers, the eyes, nose bridge, and mouth become sharp. It is now possible to recognize the person.
-> * **Rank 50 (The Texture):** The final layers add the "quiet" details—skin texture, noise, and subtle imperfections.
+> * **Rank 50 (The Texture):** The final layers add the "quiet" details - skin texture, noise, and subtle imperfections.
 
 <wasm-sim src="svd_photo">
         <script type="application/json">
@@ -466,7 +466,7 @@ To prove that quite patterns can be muted without losing the meaning, let's look
         </script>
 </wasm-sim>
 
-**The Result:** Even at Rank 10, the image is recognizable, yet we have discarded over 80% of the raw data. This technique (**Eigenfaces**) was the foundation of early facial recognition systems—reducing complex human faces to a simple list of 10-20 numbers.
+**The Result:** Even at Rank 10, the image is recognizable, yet we have discarded over 80% of the raw data. This technique (**Eigenfaces**) was the foundation of early facial recognition systems - reducing complex human faces to a simple list of 10-20 numbers.
 
 ---
 

@@ -1,4 +1,4 @@
-/* terminal.js — Interactive terminal */
+/* terminal.js - Interactive terminal */
 (function () {
     'use strict';
 
@@ -17,11 +17,34 @@
 
     function initInteractiveTerminal() {
         const iterm = document.getElementById('interactive-terminal');
+        const overlay = document.getElementById('terminal-overlay');
+        const trigger = document.getElementById('mini-terminal-trigger');
+        const closeBtn = document.getElementById('term-close-btn');
         if (!iterm) return;
 
         const historyEl = iterm.querySelector('.iterm-history');
         const inputEl   = iterm.querySelector('.iterm-input');
         const bodyEl    = iterm.querySelector('.iterm-body');
+
+        function openTerminal() {
+            if (overlay) overlay.classList.add('open');
+            setTimeout(() => {
+                inputEl.focus();
+                bodyEl.scrollTop = bodyEl.scrollHeight;
+            }, 100);
+        }
+
+        function closeTerminal() {
+            if (overlay) overlay.classList.remove('open');
+        }
+
+        if (trigger) trigger.addEventListener('click', openTerminal);
+        if (closeBtn) closeBtn.addEventListener('click', closeTerminal);
+        if (overlay) {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) closeTerminal();
+            });
+        }
 
         iterm.addEventListener('click', () => inputEl.focus());
 
@@ -60,18 +83,20 @@
         const COMMANDS = {
             help: () => [
                 { text: 'Available commands:', cls: 'accent' },
-                { text: '  help          — show this help' },
-                { text: '  ls [-a]       — list files/sections' },
-                { text: '  cat <file>    — print file info' },
-                { text: '  open <proj>   — open project repo' },
-                { text: '  neofetch      — system summary' },
-                { text: '  top           — process monitor' },
-                { text: '  matrix        — enter the source' },
-                { text: '  skills        — competencies' },
-                { text: '  whoami        — identity' },
-                { text: '  clear         — clear terminal' },
-                { text: '  sudo <pass>   — elevate privileges', cls: 'cool' },
-                { text: '  exit          — close (ESC)' },
+                { text: '  help          - show this help' },
+                { text: '  ls [-a]       - list files/sections' },
+                { text: '  cat <file>    - print file info' },
+                { text: '  open <proj>   - open project repo' },
+                { text: '  neofetch      - system summary' },
+                { text: '  top           - process monitor' },
+                { text: '  matrix        - enter the source' },
+                { text: '  coffee        - energy refill' },
+                { text: '  man <cmd>     - command manual' },
+                { text: '  skills        - competencies' },
+                { text: '  whoami        - identity' },
+                { text: '  clear         - clear terminal' },
+                { text: '  sudo <pass>   - elevate privileges', cls: 'cool' },
+                { text: '  exit          - close (ESC)' },
             ],
             ls: (args) => {
                 const showHidden = args.includes('-a');
@@ -101,18 +126,26 @@
                     return [
                         { text: '{', cls: 'accent' },
                         { text: '  "name": "Kush Singh",' },
-                        { text: '  "role": "ML/Systems Engineer",' },
-                        { text: '  "status": "building_the_future"' },
+                        { text: '  "role": "Software Engineer",' },
+                        { text: '  "education": "KIIT University",' },
+                        { text: '  "interests": ["systems_programming", "machine_learning", "open_source"],' },
+                        { text: '  "current_state": "building_and_learning"' },
                         { text: '}', cls: 'accent' },
                     ];
                 }
                 if (f === 'config' || f === 'config.yaml') {
                     return [
                         { text: '---', cls: 'cool' },
-                        { text: 'system:', cls: 'accent' },
-                        { text: '  password_hint: "the_second_word_of_the_headline"' },
-                        { text: '  security_level: restricted', cls: 'err' },
-                        { text: '  authorized_users: []', cls: 'cool' },
+                        { text: 'user: "Kush Singh"', cls: 'accent' },
+                        { text: 'preferences:', cls: 'accent' },
+                        { text: '  theme: "dark"' },
+                        { text: '  coffee: "black"' },
+                        { text: '  indentation: "spaces"' },
+                        { text: 'principles:', cls: 'accent' },
+                        { text: '  - "Read the documentation."' },
+                        { text: '  - "Understand the fundamentals."' },
+                        { text: '  - "Simplicity over cleverness."' },
+                        { text: '  password_hint: "the_second_word_of_the_headline"', cls: 'cool' },
                         { text: '---', cls: 'cool' },
                     ];
                 }
@@ -120,16 +153,13 @@
                     if (!isRoot) return [{ text: "Nice try. Access denied: Insufficient clearance.", cls: 'err' }];
                     return [
                         { text: '╔══════════════════════════════════════════════╗', cls: 'accent' },
-                        { text: '║ CLASSIFIED: PROJECT BLACKBOX                 ║', cls: 'accent' },
+                        { text: '║ HIDDEN DIRECTIVE                             ║', cls: 'accent' },
                         { text: '╠══════════════════════════════════════════════╣', cls: 'accent' },
-                        { text: '║ Status:    ACTIVE                            ║', cls: 'green' },
-                        { text: '║ Location:  KIIT University, Bhubaneswar      ║', cls: 'cool' },
-                        { text: '║ Objective: Decoding neural pathways...       ║', cls: 'cool' },
+                        { text: '║ "There are only two hard things in Computer  ║', cls: 'cool' },
+                        { text: '║ Science: cache invalidation and naming       ║', cls: 'cool' },
+                        { text: '║ things." - Phil Karlton                      ║', cls: 'cool' },
                         { text: '╠══════════════════════════════════════════════╣', cls: 'accent' },
-                        { text: '║ COORDINATES: 20.2667° N, 85.8431° E          ║', cls: 'accent' },
-                        { text: '║ (Coffee spot near Block 6)                   ║', cls: 'cool' },
-                        { text: '╠══════════════════════════════════════════════╣', cls: 'accent' },
-                        { text: '║ ★ ACHIEVEMENT: Digital Archaeologist         ║', cls: 'green' },
+                        { text: '║ ★ ACHIEVEMENT UNLOCKED: Root Access          ║', cls: 'green' },
                         { text: '╚══════════════════════════════════════════════╝', cls: 'accent' },
                     ];
                 }
@@ -144,9 +174,7 @@
                 return [{ text: `cat: ${f}: No such file or directory`, cls: 'err' }];
             },
             neofetch: () => {
-                const ascii = `  /\\_/\\  
-  ( o.o ) 
-   > ^ <  `;
+                const ascii = `      /\\      \n     /  \\     \n    /____\\    \n   /      \\   \n  /        \\  \n /__________\\ `;
                 const div = document.createElement('div');
                 div.className = 'iterm-nf-wrap';
                 div.innerHTML = `
@@ -154,13 +182,12 @@
                     <div class="iterm-nf-data">
                         <span><b>kush</b>@<b>portfolio</b></span>
                         <span>-----------------</span>
-                        <span><b>OS</b>: Kush-OS v2.6 x86_64</span>
-                        <span><b>Host</b>: Deep-Learning-Workstation</span>
-                        <span><b>Kernel</b>: 5.15.0-transformers-generic</span>
-                        <span><b>Uptime</b>: 1024 epochs</span>
-                        <span><b>Shell</b>: ksh 4.2 (kush-shell)</span>
-                        <span><b>GPU</b>: NVIDIA RTX 4090 x 2 (Mock)</span>
-                        <span><b>Memory</b>: 64GiB / 128GiB</span>
+                        <span><b>OS</b>: Kush-OS v2.6</span>
+                        <span><b>Kernel</b>: sys-core-v1</span>
+                        <span><b>Uptime</b>: 99.99%</span>
+                        <span><b>Shell</b>: zsh</span>
+                        <span><b>Editor</b>: nvim</span>
+                        <span><b>Status</b>: compiling_ideas</span>
                     </div>
                 `;
                 historyEl.appendChild(div);
@@ -168,10 +195,10 @@
             },
             top: () => [
                 { text: 'PID   USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND', cls: 'accent' },
-                { text: '1240  kush      20   0   42.4g  12.1g   2.1g R  98.2  18.4  12:44.20 neural_engine' },
-                { text: '2391  kush      20   0   18.1g   4.2g   1.1g S  12.4   6.2   0:15.02 coffee_intake' },
-                { text: '882   root      20   0    1.2g   0.1g   0.0g S   0.5   0.1   4:02.12 sys_daemon' },
-                { text: '102   kush      20   0  512.0m  64.0m   8.0m S   0.1   0.0   0:00.42 bash' },
+                { text: '1     root      20   0  168.2m  12.1m   8.2m S   0.0   0.1   0:02.14 systemd' },
+                { text: '842   kush      20   0    4.2g   1.2g 234.1m S   4.2  14.3  12:44.20 nvim' },
+                { text: '1024  kush      20   0    2.1g 512.4m  64.2m R  12.4   6.2   0:15.02 make' },
+                { text: '2048  kush      20   0  512.0m  64.0m   8.0m S   0.1   0.0   0:00.42 bash' },
             ],
             matrix: () => {
                 const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&*+-";
@@ -196,12 +223,60 @@
                 if (proj) { window.open(proj.url, '_blank'); return [{ text: `→ Opening ${proj.name}...`, cls: 'green' }]; }
                 return [{ text: `open: ${args[0]}: project not found`, cls: 'err' }];
             },
-            whoami: () => [{ text: 'kush — ML/Systems Engineer building the future', cls: 'accent' }],
+            coffee: () => {
+                const steam = ["  ~  ", " ~ ~ ", "  ~  ", " ~ ~ "];
+                const cup = [
+                    " ( ( ",
+                    "  ) )",
+                    "..........",
+                    "|        |___",
+                    "|  Kush  |   |",
+                    "|  26    |___|",
+                    "|        |",
+                    "----------"
+                ];
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (i > 8) { clearInterval(interval); return; }
+                    addLine(steam[i % steam.length] + " (Brewing...)", 'cool');
+                    bodyEl.scrollTop = bodyEl.scrollHeight;
+                    i++;
+                }, 200);
+                setTimeout(() => {
+                    cup.forEach(l => addLine(l, 'accent'));
+                    addLine("// Caffeine level restored to 100%", 'green');
+                    bodyEl.scrollTop = bodyEl.scrollHeight;
+                }, 1800);
+                return [];
+            },
+            man: (args) => {
+                if (!args[0]) return [{ text: 'Usage: man <command>', cls: 'err' }];
+                const manual = {
+                    help: "Display the list of available commands and their descriptions.",
+                    ls: "List contents of the current workspace directory. Use '-a' to see hidden files.",
+                    cat: "Print the contents of a file. Supports profile.json, config.yaml, and resume.pdf.",
+                    open: "Launch a project's repository or live demo in a new tab.",
+                    neofetch: "Display a summary of the current system architecture.",
+                    top: "Display a dynamic, real-time view of running processes.",
+                    matrix: "Experience the underlying structure of the portfolio codebase.",
+                    coffee: "A necessary utility for high-performance development cycles.",
+                    man: "Format and display the on-line manual pages for a command.",
+                    skills: "List technical competencies and tools.",
+                    whoami: "Print the effective user identity.",
+                    clear: "Clear the terminal screen.",
+                    sudo: "Elevate your current shell session to root privileges.",
+                    exit: "Close the interactive terminal session."
+                };
+                const desc = manual[args[0].toLowerCase()];
+                if (desc) return [{ text: `man: ${args[0]}`, cls: 'accent' }, { text: `  ${desc}` }];
+                return [{ text: `man: No manual entry for ${args[0]}`, cls: 'err' }];
+            },
+            whoami: () => [{ text: 'kush - Software Engineer building robust systems', cls: 'accent' }],
             skills: () => [
-                { text: 'Languages:   C++, Python, Golang', cls: 'cool' },
-                { text: 'ML/AI:       PyTorch, Transformers, LoRA, GGUF, KV-Cache', cls: 'cool' },
-                { text: 'Systems:      SIMD/AVX2, CUDA, Docker, Linux', cls: 'cool' },
-                { text: 'Tools:        Git, NumPy, HuggingFace', cls: 'cool' },
+                { text: 'Languages:   C++, Python, Golang, JavaScript', cls: 'cool' },
+                { text: 'Systems:     Linux, Docker, CUDA, Performance Optimization', cls: 'cool' },
+                { text: 'Libraries:   PyTorch, Transformers, NumPy', cls: 'cool' },
+                { text: 'Tools:       Git, CMake, Neovim', cls: 'cool' },
             ],
             sudo: (args) => {
                 if (!args[0]) return [{ text: 'Usage: sudo <password>', cls: 'err' }];
@@ -219,7 +294,7 @@
                 return [{ text: 'Sorry, try: sudo binary', cls: 'err' }];
             },
             clear: () => 'CLEAR',
-            exit: () => { showToast('// terminal closed'); return []; }
+            exit: () => { showToast('// terminal closed'); closeTerminal(); return []; }
         };
 
         // History Management
@@ -296,16 +371,22 @@
                     val[val.length - 1] = matches[0];
                     inputEl.value = val.join(' ');
                 }
+            } else if (e.key === 'Escape') {
+                if (inputEl.value.trim() === '') {
+                    closeTerminal();
+                } else {
+                    inputEl.value = '';
+                }
             }
         });
 
         // Boot sequence
         const bootMessages = [
-            { text: '╭──────────────────────────────────────────╮', cls: 'accent' },
-            { text: '│  Welcome to Portfolio Terminal           │', cls: 'accent' },
-            { text: '│  Type \'help\' to view commands            │', cls: 'accent' },
-            { text: '│  Hint: Check config.yaml for secrets     │', cls: 'cool' },
-            { text: '╰──────────────────────────────────────────╯', cls: 'accent' },
+            { text: '[ OK ] System bootstrap initiated', cls: 'green' },
+            { text: '[ OK ] Loading core modules...', cls: 'green' },
+            { text: '[ OK ] Establishing secure connection', cls: 'green' },
+            { text: '[ INFO ] Workspace initialized. Type "help" to explore.', cls: 'accent' },
+            { text: '[ HINT ] Check config.yaml for system directives.', cls: 'cool' },
             { text: ' ' },
         ];
 

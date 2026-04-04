@@ -1,4 +1,4 @@
-/* ascii.js — ASCII hero with glitch effect */
+/* ascii.js - ASCII hero with glitch effect */
 (function () {
     'use strict';
 

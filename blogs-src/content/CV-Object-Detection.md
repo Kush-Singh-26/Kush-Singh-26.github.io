@@ -66,7 +66,7 @@ pinned: false
     - G = (x, y, w, h)
 
 > - Want the model to learn how to adjust the proposal to get the ground truth box.
->- Want the model to predict how much to shift and scale the proposal — in a way that works for boxes of all sizes.
+>- Want the model to predict how much to shift and scale the proposal - in a way that works for boxes of all sizes.
 
 - Compute the **regression targets** (how much the proposal should shift and scale to become the ground truth) 
     - $ t_x = \frac{x - x_p}{w_p} $ (horizontal shift, normalized)
@@ -279,7 +279,7 @@ $$ L(p,u,t,v) = L_{cls}(p,u) + \lambda[u \geq 1] L_{loc}(t,v) $$
 1. Take feature map from CNN (size W×H×C).
 2. Place **anchors** at every location (pixel) in the feature map:
     - Anchor are pre-defined boxes of different sizes and shapes placed over points on the feature map.
-    - Multiple anchors are used per location — to cover different sizes and aspect ratios.
+    - Multiple anchors are used per location - to cover different sizes and aspect ratios.
 3. For each anchor, predict:
     - A binary classification:
         - Is the anchor a foreground (object) [Positive anchor] or background (non-object) [Negative anchor]?
@@ -408,7 +408,7 @@ def get_prediction(img_path, threshold):
 - `threshold` : only keep predictions with a confidence score higher than this value.
 - `pred = model([img])` 
     - pass the image as a list because most models expect a batch (even of size = 1)
-    - `pred` is the model's raw output — usually a list of dictionaries where each dictionary contains:
+    - `pred` is the model's raw output - usually a list of dictionaries where each dictionary contains:
         - `boxes` : bounding box coordinates
         - `labels` : predicted class indices
         - `scores` : confidence scores for each prediction

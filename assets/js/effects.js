@@ -1,9 +1,8 @@
-/* effects.js — Cursor glow, hero typing, section label scramble, hover glitch, magnetic links, parallax orbs */
+/* effects.js - UI effects */
 document.addEventListener('DOMContentLoaded', () => {
     const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const finePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
 
-    /* --- CURSOR GLOW --- */
     const cursorGlow = document.getElementById('cursor-glow');
     if (cursorGlow) {
         if (!finePointer || prefersReducedMotion) {
@@ -29,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /* --- HERO TYPING EFFECT --- */
     const identityEl = document.querySelector('.hero-identity');
     if (identityEl) {
         const text = identityEl.innerText;
@@ -42,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(type, 1000);
     }
 
-    /* --- SECTION LABEL SCRAMBLE --- */
     const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     function scramble(el) {
         const orig = el.dataset.value || el.innerText;
@@ -62,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.8 });
     document.querySelectorAll('.section-label').forEach(el => scrambleObs.observe(el));
 
-    /* --- HOVER GLITCH --- */
     document.querySelectorAll('.nav-links a, .social-item').forEach(link => {
         link.addEventListener('mouseenter', () => {
             const orig = link.dataset.value || link.innerText;
@@ -79,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* --- MAGNETIC LINKS --- */
     if (finePointer && !prefersReducedMotion) {
         document.querySelectorAll('.nav-links a, .social-item, .nav-cta, .link-arrow').forEach(el => {
             el.addEventListener('pointermove', e => {
@@ -94,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* --- PARALLAX ORBS --- */
     const orbs = document.querySelectorAll('.ambient-orb');
     if (orbs.length && finePointer && !prefersReducedMotion) {
         document.addEventListener('pointermove', e => {

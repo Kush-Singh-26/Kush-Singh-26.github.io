@@ -1,4 +1,4 @@
-/* github.js — GitHub contribution grid */
+/* github.js - GitHub contribution grid */
 document.addEventListener('DOMContentLoaded', () => {
 
     /* --- GITHUB CONTRIBUTION GRID --- */

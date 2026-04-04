@@ -1,5 +1,5 @@
 /* ============================================
-   VISUAL2.CSS — 11 New Visual Features
+   VISUAL2.CSS - 11 New Visual Features
    Variable Font · Oversized BG Text · SVG Headline
    Constellation · Scanlines · Depth Fog · Lava Blobs
    Progress Line Drawing · Transformer Diagram
@@ -7,31 +7,28 @@
    ============================================ */
 
 /* ------------------------------------------------
-   1. VARIABLE FONT BREATHING — headline
+   1. VARIABLE FONT BREATHING - headline
    ------------------------------------------------ */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap');
-
+/* Animation settings adapted for Syncopate (non-variable) */
 @keyframes font-breathe {
     0%, 100% {
-        font-variation-settings: 'wght' 400;
-        letter-spacing: -0.04em;
+        letter-spacing: 0.1em;
         opacity: 0.85;
     }
     50% {
-        font-variation-settings: 'wght' 850;
-        letter-spacing: -0.02em;
+        letter-spacing: 0.2em;
         opacity: 1;
     }
 }
 
-/* Applied only to "Beyond." — the plain word, not .accent-text */
+/* Applied only to "Beyond." - the plain word, not .accent-text */
 .headline .breathe-word {
     display: inline-block;
-    font-family: 'Plus Jakarta Sans', var(--font-heading);
+    font-family: var(--font-heading);
     font-size: inherit;
-    font-weight: inherit;
+    font-weight: 700;
     animation: font-breathe 4s ease-in-out infinite;
-    will-change: font-variation-settings, opacity;
+    will-change: opacity, letter-spacing;
     text-shadow: 0 0 40px rgba(201, 168, 108, 0.15);
 }
 
@@ -100,7 +97,7 @@
 }
 
 /* ------------------------------------------------
-   3. OUTLINE/FILL SPLIT TEXT — "Binary."
+   3. OUTLINE/FILL SPLIT TEXT - "Binary."
    ------------------------------------------------ */
 .headline-split-wrap {
     position: relative;
@@ -108,7 +105,7 @@
     overflow: hidden;
 }
 
-/* The SVG clip approach — two overlaid text elements */
+/* The SVG clip approach - two overlaid text elements */
 .split-svg {
     display: block;
     overflow: visible;
@@ -127,38 +124,11 @@
     ------------------------------------------------ */
 
 /* ------------------------------------------------
-   5. SCANLINE CRT OVERLAY
+   5. SCANLINE CRT OVERLAY (REMOVED)
    ------------------------------------------------ */
-.scanline-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9998;
-    background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 1px,
-        rgba(0, 0, 0, 0.018) 1px,
-        rgba(0, 0, 0, 0.018) 2px
-    );
-    mix-blend-mode: multiply;
-}
-
-[data-theme="light"] .scanline-overlay {
-    background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 1px,
-        rgba(0, 0, 0, 0.012) 1px,
-        rgba(0, 0, 0, 0.012) 2px
-    );
-}
 
 /* ------------------------------------------------
-   6. DEPTH FOG — sections fade by scroll distance
+   6. DEPTH FOG - sections fade by scroll distance
    ------------------------------------------------ */
 /* JS will set --fog-amount on each section */
 section {
@@ -166,111 +136,11 @@ section {
 }
 
 /* ------------------------------------------------
-   7. LAVA LAMP BLOBS
+   7. LAVA LAMP BLOBS (REMOVED)
    ------------------------------------------------ */
-#lava-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -2;
-    overflow: hidden;
-}
-
-.lava-blob {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0;
-    animation: blob-drift linear infinite;
-    will-change: transform, border-radius;
-}
-
-.lava-blob-1 {
-    width: 480px;
-    height: 480px;
-    background: radial-gradient(circle, rgba(201,168,108,0.12) 0%, transparent 70%);
-    top: 10%;
-    left: 15%;
-    animation-duration: 28s;
-    animation-delay: 0s;
-    opacity: 1;
-}
-
-.lava-blob-2 {
-    width: 360px;
-    height: 360px;
-    background: radial-gradient(circle, rgba(138,180,199,0.09) 0%, transparent 70%);
-    top: 50%;
-    right: 10%;
-    animation-duration: 34s;
-    animation-delay: -8s;
-    opacity: 1;
-}
-
-.lava-blob-3 {
-    width: 420px;
-    height: 420px;
-    background: radial-gradient(circle, rgba(228,198,149,0.08) 0%, transparent 70%);
-    bottom: 15%;
-    left: 40%;
-    animation-duration: 40s;
-    animation-delay: -16s;
-    opacity: 1;
-}
-
-.lava-blob-4 {
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(201,168,108,0.07) 0%, transparent 70%);
-    top: 30%;
-    left: 60%;
-    animation-duration: 22s;
-    animation-delay: -4s;
-    opacity: 1;
-}
-
-@keyframes blob-drift {
-    0% {
-        transform: translate(0px, 0px) scale(1);
-        border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
-    }
-    20% {
-        transform: translate(40px, -60px) scale(1.05);
-        border-radius: 45% 55% 40% 60% / 60% 40% 55% 45%;
-    }
-    40% {
-        transform: translate(-30px, 40px) scale(0.95);
-        border-radius: 55% 45% 60% 40% / 45% 55% 50% 50%;
-    }
-    60% {
-        transform: translate(60px, 30px) scale(1.08);
-        border-radius: 40% 60% 45% 55% / 55% 45% 60% 40%;
-    }
-    80% {
-        transform: translate(-50px, -20px) scale(0.98);
-        border-radius: 50% 50% 40% 60% / 40% 60% 55% 45%;
-    }
-    100% {
-        transform: translate(0px, 0px) scale(1);
-        border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
-    }
-}
-
-[data-theme="light"] .lava-blob-1 {
-    background: radial-gradient(circle, rgba(122,98,64,0.08) 0%, transparent 70%);
-}
-[data-theme="light"] .lava-blob-2 {
-    background: radial-gradient(circle, rgba(93,125,141,0.06) 0%, transparent 70%);
-}
-[data-theme="light"] .lava-blob-3,
-[data-theme="light"] .lava-blob-4 {
-    background: radial-gradient(circle, rgba(122,98,64,0.05) 0%, transparent 70%);
-}
 
 /* ------------------------------------------------
-   8. PROGRESS LINE DRAWING — fixed SVG
+   8. PROGRESS LINE DRAWING - fixed SVG
    ------------------------------------------------ */
 #progress-circuit {
     position: fixed;
@@ -341,15 +211,10 @@ section {
     z-index: 1;
     isolation: isolate;
     overflow: visible;
-    background: 
-        radial-gradient(circle at 15% 20%, rgba(201, 168, 108, 0.12), transparent 55%),
-        radial-gradient(circle at 85% 25%, rgba(138, 180, 199, 0.08), transparent 60%),
-        linear-gradient(180deg, rgba(24, 22, 20, 0.92), rgba(17, 16, 15, 0.96));
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
     border-radius: 16px;
-    box-shadow:
-        0 24px 60px rgba(0, 0, 0, 0.45),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    box-shadow: var(--shadow-base);
 }
 
 .loss-landscape .ll-caption {
@@ -377,14 +242,9 @@ section {
 }
 
 [data-theme="light"] .loss-landscape {
-    background:
-        radial-gradient(circle at 15% 20%, rgba(166, 133, 92, 0.18), transparent 55%),
-        radial-gradient(circle at 85% 25%, rgba(93, 125, 141, 0.12), transparent 60%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(242, 238, 231, 0.96));
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow:
-        0 18px 40px rgba(0, 0, 0, 0.12),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-base);
 }
 
 /* Globe light theme */
@@ -409,7 +269,7 @@ section {
 /* ------------------------------------------------
    10. SECTION TRANSITION PARTICLES
    ------------------------------------------------ */
-/* Injected via JS — no static CSS needed beyond base */
+/* Injected via JS - no static CSS needed beyond base */
 .divider-particle {
     position: absolute;
     width: 4px;
@@ -428,7 +288,7 @@ section {
 }
 
 /* ------------------------------------------------
-   11. AVATAR — framed portrait with glow
+   11. AVATAR - framed portrait with glow
    ------------------------------------------------ */
 /* About section: text + avatar side-by-side */
 .about-profile-content {
@@ -454,23 +314,11 @@ section {
     padding: 6px 6px 36px 6px;
     background: var(--bg-card);
     box-shadow: var(--shadow-base);
+    border: 1px solid var(--border-subtle);
     flex-shrink: 0;
 }
 
-/* Ambient glow */
-.avatar-wrap::before {
-    content: '';
-    position: absolute;
-    inset: -24px;
-    background: radial-gradient(
-        ellipse at center,
-        rgba(201, 168, 108, 0.12),
-        transparent 70%
-    );
-    z-index: -1;
-    filter: blur(22px);
-    pointer-events: none;
-}
+/* Ambient glow (REMOVED) */
 
 /* Corner brackets */
 .avatar-bracket {
@@ -633,8 +481,8 @@ section {
     transform: translate(-50%, -50%) scale(0.6);
     font-family: var(--font-mono);
     font-size: clamp(0.9rem, 1.5vw, 1.3rem);
-    color: var(--accent-primary);
-    -webkit-text-fill-color: var(--accent-primary); /* Fix for inheritance from .accent-text */
+    color: #a0b8c8;
+    -webkit-text-fill-color: #a0b8c8; /* Fix for inheritance from .accent-text */
     font-weight: 900;
     opacity: 0;
     pointer-events: none;
@@ -642,7 +490,6 @@ section {
     transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     white-space: nowrap;
     letter-spacing: 0.02em;
-    text-shadow: 0 0 20px rgba(201, 168, 108, 0.5);
 }
 
 .tokenizer-wrapper.scattered .token-id-display {
@@ -653,12 +500,11 @@ section {
 /* Light theme adjustments */
 [data-theme="light"] .tokenizer-wrapper.scattered .token-id-display {
     text-shadow: none;
-    color: #5a4a2e; /* Darker version of accent-primary */
-    -webkit-text-fill-color: #5a4a2e;
     background: rgba(245, 242, 237, 0.9);
     padding: 0 4px;
     border-radius: 4px;
 }
+
 
 /* End of Tokenizer Hero */
 
@@ -674,7 +520,6 @@ section {
     REDUCED MOTION
     ------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
-    .lava-blob { animation: none !important; }
     @keyframes font-breathe { 0%, 100% { font-variation-settings: 'wght' 600; } }
     .tf-arrow.active { animation: none !important; }
     .avatar-wrap::after { animation: none !important; }

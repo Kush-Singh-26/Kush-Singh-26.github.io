@@ -1,4 +1,4 @@
-/* cards.js — Card spotlight, mobile card expand */
+/* cards.js - Card spotlight, mobile card expand */
 document.addEventListener('DOMContentLoaded', () => {
 
     /* --- CARD SPOTLIGHT --- */

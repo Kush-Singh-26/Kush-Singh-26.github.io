@@ -1,7 +1,6 @@
-/* scroll.js — Fade-in observer, hero stagger, scroll progress, active nav, back-to-top, smooth scroll */
+/* scroll.js - Scroll-based features */
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* --- FADE-IN OBSERVER --- */
     const fadeObserver = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
     document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
 
-    /* --- HERO STAGGER ANIMATION --- */
     const heroStaggers = document.querySelectorAll('.hero-content .fade-in-stagger');
     heroStaggers.forEach(el => {
         el.style.opacity = '0';
@@ -26,19 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 120 * (i + 1));
     });
 
-    /* --- SCROLL: PROGRESS + ACTIVE NAV + BACK-TO-TOP --- */
     const progressBar = document.getElementById('scroll-progress');
     const backToTop   = document.getElementById('back-to-top');
     const sections    = document.querySelectorAll('section[id]');
     const navAnchors  = document.querySelectorAll('.nav-links a');
 
-    // Cache maxScroll to prevent layout thrashing
     let maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     window.addEventListener('resize', () => {
         maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     }, { passive: true });
 
-    // Use IntersectionObserver for active nav instead of offsetTop
     const navObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -56,12 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', () => {
         if (!isTicking) {
             window.requestAnimationFrame(() => {
-                // progress bar
                 if (progressBar && maxScroll > 0) {
                     const s = window.scrollY;
                     progressBar.style.width = (s / maxScroll * 100) + '%';
                 }
-                // back-to-top
                 if (backToTop) backToTop.classList.toggle('visible', window.scrollY > window.innerHeight * 0.8);
                 
                 isTicking = false;
@@ -70,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, { passive: true });
 
-    /* --- SMOOTH SCROLL --- */
     document.querySelectorAll('a[href^="#"]').forEach(a => {
         a.addEventListener('click', e => {
             e.preventDefault();
@@ -79,6 +71,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* --- BACK TO TOP CLICK --- */
     if (backToTop) backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 });

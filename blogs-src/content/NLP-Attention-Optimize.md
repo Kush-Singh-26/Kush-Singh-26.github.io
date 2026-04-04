@@ -160,7 +160,7 @@ $$ [t - \frac{w}{2}, \cdots , t + \frac{w}{2}] $$
 - A similar idea is used in SWA. 
 - Stacking of SWA means that multiple transformer blocks are stacked vertically each haing a SWA layer.
 - Output of layer $l$ becomes the input of layer $l+1$.
-- **When Layer 2 runs SWA again, each token can attend to a new local window — but those tokens already contain information from their own windows in Layer 1**.
+- **When Layer 2 runs SWA again, each token can attend to a new local window - but those tokens already contain information from their own windows in Layer 1**.
 
 > Input **→** SWA Layer 1 **→** SWA Layer 2 **→** SWA Layer 3 **→** ...
 
@@ -336,7 +336,7 @@ The authors of BigBird paper also proved that **sparsed attention** is a **unive
 
 - It means that given sufficient width and depth, a full attention transformer can approximate any continuous sequence-to-sequence function to an arbitrary degree of accuracy. 
 
-> **Sequence-To-Sequence Function** : A function whose input is a finite sequence of vectors (tokens, embeddings, symbols, etc.), and whose output is another finite sequence—often (but not necessarily) of the same length.
+> **Sequence-To-Sequence Function** : A function whose input is a finite sequence of vectors (tokens, embeddings, symbols, etc.), and whose output is another finite sequence - often (but not necessarily) of the same length.
 
 #### Turing Completeness
 
@@ -497,7 +497,7 @@ $$
 - The absolute positions $m$ and $n$ never appear separately anymore.
 - Only the difference $n-m$ matters.
 - That means the **attention score is inherently relative position aware** 
-— It doesn’t matter where the tokens are, only how far apart they are.
+- It doesn’t matter where the tokens are, only how far apart they are.
 
 Hence, the final **sigmoid sliding-window attention** can be formulated as :
 
@@ -518,7 +518,7 @@ $$ Attention(Q,K,V)_m = \sum_{n=w-\omega +1}^m \sigma \left(\frac{(R_{d_{\Theta}
 
 During autoregressive infernece a large amount of data must be transfered from main GPU memory to on-chip cache at every single step.
 - To minimize this memory overhead, a redesign of Multi-Head Attention (MHA) is done. This issue comes due to KV-Cache. 
-- At each generation step, the entire cache—containing the key and value vectors for all previous tokens, across all attention heads, and all layers—must be loaded from the GPU's large but relatively slow High-Bandwidth Memory (HBM) into the small but fast on-chip SRAM where computations actually occur.
+- At each generation step, the entire cache - containing the key and value vectors for all previous tokens, across all attention heads, and all layers - must be loaded from the GPU's large but relatively slow High-Bandwidth Memory (HBM) into the small but fast on-chip SRAM where computations actually occur.
 
 - These data transfers become the primary factor limiting inference speeds.
 

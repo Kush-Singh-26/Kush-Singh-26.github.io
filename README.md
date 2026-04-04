@@ -17,7 +17,7 @@ I build high-performance solutions at the intersection of AI and efficiency. My 
 - **SSG Generator:** Custom static site generator built with Golang.
 
 ## Education
-- **B.Tech in Computer Science**, KIIT University (2023 — 2027) | CGPA: 9.16
+- **B.Tech in Computer Science**, KIIT University (2023 - 2027) | CGPA: 9.16
 
 ## 🔗 Connect
 - [Portfolio](https://kush-singh-26.github.io/)

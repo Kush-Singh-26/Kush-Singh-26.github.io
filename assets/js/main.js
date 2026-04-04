@@ -1,4 +1,4 @@
-/* main.js — Global utilities and footer helpers */
+/* main.js - Global utilities and footer helpers */
 document.addEventListener('DOMContentLoaded', () => {
     const html = document.documentElement;
     const toast = document.getElementById('toast');
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 2000);
             } catch (err) {
                 console.error('Failed to copy email:', err);
-                showToast('Copy failed — try again');
+                showToast('Copy failed - try again');
             }
         });
     }
@@ -95,19 +95,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 tmp.innerHTML = description;
                 const excerpt = (tmp.textContent || '').replace(/\s+/g, ' ').trim();
 
+                return { title, link, dateLabel, excerpt };
+            });
+
+            // Store for Command Palette search
+            window.BLOG_POSTS = cards;
+            document.dispatchEvent(new CustomEvent('blog-posts-ready'));
+
+            cards.forEach(cardData => {
                 const card = document.createElement('a');
                 card.className = 'blog-snippet-card';
-                card.href = link;
+                card.href = cardData.link;
                 card.target = '_blank';
                 card.rel = 'noopener noreferrer';
                 card.innerHTML = `
-                    <span class="blog-snippet-date mono-text">${dateLabel}</span>
-                    <h3>${title}</h3>
-                    <p>${excerpt.slice(0, 160)}${excerpt.length > 160 ? '…' : ''}</p>
+                    <span class="blog-snippet-date mono-text">${cardData.dateLabel}</span>
+                    <h3>${cardData.title}</h3>
+                    <p>${cardData.excerpt.slice(0, 160)}${cardData.excerpt.length > 160 ? '…' : ''}</p>
                     <span class="blog-snippet-link mono-text">Read →</span>
                 `;
                 grid.appendChild(card);
-                return { card };
             });
         } catch (err) {
             console.error('Failed to load blog snippets:', err);

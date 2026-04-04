@@ -73,20 +73,16 @@
 .section-line {
     height: 1px;
     width: 60px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--accent-primary),
-        transparent
-    );
+    background: var(--accent-primary);
     flex-shrink: 0;
 }
 
 .large-text {
-    font-size: 1.65rem;
-    line-height: 1.55;
-    font-weight: 400;
+    font-size: 1.75rem;
+    line-height: 1.5;
+    font-weight: 300;
     color: var(--text-secondary);
+    letter-spacing: -0.01em;
 }
 
 .highlight {
@@ -137,23 +133,7 @@
     overflow: hidden;
 }
 
-/* Geeky corner decoration */
-.bento-card::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(
-        135deg,
-        transparent 50%,
-        rgba(201, 168, 108, 0.04) 50%
-    );
-    border-radius: 0 20px 0 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-}
+/* Geeky corner decoration (REMOVED) */
 
 .bento-card::before {
     content: "";
@@ -161,20 +141,20 @@
     inset: 0;
     border-radius: 20px;
     background: radial-gradient(
-        800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-        rgba(201, 168, 108, 0.15),
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(201, 168, 108, 0.08),
         transparent 80%
     );
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.5s ease;
     pointer-events: none;
     z-index: 0;
 }
 
 [data-theme="light"] .bento-card::before {
     background: radial-gradient(
-        800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-        rgba(122, 98, 64, 0.12),
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(122, 98, 64, 0.06),
         transparent 80%
     );
 }
@@ -193,12 +173,20 @@
 
 .bento-card:hover {
     transform: translateY(-8px);
-    border-color: rgba(201, 168, 108, 0.4);
+    border-color: var(--accent-primary);
     box-shadow:
-        0 24px 48px -12px rgba(0, 0, 0, 0.45),
+        0 32px 64px -16px rgba(0, 0, 0, 0.5),
         var(--inner-glow-hover),
-        0 0 0 1px rgba(201, 168, 108, 0.2);
+        0 0 0 1px rgba(201, 168, 108, 0.3);
     z-index: 10;
+}
+
+.bento-card:hover p {
+    color: var(--text-primary);
+}
+
+.bento-card:hover h3 {
+    color: var(--accent-primary);
 }
 
 [data-theme="light"] .bento-card:hover {
@@ -250,9 +238,10 @@
 
 .bento-card p {
     color: var(--text-secondary);
-    font-size: 0.95rem;
+    font-size: 1rem;
     margin-bottom: 2rem;
-    line-height: 1.65;
+    line-height: 1.6;
+    font-weight: 400;
     flex-grow: 1;
 }
 
@@ -304,12 +293,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(
-        90deg,
-        var(--accent-primary),
-        var(--accent-warm),
-        transparent
-    );
+    background: var(--accent-primary);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -461,10 +445,11 @@
 .footer-content h2 {
     font-family: var(--font-heading);
     font-size: clamp(3rem, 7vw, 5rem);
-    letter-spacing: -0.04em;
+    letter-spacing: -0.05em;
     margin-bottom: 1rem;
     color: var(--text-primary);
     font-weight: 800;
+    text-transform: uppercase;
 }
 
 .footer-sub {
@@ -542,15 +527,16 @@
 }
 
 .stack-tag {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    font-weight: 500;
+    font-family: var(--font-heading);
+    font-size: 0.65rem;
+    font-weight: 700;
     color: var(--accent-primary);
     background: rgba(201, 168, 108, 0.08);
     border: 1px solid rgba(201, 168, 108, 0.18);
-    padding: 0.2rem 0.6rem;
+    padding: 0.25rem 0.65rem;
     border-radius: 4px;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     transition:
         background 0.2s ease,
         border-color 0.2s ease;
@@ -1069,8 +1055,12 @@
 }
 
 .blog-snippet-card h3 {
-    font-size: 1.15rem;
-    line-height: 1.4;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
 }
 
 .blog-snippet-card p {

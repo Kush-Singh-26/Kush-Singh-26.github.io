@@ -1,4 +1,4 @@
-/* glsl.js — GLSL shader background */
+/* glsl.js - GLSL shader background */
 (function () {
     'use strict';
 

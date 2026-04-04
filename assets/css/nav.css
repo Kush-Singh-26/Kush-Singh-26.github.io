@@ -28,14 +28,14 @@
 }
 
 .nav-logo {
-    font-family: var(--font-mono);
-    font-weight: 700;
+    font-family: var(--font-heading);
+    font-weight: 800;
     color: var(--accent-primary);
     text-decoration: none;
-    font-size: 0.9rem;
-    letter-spacing: 0.05em;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
     white-space: nowrap;
-    text-transform: uppercase;
+    text-transform: lowercase;
 }
 
 .nav-logo::before {
@@ -148,4 +148,48 @@
 }
 [data-theme="light"] .theme-icon-dark {
     display: none;
+}
+
+/* Light theme nav */
+[data-theme="light"] .nav-content {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        0 0 0 1px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .nav-logo {
+    color: #3d2b14;
+}
+
+[data-theme="light"] .nav-links a {
+    color: #5a5248;
+}
+
+[data-theme="light"] .nav-links a:hover {
+    color: #1a1612;
+}
+
+[data-theme="light"] .nav-links a.active {
+    color: #3d2b14;
+}
+
+[data-theme="light"] .nav-links a.active::after {
+    box-shadow: 0 0 6px rgba(61, 43, 20, 0.3);
+}
+
+[data-theme="light"] .nav-cta {
+    background: #3d2b14;
+    color: #fff;
+}
+
+[data-theme="light"] #theme-toggle {
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #5a5248;
+}
+
+[data-theme="light"] #theme-toggle:hover {
+    border-color: #3d2b14;
+    color: #3d2b14;
 }

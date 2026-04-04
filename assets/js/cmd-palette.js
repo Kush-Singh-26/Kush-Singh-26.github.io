@@ -1,4 +1,4 @@
-/* cmd-palette.js — Command palette */
+/* cmd-palette.js - Command palette */
 (function () {
     'use strict';
 
@@ -22,7 +22,7 @@
         const input   = document.getElementById('cmd-input');
         const results = document.getElementById('cmd-results');
 
-        const ALL_ITEMS = [
+        let ALL_ITEMS = [
             // Navigation
             { group: 'Navigate', icon: '⌂', title: 'Home', desc: 'Scroll to top', action: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
             { group: 'Navigate', icon: '◈', title: 'About', desc: '#about section', action: () => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }) },
@@ -47,6 +47,19 @@
             { group: 'Links', icon: '⎋', title: 'Blog', desc: 'kush-singh-26.github.io/blogs', action: () => window.open('https://kush-singh-26.github.io/blogs/', '_blank') },
             { group: 'Links', icon: '⎋', title: 'HuggingFace', desc: 'huggingface.co/Kush26', action: () => window.open('https://huggingface.co/Kush26', '_blank') },
         ];
+
+        document.addEventListener('blog-posts-ready', () => {
+            if (window.BLOG_POSTS) {
+                const blogItems = window.BLOG_POSTS.map(p => ({
+                    group: 'Blog Posts',
+                    icon: '✎',
+                    title: p.title,
+                    desc: p.excerpt.slice(0, 50) + '...',
+                    action: () => window.open(p.link, '_blank')
+                }));
+                ALL_ITEMS = [...ALL_ITEMS, ...blogItems];
+            }
+        });
 
         let selectedIdx = 0;
         let filtered = ALL_ITEMS;

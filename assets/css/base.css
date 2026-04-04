@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Unbounded:wght@200..900&family=Syne:wght@400;700;800&family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 /* --- SCROLLBAR & SCROLL PROGRESS --- */
 ::-webkit-scrollbar {
     width: 6px;
@@ -58,9 +60,8 @@
     --inner-glow-hover: inset 0 1px 0 rgba(255, 255, 255, 0.12);
 
     /* Fonts */
-    --font-heading:
-        "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-stack: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-heading: "Syncopate", sans-serif;
+    --font-stack: "Sora", sans-serif;
     --font-mono: "JetBrains Mono", monospace;
 
     /* Aurora colors (dark theme) */
@@ -117,16 +118,20 @@ html {
 }
 
 body {
-    background-color: var(--bg-body);
-    color: var(--text-primary);
+    background: var(--bg-body);
+    background-attachment: fixed;
     font-family: var(--font-stack);
-    -webkit-font-smoothing: antialiased;
+    color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
-    width: 100%;
-    /* FIX: ensure body is full-width and centered */
-    margin: 0 auto;
-    text-align: left;
+    position: relative;
+    /* Subtle text rendering improvements */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+[data-theme="light"] body {
+    background: var(--bg-body);
 }
 
 ::selection {
@@ -163,186 +168,9 @@ body {
 }
 
 /* --- AMBIENT EFFECTS & UTILS --- */
-.noise-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.025;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    will-change: transform;
-    transform: translateZ(0);
-}
-
-.grid-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -2;
-    background-image:
-        linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(
-        ellipse 80% 80% at 50% 50%,
-        black 20%,
-        transparent 80%
-    );
-    -webkit-mask-image: radial-gradient(
-        ellipse 80% 80% at 50% 50%,
-        black 20%,
-        transparent 80%
-    );
-    opacity: 0.35;
-}
-
-/* Aurora diffusion (hybrid) */
-.aurora-top {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -2;
-    overflow: hidden;
-    opacity: var(--aurora-strength);
-    mix-blend-mode: screen;
-    mask-image: linear-gradient(to bottom, black 0%, black 88%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 88%, transparent 100%);
-}
-
-.aurora-top::before,
-.aurora-top::after {
-    content: "";
-    position: absolute;
-    inset: -20% -10% -10% -10%;
-    background:
-        radial-gradient(circle at 20% 30%, var(--aurora-1), transparent 60%),
-        radial-gradient(circle at 55% 20%, var(--aurora-2), transparent 62%),
-        radial-gradient(circle at 80% 40%, var(--aurora-3), transparent 58%);
-    opacity: 0.9;
-    animation: aurora-drift 14s ease-in-out infinite alternate;
-    will-change: transform, opacity;
-}
-
-.aurora-top::after {
-    opacity: 0.65;
-    animation-duration: 20s;
-    animation-delay: -6s;
-    transform: translate3d(-6%, -4%, 0) scale(1.05);
-}
-
-.aurora-noise {
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: var(--aurora-noise);
-    mix-blend-mode: overlay;
-}
-
-@keyframes aurora-drift {
-    0% { transform: translate3d(-2%, -2%, 0) scale(1.02); opacity: 0.82; }
-    100% { transform: translate3d(4%, 3%, 0) scale(1.08); opacity: 0.95; }
-}
-
-[data-theme="light"] .noise-overlay {
-    opacity: 0.04;
-}
-
-[data-theme="light"] .aurora-top {
-    mix-blend-mode: multiply;
-    filter: saturate(1.05) contrast(1.05);
-}
-
-.ambient-orb {
-    position: fixed;
-    border-radius: 50%;
-    z-index: -1;
-    pointer-events: none;
-    background: radial-gradient(circle, var(--accent-primary) 0%, transparent 60%);
-}
-
-[data-theme="light"] .ambient-orb {
-    opacity: 0.15;
-}
-
-.orb-1 {
-    width: 600px;
-    height: 600px;
-    top: -100px;
-    right: -150px;
-    opacity: 0.08;
-    animation: float-orb1 25s infinite ease-in-out alternate;
-}
-
-.orb-2 {
-    width: 800px;
-    height: 800px;
-    bottom: -200px;
-    left: -200px;
-    opacity: 0.05;
-    animation: float-orb2 30s infinite ease-in-out alternate-reverse;
-}
-
-[data-theme="light"] .ambient-orb {
-    opacity: 0.15;
-}
-
-.orb-1 {
-    width: 600px;
-    height: 600px;
-    background: var(--accent-primary);
-    top: -100px;
-    right: -150px;
-    opacity: 0.08;
-    animation: float-orb1 25s infinite ease-in-out alternate;
-}
-
-.orb-2 {
-    width: 500px;
-    height: 500px;
-    background: var(--accent-cool);
-    bottom: -100px;
-    left: -150px;
-    opacity: 0.06;
-    animation: float-orb2 20s infinite ease-in-out alternate;
-}
-
-@keyframes float-orb1 {
-    0% {
-        transform: translate(0, 0) scale(1);
-    }
-    100% {
-        transform: translate(-40px, 40px) scale(1.08);
-    }
-}
-
-@keyframes float-orb2 {
-    0% {
-        transform: translate(0, 0) scale(1);
-    }
-    100% {
-        transform: translate(40px, -30px) scale(1.06);
-    }
-}
-
 .mono-text {
     font-family: var(--font-mono);
     letter-spacing: 0.02em;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .aurora-top::before,
-    .aurora-top::after {
-        animation: none;
-    }
 }
 
 /* Print-friendly layout */
@@ -397,7 +225,6 @@ body {
     #cmd-overlay,
     .noise-overlay,
     .grid-overlay,
-    .ambient-orb,
     #glsl-canvas,
     #constellation-canvas,
     #back-to-top,

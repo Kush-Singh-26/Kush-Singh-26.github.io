@@ -9,7 +9,7 @@ pinned: false
 ## Bidirectional Encoder Representation from Transformer
 
 
-Introduced in the paper [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/pdf/1810.04805), BERT is a language representation model. Earlier language models could only read text in one direction—either left-to-right or right-to-left. It's training consists of 2 phases, **Pre-Training** & **Fine-Tuning**. During the first phase the model pre-trains **deep bidirectional representations** from unlabbeled text by **jointly conditioning on both left and right context in all layers**. This allows to create great models for wide range of NLP tasks by just finetuning with a additional output layer.
+Introduced in the paper [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/pdf/1810.04805), BERT is a language representation model. Earlier language models could only read text in one direction - either left-to-right or right-to-left. It's training consists of 2 phases, **Pre-Training** & **Fine-Tuning**. During the first phase the model pre-trains **deep bidirectional representations** from unlabbeled text by **jointly conditioning on both left and right context in all layers**. This allows to create great models for wide range of NLP tasks by just finetuning with a additional output layer.
 
 ## Architecture
 

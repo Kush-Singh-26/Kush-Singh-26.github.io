@@ -192,7 +192,7 @@ $$\hat{\beta}_{lasso} = \underset{\beta}{\text{argmin}} \left( \sum_{i=1}^n (y_i
 
 ### Elastic Net
 
-Elastic Net combines both $L_1$ and $L_2$ penalties to get the best of both worlds—feature selection (Lasso) and handling correlated features (Ridge).
+Elastic Net combines both $L_1$ and $L_2$ penalties to get the best of both worlds - feature selection (Lasso) and handling correlated features (Ridge).
 
 $$\text{Objective} = \text{RSS} + \lambda_1 \sum |\beta_j| + \lambda_2 \sum \beta_j^2$$
 
