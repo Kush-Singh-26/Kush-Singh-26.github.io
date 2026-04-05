@@ -16,9 +16,6 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
-env:
-  GO_VERSION: '1.23'
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,19 +24,26 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ env.GO_VERSION }}
-
+          
       - name: Install Kosh
-        run: GOPROXY=direct go install github.com/Kush-Singh-26/kosh/cmd/kosh@latest
+        run: |
+          curl -sSL https://github.com/Kush-Singh-26/kosh/releases/latest/download/kosh-linux-amd64 -o kosh
+          chmod +x kosh
+          sudo mv kosh /usr/local/bin/
 
-      - name: Clone Blog Theme
+      - name: Setup Blog Theme
         run: |
           mkdir -p blogs-src/themes
-          git clone https://github.com/Kush-Singh-26/kosh-theme-blog blogs-src/themes/blog
+          if [ -d "blogs-src/themes/blog" ] && [ ! -d "blogs-src/themes/blog/.git" ]; then
+            rm -rf blogs-src/themes/blog
+          fi
+          if [ -d "blogs-src/themes/blog/.git" ]; then
+            cd blogs-src/themes/blog
+            git fetch origin
+            git reset --hard origin/main
+          else
+            git clone https://github.com/Kush-Singh-26/kosh-theme-blog blogs-src/themes/blog
+          fi
 
       - name: Restore File Timestamps
         uses: chetan/git-restore-mtime-action@v2
@@ -50,7 +54,7 @@ jobs:
           path: blogs-src/.kosh-cache
           key: kosh-cache-${{ runner.os }}-${{ github.sha }}
           restore-keys: kosh-cache-${{ runner.os }}-
-
+      
       - name: Build Blog
         working-directory: blogs-src
         run: kosh build -baseurl https://kush-singh-26.github.io/blogs

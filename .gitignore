@@ -1,4 +1,4 @@
-themes/
-.kosh-cache/
+blogs-src/themes/
+blogs-src/.kosh-cache/
 blogs/
 *.exe
