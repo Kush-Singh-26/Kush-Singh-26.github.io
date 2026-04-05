@@ -590,13 +590,13 @@
 
         const img = document.createElement('img');
         img.className = 'avatar-img';
-        img.src = 'assets/img/profile-photo.png';
+        img.src = 'assets/img/profile-photo.webp';
         img.alt = 'Kush Singh';
         wrap.appendChild(img);
 
         const label = document.createElement('span');
         label.className = 'avatar-label';
-        label.textContent = '// kush_singh.png';
+        label.textContent = '// kush_singh';
         wrap.appendChild(label);
 
         profileContent.appendChild(wrap);
