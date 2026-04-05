@@ -74,7 +74,7 @@ jobs:
       
       - name: Build Blog
         working-directory: blogs-src
-        run: kosh build -baseurl https://kush-singh-26.github.io/blogs
+        run: kosh build --baseurl https://kush-singh-26.github.io/blogs
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
