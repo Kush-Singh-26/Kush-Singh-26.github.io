@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kush-singh-26.github.io/sitemap/sitemap.xml

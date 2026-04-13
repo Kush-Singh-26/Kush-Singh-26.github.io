@@ -50,16 +50,16 @@ jobs:
 
       - name: Setup Blog Theme
         run: |
-          mkdir -p blogs-src/themes
-          if [ -d "blogs-src/themes/blog" ] && [ ! -d "blogs-src/themes/blog/.git" ]; then
-            rm -rf blogs-src/themes/blog
+          mkdir -p themes
+          if [ -d "themes/blog" ] && [ ! -d "themes/blog/.git" ]; then
+            rm -rf themes/blog
           fi
-          if [ -d "blogs-src/themes/blog/.git" ]; then
-            cd blogs-src/themes/blog
+          if [ -d "themes/blog/.git" ]; then
+            cd themes/blog
             git fetch origin
             git reset --hard origin/main
           else
-            git clone https://github.com/Kush-Singh-26/kosh-theme-blog blogs-src/themes/blog
+            git clone https://github.com/Kush-Singh-26/kosh-theme-blog themes/blog
           fi
 
       - name: Restore File Timestamps
@@ -68,12 +68,11 @@ jobs:
       - name: Restore Build Cache
         uses: actions/cache@v4
         with:
-          path: blogs-src/.kosh-cache
+          path: .kosh-cache
           key: kosh-cache-${{ runner.os }}-${{ github.sha }}
           restore-keys: kosh-cache-${{ runner.os }}-
       
       - name: Build Blog
-        working-directory: blogs-src
         run: kosh build --baseurl https://kush-singh-26.github.io/blogs
 
       - name: Setup Pages

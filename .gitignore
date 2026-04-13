@@ -1,34 +1,20 @@
-# Kosh SSG Build Artifacts (Root-level)
-*.html
-*.json
-*.xml
-*.txt
-*.js
-*.webmanifest
-/sitemap/
-/tags/
-/static/
-/blogs/
-/assets/
-
-# Secondary Output Folders
+# Build output
 /public/
-/content/
 
-# Kosh Engine Cache & Nested Artifacts
-blogs-src/.kosh-cache/
-blogs-src/public/
+# Kosh cache
+.kosh-cache/
 
-# Theme (Canonical path is themes/blog)
-# blogs-src/themes/blog/
+# Temp directories
+kosh-staging-*/
+kosh-backup-*/
 
-# Binaries
-*.exe
-kosh
-
-# OS & IDEs
-.DS_Store
+# IDE
 .vscode/
 .idea/
-*.swp
-*.bak
+
+# Binary
+kosh
+
+# Kosh generated (can be regenerated)
+page/
+tags/

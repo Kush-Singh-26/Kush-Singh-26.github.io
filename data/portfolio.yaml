@@ -1,0 +1,79 @@
+identity: "ML Engineer & Systems Developer"
+headline: "Beyond Binary"
+subHeadline: "Building intelligent systems at the intersection of ML, compilers, and distributed infrastructure."
+
+about:
+  largeText: "I'm Kush Singh — an engineer obsessed with the machinery beneath the abstraction. I build ML pipelines, static-site engines, and distributed systems. Currently pursuing my B.Tech in Computer Science, I research LLMs, train transformers from scratch, and write about all of it."
+  profileImg: "static/images/portfolio/profile-photo.webp"
+
+
+projects:
+  - eyebrow: "01 / NLP"
+    title: "Transformer from Scratch"
+    description: "Full implementation of the original Attention is All You Need architecture in PyTorch — positional encoding, multi-head attention, encoder-decoder, and custom training loop."
+    tags: ["PyTorch", "NLP", "Transformers", "CUDA"]
+    github: "https://github.com/Kush-Singh-26/NLP"
+
+  - eyebrow: "02 / SSG"
+    title: "Kosh — Static Site Generator"
+    description: "A production-grade Go SSG with BoltDB caching, WASM-powered search, WebP conversion, LaTeX/D2 SSR, and a live-reload dev server. Powers this very site."
+    tags: ["Go", "BoltDB", "WASM", "esbuild"]
+    github: "https://github.com/Kush-Singh-26/kosh"
+
+  - eyebrow: "03 / CV"
+    title: "Computer Vision Experiments"
+    description: "Hands-on implementations of CNNs, ResNets, and vision transformers for image classification and object detection tasks using PyTorch and CUDA."
+    tags: ["PyTorch", "CNN", "ResNet", "CUDA"]
+    github: "https://github.com/Kush-Singh-26/"
+
+  - eyebrow: "04 / Systems"
+    title: "Distributed Cache Layer"
+    description: "A consistent-hashing distributed cache built in Go with LRU eviction, replication, and a gRPC control plane for node discovery."
+    tags: ["Go", "gRPC", "Distributed Systems"]
+    github: "https://github.com/Kush-Singh-26/"
+
+  - eyebrow: "05 / LLM"
+    title: "LLM Fine-tuning Pipeline"
+    description: "End-to-end pipeline for fine-tuning large language models with LoRA/QLoRA adapters, RLHF preparation, and quantized inference."
+    tags: ["Python", "LoRA", "HuggingFace", "PEFT"]
+    github: "https://github.com/Kush-Singh-26/"
+    huggingFace: "https://huggingface.co/Kush-Singh-26"
+
+
+competencies:
+  - category: "Machine Learning"
+    items: "PyTorch, Transformers, LoRA/QLoRA, CUDA, HuggingFace, Scikit-learn, Numpy, Pandas"
+  - category: "Languages"
+    items: "Go, Python, C++, C, SQL, JavaScript, Bash"
+  - category: "Infrastructure"
+    items: "GitHub Actions, AWS basics, Nginx, WASM, esbuild, Static Site Generation"
+
+timeline:
+  - hash: "a1b2c3d"
+    date: "2022 → Present"
+    title: "B.Tech Computer Science — KIIT University"
+    subtitle: "Core: Algorithms, OS, Compilers, Distributed Systems, Machine Learning"
+    meta: "GPA: 9.16"
+
+  - hash: "e4f5a6b"
+    date: "2024"
+    title: "Research — Transformer Architectures"
+    subtitle: "Built Attention is All You Need from scratch; wrote detailed blog series on NLP internals"
+
+  - hash: "c7d8e9f"
+    date: "2023"
+    title: "Kosh SSG — Open Source"
+    subtitle: "Designed and shipped a production Go static site generator with BoltDB, WASM search, and LaTeX SSR"
+
+  - hash: "f0a1b2c"
+    date: "2022"
+    title: "Started Competitive Programming"
+    subtitle: "Codeforces active, LeetCode 200+ problems, algorithms deep-dives"
+
+socials:
+  email: "kush26cs@gmail.com"
+  github: "https://github.com/Kush-Singh-26"
+  linkedin: "https://linkedin.com/in/kush-singh-26"
+  huggingFace: "https://huggingface.co/Kush26"
+  leetCode: "https://leetcode.com/u/Kush-Singh-26/"
+  codeforces: "https://codeforces.com/profile/Kush-Singh-26"
