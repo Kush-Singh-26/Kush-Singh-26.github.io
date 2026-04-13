@@ -1,5 +1,4 @@
 title: "Kush Singh"
-description: "Deep dives into Machine Learning, Systems Engineering, and LLMs."
 logo: "static/images/logo.png"
 baseURL: ""
 language: "en"
@@ -11,6 +10,8 @@ themeDir: "themes"
 cacheDir: ".kosh-cache"
 theme: "blog"
 blogPrefix: "blogs"
+taxonomies:
+  tags: "blogs/tags"
 
 menu:
   - name: "Search"
