@@ -10,6 +10,14 @@ themeDir: "themes"
 cacheDir: ".kosh-cache"
 theme: "blog"
 blogPrefix: "blogs"
+navbar:
+  home:
+    title: "Kush Singh"
+    btnLabel: "Blogs"
+  blog:
+    title: "Kush Blogs"
+    btnLabel: "Home"
+
 taxonomies:
   tags: "blogs/tags"
 
