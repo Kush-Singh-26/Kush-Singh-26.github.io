@@ -150,8 +150,8 @@ $$ \begin{bmatrix} \sin(\omega \cdot (pos+k)) \\ \cos(\omega \cdot (pos+k)) \end
 
 Since,
 
-1. $\sin(A+B) = \sin(A)\cos(B) + \cos(A)\sin(B)$
-2. $\cos(A+B) = \cos(A)\cos(B) - \sin(A)\sin(B)$
+1. $ \sin(A+B) = \sin(A)\cos(B) + \cos(A)\sin(B) $
+2. $ \cos(A+B) = \cos(A)\cos(B) - \sin(A)\sin(B) $
 
 The matrix $M_k$ can be recreated perfectly as :
 
