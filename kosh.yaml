@@ -9,17 +9,17 @@ themeDir: "themes"
 # staticDir: "static"
 cacheDir: ".kosh-cache"
 theme: "blog"
-blogPrefix: "blogs"
+contentPrefix: "blogs"
 navbar:
   home:
     title: "Kush Singh"
     btnLabel: "Blogs"
-  blog:
+  posts:
     title: "Kush Blogs"
     btnLabel: "Home"
 
 taxonomies:
-  tags: "blogs/tags"
+  tags: "tags"
 
 menu:
   - name: "Search"
