@@ -13,7 +13,7 @@ Introduced in the paper [BERT: Pre-training of Deep Bidirectional Transformers f
 
 ## Architecture
 
-- BERT is based on the [encoder](https://kush-singh-26.github.io/blogs/2025/06/22/Transformer.html#encoder) stack of the Transformer model.
+- BERT is based on the [encoder](NLP-Transformer.md#encoder) stack of the Transformer model.
 - Unlike, the decoder of the transformer which is autoregressive and uses a mask to prevent future-peeking, enocoder processes the entire input sequence in a single pass.
 - Self-Attention is designed to relate every token to every other token in the input sequence.
 - This is one of the reason why the architecture is bi-directional.
@@ -23,12 +23,12 @@ Introduced in the paper [BERT: Pre-training of Deep Bidirectional Transformers f
 
 > Here, transformer and encoder of the transformer are used interchangeably.
 
-# Pre-Training
+## Pre-Training
 
 - The model is first pretrained to find intricate patterns of the language which creates powerful representations.
 - It is done using 2 tasks **Masked Language Model** & **Next Sentence Prediction**.
 
-## Masked Language Model (MLM)
+### Masked Language Model (MLM)
 
 - Unlike other language models whose task is to predict the next word in a sequence, MLM's objective is to **predict the original identity of randomly masked tokens based on the surrounding unmasked context**.
 
@@ -43,7 +43,7 @@ Introduced in the paper [BERT: Pre-training of Deep Bidirectional Transformers f
 
 > This teaches the model to understand relationships **within** a sequence.
 
-## Next Sentence Prediction (NSP)
+### Next Sentence Prediction (NSP)
 
 > This teaches the model to understand relationships **between** sentences.
 
@@ -108,7 +108,7 @@ The pre-training phase is a very compute and data intensive task. Thus, pre-trai
 
 ---
 
-# Fine-Tuning
+## Fine-Tuning
 
 - The pre-trained model can now be quickly and efficiently adapted for a wide variety of down stream (specific) NLP tasks.
 

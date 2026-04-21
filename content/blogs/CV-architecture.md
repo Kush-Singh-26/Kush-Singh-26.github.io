@@ -171,7 +171,7 @@ This leads to CNNs to having a smaller number of parameters.
 
 # PyTorch Implementation
 
-- Implementation of a simple CNN model is similar to that of the MLP model ([here](https://kush-singh-26.github.io/blogs/2025/03/17/NN-MLP.html)).
+- Implementation of a simple CNN model is similar to that of the MLP model ([here](NN-MLP.md)).
 - Only thing different is the definition of the model.
 
 <img src="/static/images/CNN6.png" alt="Image" width="700" height="300">
@@ -221,7 +221,7 @@ class CNN(nn.Module):
     - `optimizer = optim.Adam(model.parameters(), lr=0.001)`
 
 > ### Output
->```text
+>```text{.nolang}
 >Epoch [1/20], Loss: 0.0830
 >Epoch [2/20], Loss: 0.0047
 >Epoch [3/20], Loss: 0.0095

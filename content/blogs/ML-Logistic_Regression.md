@@ -116,8 +116,8 @@ MSE is used in Linear Regression because it creates a bowl-shaped convex curve. 
 
 However, applying MSE in Logistic Regression which uses a sigmoid function (non-linear function) will result in a **non-convex**, wavy and complex graph.
 
-!!! info Convex Functions
-  If a line segment between any 2 points of the function does not lie below the graph.
+<!--!!! info Convex Functions
+  If a line segment between any 2 points of the function does not lie below the graph.-->
 
 The non-convex curve has many *valleys* (local minima). If the algorithm starts in the wrong spot, it might get stuck in a shallow valley and think it has found the best solution when it hasn't. Hence, MSE is not used for Logistic Regression.
 
@@ -169,8 +169,8 @@ $$ \boxed{J(\mathbf{w}) = \mathcal{L}_{BCE} = - \frac{1}{m} \sum_{i=1}^m \left[ 
 
 ## Gradient Descent Derivation
 
-!!! success Goal
-    Minimize $J(\mathbf{w})$. For this, the gradient $\frac{\partial J}{\partial w_j} $ is needed.
+<!--!!! success Goal
+    Minimize $J(\mathbf{w})$. For this, the gradient $\frac{\partial J}{\partial w_j} $ is needed.-->
     
 ### 1. Derivative of Sigmoid Function
 
@@ -220,8 +220,8 @@ Update the weights for each training example $(x^{(i)}, y^{(i)})$ individually:
 
 $$ w_j := w_j - \alpha (\hat y^{(i)} - y^{(i)})x_j^{(i)}  $$
 
-!!! note
-    This rule is identical in form to the [Linear Regression update rule](/ML-Linear_Regression.md) but the definition of $\hat{y}$ has changed from linear ($\mathbf{w}^T\mathbf{x}$) to sigmoid ($\sigma(\mathbf{w}^T\mathbf{x})$).
+<!--!!! note
+    This rule is identical in form to the [Linear Regression update rule](/ML-Linear_Regression.md) but the definition of $\hat{y}$ has changed from linear ($\mathbf{w}^T\mathbf{x}$) to sigmoid ($\sigma(\mathbf{w}^T\mathbf{x})$).-->
 
 ---
 

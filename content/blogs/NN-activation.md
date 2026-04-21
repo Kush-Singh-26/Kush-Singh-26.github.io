@@ -7,11 +7,13 @@ pinned: false
 ---
 
 
-# Activation Functions
+## Activation Functions
+
 - It is used to introduce non-linearity into the neural network.
 - This allows to model complex relatioships in data.
 
 ## Why activation functions are needed ?
+
 ![Image](/static/images/NN2.png)
 [source](https://sanjayasubedi.com.np/deeplearning/why-non-linear-in-neural-networks/)
 
@@ -47,7 +49,7 @@ x = torch.tensor([1.0, 2.0, 3.0])
 output = linear_activation(x)
 ```
 
-### 2. Sigmoid Activation (σ)
+### 2. Sigmoid Activation $(\sigma)$
 
 $$ f(x) = \frac{1}{1 + e^{-x}} $$
 
@@ -71,7 +73,7 @@ output = sigmoid(x)
 
 $$ f(x) = \frac{e^{x} - e^{-x}}{e^{x} + e^{-x}} $$
 
-- output in range in **(-1,1)**
+- Output in range in **(-1,1)**
 - Centered around 0, helps in faster convergence
 - Usefull for hidden layers in deep networks.
 
@@ -90,10 +92,10 @@ output = tanh(x)
 
 $$ f(x) = max(0,x) $$
 
-- most widely used activation function.
-- output in range **[0,∞)**.
+- Most widely used activation function.
+- Output in range $[0,\infty)$.
 - Solves vanishing gradient problem (because no exponentials).
-- efficient computation.
+- Efficient computation.
 - Sparse activation (many neuron output 0).
 
 - _Drawback_
@@ -116,10 +118,10 @@ $$ f(x) =
 \end{cases}
 $$
 
-- output in range **(-∞,∞)**.
-- modified ReLU, allows a small gradient for negative inputs
-- default α = 0.01
-- prevents Dying ReLU Problem
+- Output in range $(- \infty,\infty)$.
+- Mmodified ReLU, allows a small gradient for negative inputs
+- Default $ \alpha = 0.01$
+- Prevents Dying ReLU Problem
 
 - _Drawback_
     - Requires tuning of slope
@@ -140,8 +142,8 @@ $$ f(x) =
 \end{cases}
 $$
 
-- output in range **(-∞,∞)**.
-- Unlike Leaky ReLU, α is learned during training.
+- Output in range $(- \infty,\infty)$.
+- Unlike Leaky ReLU, $ \alpha $ is learned during training.
 - Same equation as Leaky ReLU
 - Adaptive slope improves performance
 - Avoids dying ReLU issue.
@@ -165,8 +167,8 @@ $$ f(x) =
 \end{cases}
 $$
 
-- output in range **(-∞,∞)**.
-- smooths out the output for negative values
+- Output in range $(- \infty,\infty)$.
+- Smooths out the output for negative values
 - Avoids dying ReLU.
 - Helps with vanishing gradients
 
@@ -184,7 +186,7 @@ output = elu(x)
 
 $$ \sigma (x_i) = \frac{e^{x_i}}{\sum_{j} e^{x_j}} $$
 
-- output in range **(0,1)**.
+- output in range $ (0,1) $.
 - Used in the final layer of classification networks. (Multi- CLass)
 - Outputs probabilities.
 - Converts logits(unnormalized scores) into probabilities summing to 1.
@@ -201,6 +203,7 @@ output = softmax(torch.tensor([[1.0, 2.0, 3.0]]))
 
 ---
 ## Summary 
+
 - Activation functions introduce non-linearity to neural networks.
 - ReLU is widely used in deep learning due to its efficiency.
 - Tanh is preferred over Sigmoid due to its zero-centered outputs.

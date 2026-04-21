@@ -6,10 +6,10 @@ date: 2025-07-18
 pinned: false
 ---
 
-# PyTorch Implementation
+## PyTorch Implementation
 
 - In this post I will do detailed implementation of **Attention Is All You Need Deep Dive** paper.
-- I have already done a deep dive of the architecture [here](https://kush-singh-26.github.io/blogs/2025/06/22/Transformer.html).
+- I have already done a deep dive of the architecture [here](NLP-transformer.md).
 
 > This implementation is inspired from [pytorch-transformer](https://github.com/hkproj/pytorch-transformer) and [The Annotated Transformer](https://nlp.seas.harvard.edu/annotated-transformer/).
 
@@ -20,9 +20,9 @@ pinned: false
     4. **Perform Inference**
     5. **Visualize Attention**
 
-# 1. Implement the model
+## 1. Implement the model
 
-## Imports & other setups
+### Imports & other setups
 
 ```python
 import torch
@@ -31,7 +31,7 @@ import math
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ```
 
-## Input Embeddings
+### Input Embeddings
 
 - We will use `nn.Embeddings` to create the embeddings.
 - The tensor of input token's indices in the vocabulary are passed to the embedding layer.
@@ -62,7 +62,7 @@ class InputEmbedding(nn.Module):
 
 ---
 
-## Positional Encondings
+### Positional Encondings
 
 $$ PE_{(pos,2i)} = \sin\left( \frac{pos}{10000^{\frac{2i}{d_{model}}}} \right) $$
 
@@ -110,7 +110,7 @@ class PositionalEncoding(nn.Module):
 
 - These PE are fixed and not learned during the training as mentioned in the paper.
 
-## Layer Norm
+### Layer Norm
 
 - The input tensor which is flowing throught the model is of shape : `[batch_size, seq_len, d_model]`.
 
@@ -153,7 +153,7 @@ x_norm = (x - mean) / torch.sqrt(var + self.eps)
 
 - But, `epsilon` is not added inside the `sqrt` for readability and numerical stability. Also the difference between 2 is negligible.
 
-## Position-wise fully connected feed-forward network
+### Position-wise fully connected feed-forward network
 
 - It is a simple 2 layer MLP.
 
@@ -178,7 +178,7 @@ class FeedForward(nn.Module):
 
 - Finally, the expanded tensor is brought back to orginal `d_model` dimension using `layer2`.
 
-## Multi Head Attention
+### Multi Head Attention
 
 ```python
 class MHA(nn.Module):
@@ -235,7 +235,7 @@ class MHA(nn.Module):
     return attention_output
 ```
 
-- I have already discussed how attention is being computed in my previous post at this [point](https://kush-singh-26.github.io/blogs/2025/06/22/Transformer.html#the-practical-implementation).
+- I have already discussed how attention is being computed in my previous post at this [point](NLP-transformer.md#the-practical-implementation).
 
 ```python
 if mask is not None:
@@ -251,7 +251,7 @@ if mask is not None:
     - Thus, padding masks are used.
 
 - **Look-Ahead masks** :
-    - As mentioned in my previous [post](https://kush-singh-26.github.io/blogs/2025/06/22/Transformer.html#6-masked-multi-head-attention), these are used to prevent the decoder from looking at future tokens.
+    - As mentioned in my previous [post](NLP-Transformer.md#6-masked-multi-head-attention), these are used to prevent the decoder from looking at future tokens.
 
 - The value of these masks will be 1 at positions which the model has to focus on and 0 at which the positions which are to be ignored.
 
@@ -261,7 +261,7 @@ if mask is not None:
 - `attention_output = self.w_o(attention_output)` 
     - Finally the output tensor is returned after passing through a final linear layer which synthesizes the information from all heads into a single useful representation.
 
-## Skip Connection / <u>Add & Norm Block</u>
+### Skip Connection / <u>Add & Norm Block</u>
 
 - In the paper, **layernorm** was applied after residual addition (**post-norm**).
     - x = x + Dropout(Sublayer(x))
@@ -288,7 +288,7 @@ class SkipConnection(nn.Module):
     return x + self.dropout(sublayer(self.norm(x))) # pre-norm
 ```
 
-## Encoder Block
+### Encoder Block
 
 Now, as all the sublayers are defined, these can be grouped together to form **encoder blocks**.
 
@@ -318,7 +318,7 @@ class EncoderBlock(nn.Module):
 
 - The output of self attention wrapper is passed through ffn layer then and it's output is returned.
 
-## Encoder
+### Encoder
 
 - Now multiple encoder blocks are arranged one after another.
 - All the encoder blocks (eg. 6 according to the paper) form the **Encoder**.
@@ -341,7 +341,7 @@ class Encoder(nn.Module):
 
 - An extra normalization is also applied to the final output of the Enocder Stack, which ensures the final output is well-scaled before being passed to the decoder.
 
-## Decoder Block & Decoder
+### Decoder Block & Decoder
 
 - Similar to `EncoderBlock`, a `DecoderBlock` is designed.
 
@@ -388,7 +388,7 @@ class Decoder(nn.Module):
     return self.norm(x)
 ```
 
-## Final Projection / Output Layer
+### Final Projection / Output Layer
 
 ```python
 class Output(nn.Module):
@@ -408,7 +408,7 @@ class Output(nn.Module):
 
 - The input vector is projected of shape `[batch_size, seq_len, d_model]` is projected to shape `[batch_size, seq_len, vocab_size]`.
 
-## Transformer Class
+### Transformer Class
 
 - Now that all the parts of the transformer are defined, it is time to wrap everything up in a single class.
 
@@ -481,7 +481,7 @@ class Transformer(nn.Module):
 - The final output is passed throught the Output projection layer
 to get the final logits.
 
-## Building the Transformer
+### Building the Transformer
 
 Now that the final Transformer class is also defined, it is time to build the transformer.
 
@@ -529,9 +529,9 @@ def BuildTransformer(src_vocab_size, trg_vocab_size, src_seq_len, trg_seq_len, d
 
 > Now the model has been created, it is time to prepare the dataset.
 
-# 2. Prepare the Dataset and Tokenizer
+## 2. Prepare the Dataset and Tokenizer
 
-## Downloading the data
+### Downloading the data
 
 - The task is **Machine Translation English-Hindi**.
 - The dataset used is [cfilt/iitb-english-hindi](https://huggingface.co/datasets/cfilt/iitb-english-hindi).
@@ -556,7 +556,7 @@ ds = ds.filter(filter_long_example)
     - It filters out the sentence pairs where the English or the Hindi sentence is longer than 512 chars.
     - It is done because the model expects a fixed max. seq_len.
 
-## Prepairing the Tokenizer
+### Prepairing the Tokenizer
 
 ```python
 import tqdm
@@ -587,7 +587,7 @@ tokenizer.save("hindi-english_bpe_tokenizer.json")
 - BPE is an algo which starts by treating every individual character in the text as a token.
 - Then it iteratively merges the most frequently occurring pair of adjacent tokens until it reaches a predetermined vocabulary size.
 
-## Prepairing the Dataset
+### Prepairing the Dataset
 
 ```python
 from torch.utils.data import Dataset, DataLoader
@@ -662,11 +662,11 @@ val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, c
     - It takes the Dataset and provides an iterable over it.
     - `shuffle=True` : shuffles the data at every epoch to prevent the model from learning the order of the training examples.
 
-# 3. Train the model
+## 3. Train the model
 
 Now, the dataset is processed and tokenized it is time to train the model.
 
-## Parameters of the model & Making the model
+### Parameters of the model & Making the model
 
 ```python
 config = {
@@ -711,7 +711,7 @@ model = BuildTransformer(src_vocab_size,
                          d_ff).to(device)
 ```
 
-## Loss Function & Optimizer
+### Loss Function & Optimizer
 
 ```python
 criterion = nn.CrossEntropyLoss(ignore_index=PAD_token)
@@ -723,7 +723,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, betas=(0.9, 0.98), e
         - Tells the loss function to completely ignore the model's predictions for any position where the true word is a padding token. 
         - This ensures that the model isn't penalized for what it predicts after a sentence has ended.
 
-## Training Loops & Optimizations
+### Training Loops & Optimizations
 
 ```python
 scaler = GradScaler()
@@ -796,7 +796,7 @@ def train_epoch(model, dataloader, optimizer, criterion, device, config, epoch_n
 
 - To speed up the training and improve stability, **3 optimization techniques** are used.
 
-### 1. Mixed Precision Training
+#### 1. Mixed Precision Training
 
 - Perform calculations in lower precision formats `float16` instead of `float32`.
 - `with torch.cuda.amp.autocast():`
@@ -814,7 +814,7 @@ def train_epoch(model, dataloader, optimizer, criterion, device, config, epoch_n
     - Otherwise, `optimizer.step()` is skipped to avoid corrupting the params.
     - (Perform a single optimization step to update parameter).
 
-### 2. Gradient Accumulation
+#### 2. Gradient Accumulation
 
 - It is a trick to simulate a very large batch size.
 - Instead of updating the model's weights after every batch, the gradients are calculated and accumulated over several batches.
@@ -829,7 +829,7 @@ def train_epoch(model, dataloader, optimizer, criterion, device, config, epoch_n
     - This is done to average the gradients.
     -  Dividing the loss for each small batch ensures that the final accumulated gradient is the correct average.
     
-### 3. Gradient Clipping
+#### 3. Gradient Clipping
 
 - `torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)`
     - It checks the overall magnitude (or norm) of all the gradients combined. 
@@ -857,7 +857,7 @@ loss = criterion(output_flat, tgt_out_flat)
 - Thus, creating a one-step-shifted pair. 
 - This is done for teacher forcing setup.
 
-## Validation Loop
+### Validation Loop
 
 ```python
 def evaluate(model, dataloader, criterion, device):
@@ -887,7 +887,7 @@ def evaluate(model, dataloader, criterion, device):
 - Similar to `train_epoch` code with the mahow difference being that the model is in `model.eval()` mode.
 - Thus, gradients are not calculated and only forward pass is performed.
 
-## Final Main Loop
+### Final Main Loop
 
 ```python
 for epoch in range(config['epochs']):
@@ -923,11 +923,11 @@ for epoch in range(config['epochs']):
 
 - The model's state will be saved after evry epoch (1 pass over the entire train dataset).
 
-# 4. Inference
+## 4. Inference
 
 - There are 2 ways of doing inference.
 
-## Greedy Inference
+### Greedy Inference
 
 ```python
 def translate_sentence(sentence: str, model, tokenizer, device, max_len=100):
@@ -965,7 +965,7 @@ def translate_sentence(sentence: str, model, tokenizer, device, max_len=100):
     return translated_text
 ```
 
-## Beam Search
+### Beam Search
 
 ```python
 def translate_beam_search(sentence, model, tokenizer, device, pad_token_id, beam_size=3, max_len=50):
@@ -1025,22 +1025,23 @@ def translate_beam_search(sentence, model, tokenizer, device, pad_token_id, beam
     return tokenizer.decode(best_seq.tolist(), skip_special_tokens=True)
 ```
 
-# 5. Visualize Attention
+## 5. Visualize Attention
 
 > - **Source** : Climate change is one of the biggest challenges facing humanity today.
-- **Generated Translation**: जलवायु परिवर्तन आज मानवता के समक्ष उपस्थित सबसे बड़ी चुनौतियों में से एक है ।
+> - **Generated Translation**: जलवायु परिवर्तन आज मानवता के समक्ष उपस्थित सबसे बड़ी चुनौतियों में से एक है ।
 
 ### Encoder Self Attention Heat Map
 
-![Image](/static/images/Transformer_encoder.png)
+{{< figure src="/static/images/Transformer_encoder.png" alt="Encoder Self Attention Heat Map" caption="Encoder Self Attention Heat Map" >}}
 
 ### Decoder Self Masked Attention Heat Map
 
-![Image](/static/images/Transformer_decoder.png)
+{{< figure src="/static/images/Transformer_decoder.png" alt="Decoder Self Attention Heat Map" caption="Decoder Self Attention Heat Map" >}}
+
 
 ### Encoder-Decoder Cross Attention Heat Map
 
-![Image](/static/images/Transformer_cross.png)
+{{< figure src="/static/images/Transformer_cross.png" alt="Encoder-Decoder Cross Attention Heat Map" caption="Encoder-Decoder Cross Attention Heat Map" >}}
 
 --- 
 

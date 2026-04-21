@@ -72,8 +72,8 @@ jobs:
           key: kosh-cache-${{ runner.os }}-${{ github.sha }}
           restore-keys: kosh-cache-${{ runner.os }}-
       
-      - name: Build Blog
-        run: kosh build --baseurl https://kush-singh-26.github.io/blogs
+      - name: Build Site
+        run: kosh build --baseurl https://kush-singh-26.github.io/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -81,7 +81,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: public
 
   deploy:
     environment:

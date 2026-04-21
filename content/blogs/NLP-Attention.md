@@ -8,7 +8,7 @@ pinned: true
 
 ## What is the need of Attention?
 
-In [*seq2seq*](https://kush-singh-26.github.io/blogs/2025/05/19/Seq2Seq.html) models the encoder has to compress the whole soruce sequence into a single context vector. It is difficult for encoder to compress all the information about input sequence into a single context vector. At each generation step, different parts of source can be more useful than others. But the decoder has only access to same fixed context vector. This is a major bottleneck, that the netowrk is not able to remember long term dependencies. Attention mechanism tries to solve it by allowing the model to **focus on the currently most relevant part of the source sentence**.
+In [*seq2seq*](NLP-Seq2Seq.md) models the encoder has to compress the whole soruce sequence into a single context vector. It is difficult for encoder to compress all the information about input sequence into a single context vector. At each generation step, different parts of source can be more useful than others. But the decoder has only access to same fixed context vector. This is a major bottleneck, that the netowrk is not able to remember long term dependencies. Attention mechanism tries to solve it by allowing the model to **focus on the currently most relevant part of the source sentence**.
 
 ## What is Attention?
 
@@ -16,13 +16,9 @@ Introduced in the paper [(Bahdanau et al., 2015)](https://arxiv.org/pdf/1409.047
 - This $ c_i $ is a weighted sum of the encoder’s hidden states (annotations) from all source words.
 - There are many forms of Attention, here we will discuss **Bahdanau Attention** or **Additive Attention**.
 
----
-
 ```python
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 ```
-
----
 
 ## Encoder Architecture
 
@@ -54,7 +50,6 @@ class Encoder(nn.Module):
 
 ### Explanation of **Encoder** code :
 
-- 
 ```python
 self.rnn = nn.GRU(input_size, hidden_size, num_layers, batch_first=True, bidirectional=True, dropout=dropout)
 ```    
@@ -62,9 +57,6 @@ self.rnn = nn.GRU(input_size, hidden_size, num_layers, batch_first=True, bidirec
 - `batch_first=True` : The input and output tensors will have shape `(batch, seq_len, feature)`
 - `dropout` : Used to set the dropout probability between layer
 
----
-
-- 
 ```python
 def forward(self, x, mask, lengths):
 ```  
@@ -73,9 +65,6 @@ def forward(self, x, mask, lengths):
 - `mask` : Used for ignoring padding in attention
 - `lengths` : A list of actual (unpadded) lengths of each sequence
 
----
-
-- 
 ```python
     packed = pack_padded_sequence(x, lengths, batch_first=True)
 ```
@@ -93,7 +82,7 @@ def forward(self, x, mask, lengths):
 
 Let the data with padding (unsorted) be :
 
-```
+```text {.nolang}
 Seq 1 (len 3): [A, B, C, PAD, PAD]
 Seq 2 (len 5): [D, E, F, G, H]
 Seq 3 (len 2): [I, J, PAD, PAD, PAD]
@@ -101,7 +90,7 @@ Seq 3 (len 2): [I, J, PAD, PAD, PAD]
 
 After Sorting (Descending) it becomes :
 
-```
+```text {.nolang}
 Seq 2 (len 5): [D, E, F, G, H]
 Seq 1 (len 3): [A, B, C, PAD, PAD]
 Seq 3 (len 2): [I, J, PAD, PAD, PAD]
@@ -109,7 +98,7 @@ Seq 3 (len 2): [I, J, PAD, PAD, PAD]
 
 Now, when this mini-batch is packed nad processed by RNN :
 
-```
+```text {.nolang}
 Time step 1: Processes D, A, I (3 active sequences)
 Time step 2: Processes E, B, J (3 active sequences). Seq 3 (shortest) ends.
 Time step 3: Processes F, C (Now only 2 active sequences). Seq 1 ends.
@@ -123,7 +112,6 @@ Time step 5: Processes H (1 active sequence). Seq 2 ends.
 
 ---
 
-- 
 ```python
     output, final = self.rnn(packed)   
 ```
@@ -151,7 +139,6 @@ Time step 5: Processes H (1 active sequence). Seq 2 ends.
 
 ---
 
-- 
 ```python
     output, _ = pad_packed_sequence(output, batch_first=True)
 ```
@@ -162,7 +149,6 @@ Time step 5: Processes H (1 active sequence). Seq 2 ends.
 
 ---
 
-- 
 ```python
     fwd_final = final[0:final.size(0):2]    # slices out every even-indexed hidden state
     bwd_final = final[1:final.size(0):2]    # slices out every odd-indexed hidden state
@@ -176,7 +162,6 @@ Time step 5: Processes H (1 active sequence). Seq 2 ends.
 
 ---
 
-- 
 ```python
     final = torch.cat([fwd_final, bwd_final], dim=2)
 ```
@@ -210,48 +195,56 @@ An alignment function or energy function is defined as  :
 
 $$ a(s_{t-1} , h_i) = \nu_{a}^T \, tanh(W_a \, s_{t-1} + U_a \, h_i) = \text align (s_{t-1}, h_i) $$
 
-- #### Inputs :
-    - $ s_{t-1} \in \mathbb{R}^D $ : It is a vector which denotes the decoder’s previous hidden state. 
-        - Shape = [D x 1]
-    - $ h_{i} \in \mathbb{R}^{2D} $ : It is a vector which denotes the encoder’s hidden state at source position i.
-        - Shape = [2D x 1]
+#### Inputs :
 
-- #### Linear Mapping :
-    - A single score also called **energy** $ e_{t,i} $ measures **how well $ s_{t-1} $ and $ h_i $ match**.
-    - $ W_a $ and $ U_a $ are 2 learnable weight matrix of shapes [D x D] and [D x (2D)] respectively.
-        - They map $ s_{t-1} $ and $ h_i $ into a common D-dimensional space by matrix-vector multiplication.
+- $ s_{t-1} \in \mathbb{R}^D $ : It is a vector which denotes the decoder’s previous hidden state. 
+    - Shape = [D x 1]
+- $ h_{i} \in \mathbb{R}^{2D} $ : It is a vector which denotes the encoder’s hidden state at source position i.
+    - Shape = [2D x 1]
 
-- #### Applying nonlinearity :
-    - $ W_a \, s_{t-1} $ and $ U_a \, h_i $ are added to produce a D dimensional vector.
-    - **tanh()** is applied to this sum.
+#### Linear Mapping :
 
-- #### Projection to a scalar (energy) :
-    - $ \nu_{a} \in \mathbb{R} $ is a learnable column vector.
-    - A single real-valued number called **energy** is produced.
-    - $$ e_{t,i} = \nu_{a}^T \, [tanh(W_a \, s_{t-1} + U_a \, h_i)] $$
+- A single score also called **energy** $ e_{t,i} $ measures **how well $ s_{t-1} $ and $ h_i $ match**.
+- $ W_a $ and $ U_a $ are 2 learnable weight matrix of shapes [D x D] and [D x (2D)] respectively.
+    - They map $ s_{t-1} $ and $ h_i $ into a common D-dimensional space by matrix-vector multiplication.
+
+#### Applying nonlinearity :
+
+- $ W_a \, s_{t-1} $ and $ U_a \, h_i $ are added to produce a D dimensional vector.
+- **tanh()** is applied to this sum.
+
+#### Projection to a scalar (energy) :
+
+- $ \nu_{a} \in \mathbb{R} $ is a learnable column vector.
+- A single real-valued number called **energy** is produced.
+
+$$ e_{t,i} = \nu_{a}^T \, [tanh(W_a \, s_{t-1} + U_a \, h_i)] $$
 
 > This is performed using a Multi Layer Perceptron [MLP].
     
-- #### Normalizing the energies :
-    - After computing $ e_{t,i} $ for every i = 1,..., $ T_x $, ($ T_x $ denotes the length of the source sequence), they are normalized with a Softmax over  $ T_x $ positions.
+#### Normalizing the energies :
+    
+- After computing $ e_{t,i} $ for every i = 1,..., $ T_x $, ($ T_x $ denotes the length of the source sequence), they are normalized with a Softmax over  $ T_x $ positions.
 
-    - $$ \alpha_{t,i} = \frac{exp(e_{t,i})}{\sum_{j=1}^{T_x} exp(e_{t,j})} \quad \text for \, i = 1,..,T_x $$
+$$ \alpha_{t,i} = \frac{exp(e_{t,i})}{\sum_{j=1}^{T_x} exp(e_{t,j})} \quad \text for \, i = 1,..,T_x $$
 
-    - $ \alpha_{t,i} $ is the **attention weight** 
-    - $ \sum_{i = 1}^{T_x} \alpha_{t,i} = 1 $
+  - $ \alpha_{t,i} $ is the **attention weight** 
+  - $ \sum_{i = 1}^{T_x} \alpha_{t,i} = 1 $
 
 > - **Attention Weight** : Measures how strongly the decoder at time t wants to focus on (or align with) the i-th source word. 
 - **Energy** : Raw, unnormalized measure of similarity/relevance.
 
-- #### Computing the Context Vector
-    - $ c_t $ is the **weigthed sum of all encoder hidden states**
-    - $$ c_t = \sum_{i=1}^{T_x} \alpha_{t,i} \, h_i \quad \in \mathbb{R}^{2D} $$
+#### Computing the Context Vector
+    
+- $ c_t $ is the **weigthed sum of all encoder hidden states**
 
-    - $ c_t $ encodes which part of the source sentence the model should pay attention to when generating the t-th target word.
+$$ c_t = \sum_{i=1}^{T_x} \alpha_{t,i} \, h_i \quad \in \mathbb{R}^{2D} $$
+
+  - $ c_t $ encodes which part of the source sentence the model should pay attention to when generating the t-th target word.
 
 ---
 
-### The Modern QKV (**Query**-**Key**-**Value**) Framework
+## The Modern QKV (Query-Key-Value) Framework
 
 The QKV framework has become the standard for describing attention mechanism. I will use an example of a *library* to explain it.
 
@@ -264,11 +257,11 @@ The QKV framework has become the standard for describing attention mechanism. I 
 - **Query** : It is the search request that the most relevant card to what I know currently is required.
 
 > - **Query** : decoder’s current hidden state.
-- **Key** : encoder's hidden state (compared against query to compute a similarity score).
-- **Value** : encoder's hidden state (actual information retrieved used to form the context vector).
-- **In Bahdanau attention, keys and values are the same**.
+>- **Key** : encoder's hidden state (compared against query to compute a similarity score).
+>- **Value** : encoder's hidden state (actual information retrieved used to form the context vector).
+>- **In Bahdanau attention, keys and values are the same**.
 
-#### Implementation
+### Implementation
 
 ```python
 class BahdanauAttention(nn.Module):
@@ -315,7 +308,7 @@ class BahdanauAttention(nn.Module):
         return context, alphas
 ```
 
-###### Explanation :
+#### Explanation :
 
 - `mask` : It is a binary tensor that indicates which positions in a sequence should be attended to (1) and which should be ignored (0).
     - The mask ensures attention doesn't focus on these meaningless padding positions.
@@ -443,36 +436,36 @@ class Decoder(nn.Module):
 
 Some of the code is already explained using comments above.
 
-- 
 ```python
     self.pre_output_layer = nn.Linear(hidden_size + 2 * hidden_size + emb_size, hidden_size, bias=False)
 ```
-    - It is used to combine the following 3 things after each GRU step :
-        1. The embedding of previous target token (size = `emb_size`).
-        2. GRU's output at that step (size = `hidden_size`).
-        3. The attention context vector (size = `2 * hidden_size`).
+    
+- It is used to combine the following 3 things after each GRU step :
+    1. The embedding of previous target token (size = `emb_size`).
+    2. GRU's output at that step (size = `hidden_size`).
+    3. The attention context vector (size = `2 * hidden_size`).
 
 - `forward_step` method is used to perform a single decoder step.
 
 ---
 
-- 
 ```python
     query = hidden[-1].unsqueeze(1)  
 ```
-    - `hidden` : It is the current hidden state of the decoder GRU.
-        - Shape : `[num_layers, batch_size, hidden_size]`
-    - `hidden[-1]` : Last element along the first dimension.
-        - It extracts the hidden state of the topmost RNN layer
-        - Shape becomes : `[batch_size, hidden_size]`
-    - `.unsqueeze(1)` : Adds a dimension at position 1.
-        - Shape becomes : `[batch_size, 1, hidden_size]`
+   
+- `hidden` : It is the current hidden state of the decoder GRU.
+    - Shape : `[num_layers, batch_size, hidden_size]`
+- `hidden[-1]` : Last element along the first dimension.
+    - It extracts the hidden state of the topmost RNN layer
+    - Shape becomes : `[batch_size, hidden_size]`
+- `.unsqueeze(1)` : Adds a dimension at position 1.
+    - Shape becomes : `[batch_size, 1, hidden_size]`
 
 ---
 
 This whole Attention Mechanism can be visualized through this image :
 
-![Image](/static/images/ATT2.png)
+{{< figure src="/static/images/ATT2.png" alt="Attention Mechanism" caption="Attention Mechanism" >}}
 
 ---
 
@@ -517,7 +510,7 @@ class Generator(nn.Module):
 
 This whole process can be shown in this picture :
 
-![Image](/static/images/ATT1.png)
+{{< figure src="/static/images/ATT1.png" alt="Flow of Information in Encoder-Decoder Model" caption="Flow of Information in Encoder-Decoder Model" >}}
 
 - `batch_size` = B
 - `src_len` = M
@@ -531,7 +524,7 @@ This whole process can be shown in this picture :
 ---
 
 - Now the entire model is trained. This includes tokenization of the data, building a vocabulary, etc. 
-- I have discussed these things in detail in the post [Pytorch for NLP](https://kush-singh-26.github.io/blogs/2025/05/10/Pytorch-for-NLP.html).
+- I have discussed these things in detail in the post [Pytorch for NLP](NLP-Pytorch-for-NLP.md).
 
 > The complete implementation can be found [here](https://nbviewer.org/github/Kush-Singh-26/NLP/blob/main/Attention/Attention.ipynb).
 
@@ -539,7 +532,7 @@ This whole process can be shown in this picture :
 
 ### Visualizing Attention
 
-<img src="/static/images/ATT4.png" alt="Image" width="700" height="700">
+{{< figure src="/static/images/ATT4.png" alt="Attention Heatmap" caption="Attention Heatmap" width="700" height="700" >}}
 
 - The color of each cell (x, y) shows how much attention the model paid to source word x when it was generating target word y. A brighter color means more attention.
 
@@ -667,7 +660,7 @@ def beam_search_decode(model, src_tensor, src_mask, src_lengths, src_vocab, trg_
 
 Beam Search can be visualised through this diagram :
 
-![Image](/static/images/ATT3.png)
+{{< figure src="/static/images/ATT3.png" alt="Beam Search" caption="Beam Search" >}}
 
 - Here :
     - Source Sentence: "the cat sat"

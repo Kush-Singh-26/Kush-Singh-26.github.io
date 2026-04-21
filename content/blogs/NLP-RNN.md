@@ -6,7 +6,7 @@ date: 2025-05-04
 pinned: false
 ---
 
-# RNNs
+## RNNs
 
 - Process Sequential Data.
     - Data in which :
@@ -17,7 +17,7 @@ pinned: false
 - Share the same parameters / weights across all time steps.
 - They have a memeory which captures information about what has been calculated so far.
 
-- <img src="/static/images/RNN1.png" alt="Image" width="600" height="200">
+{{< figure src="/static/images/RNN1.png" alt="Unfolding RNN" caption="Visualization of Unfolding of a RNN unit through time." width="600" height="200" >}}
 
 ## Breakdown of RNN 
 
@@ -33,29 +33,33 @@ pinned: false
 - **o<sub>t</sub>** : output at time step `t`
     - Vector of probabilities :  $$ o_t = softmax(V s_t) $$
 
-<img src="/static/images/RNN6.png" alt="Image" width="550" height="250">
+{{< figure src="/static/images/RNN6.png" alt="Internals of RNN" caption="How RNNs are internally connected." width="550" height="250" >}}
 
 ## Training RNN / BBPT
 
 - Algorithm used is **Backpropagation Through Time (BPTT)**.
-    - Apply chain rule to propagatethe error backward through time, consdering the influence of each timestep's calculations on the final loss.
+    - Apply chain rule to propagatethe error backward through time, considering the influence of each timestep's calculations on the final loss.
 
 - RNN processes a sequence of inputs $ x_1,x_2,...,x_T $.
 - At each timestep `t`, the network performs the following calculations :
 
->- Linear transformation of current input (x<sub>t</sub>) and prevous hidden state (s<sub>t-1</sub>) to give pre-activation : **$$ z_t = U x_t + W s_{t-1} $$**
->- Pre-activation is passed through non-linearity to produce current hidden state : **$$ s_t = tanh(z_t) $$**
->- Linear transformation of current hidden state to produce output logits : **$$ o_t = V s_t $$**
->- Obtain probability distribution over the output classes : **$$ p_t = softmax(y_t) $$**
->- Loss calculation : **$$ J_t = crossentropy(p_t, labels_t) $$**
+>- Linear transformation of current input (x<sub>t</sub>) and prevous hidden state (s<sub>t-1</sub>) to give pre-activation : **$ z_t = U x_t + W s_{t-1} $**
+>- Pre-activation is passed through non-linearity to produce current hidden state : *$$ s_t = tanh(z_t) $$*
+>- Linear transformation of current hidden state to produce output logits : **$ o_t = V s_t $**
+>- Obtain probability distribution over the output classes : **$ p_t = softmax(y_t) $**
+>- Loss calculation : **$ J_t = crossentropy(p_t, labels_t) $**
     
 
-- **J<sub>t</sub>** = Total Cost of a given sequence of inputs = $$ - \sum\limits_{i} (labels)_{t,i} \log(p_{t,i}) $$
+- **J<sub>t</sub>** = Total Cost of a given sequence of inputs.
+
+$$ J_t = - \sum\limits_{i} (labels)_{t,i} \log(p_{t,i}) $$
+
 - **U** : weight matrix for input-to-hidden connection.
 - **V** : weight matrix for hidden-to-output connection.
 - **W** : weight matrix for recurrent hidden-to-hidden connection.
 
 - The total loss for a sequence of length T is the sum of the losses at each timestep : 
+
 $$
 J = \sum\limits_{t=1}^{T} J_t
 $$
@@ -63,31 +67,33 @@ $$
 > - Goal of BPTT : Minimize the total loss J by adjusting the parameters U, W, and V using gradient descent by calculating the gradients of J wrt these parameters.
 >- These gradients are computed by applying the chain rule through the unrolled RNN structure over time.
 
-- <img src="/static/images/RNN2.png" alt="Image" width="600" height="200">
+{{< figure src="/static/images/RNN2.png" alt="Flow of Information" caption="Flow of Information in an Unrolled RNN." width="600" height="200" >}}
+
 
 ### Gradient w.r.t V
 
--  $$ \frac {\partial J_t}{\partial V}  = \frac {\partial J_t}{\partial o_t}  \frac {\partial o_t}{\partial V} $$
+$$ \frac {\partial J_t}{\partial V}  = \frac {\partial J_t}{\partial o_t}  \frac {\partial o_t}{\partial V} $$
 
 - Gradient of loss w.r.t. output logits : $$ \frac {\partial J_t}{\partial o_t} = p_t - labels_t $$
 
-- Thus,
-    - #### ***$$ \frac {\partial J}{\partial V} = \sum\limits_{t=1}^T (p_t - labels_t) s_t^\top  $$***
+Thus,
+
+$$ \frac {\partial J}{\partial V} = \sum\limits_{t=1}^T (p_t - labels_t) s_t^\top  $$
 
 ### Gradient w.r.t W 
 
 - A change in W at timestep t affects $ z_t $, which influences $ s_t $ and this hidden state recursively contributes to all future hidden states and outputs. 
 - Therefore, changes in W not only affect the loss at time t, but also future losses.
 
-- $$ \frac{\partial J}{\partial W} = \sum_{t=1}^{T} \left. \frac{\partial J}{\partial W} \right|_t $$
+$$ \frac{\partial J}{\partial W} = \sum_{t=1}^{T} \left. \frac{\partial J}{\partial W} \right|_t $$
 
-- At each time step `t` : <br>
+- At each time step `t` :
 
-- $$
+$$
 \left. \frac{\partial J}{\partial W} \right|_t = \frac{\partial J_t}{\partial z_t} \cdot \frac{\partial z_t}{\partial W} = \delta_t s_{t-1}^\top
 $$
 
-- Where:
+Where:
 
 $$ \delta_t = \frac{\partial J_t}{\partial z_t} 
 = \left(\frac{\partial J_t}{\partial s_t} \circ \frac{\partial s_t}{\partial z_t} \right)
@@ -98,26 +104,28 @@ $$ \delta_t = \frac{\partial J_t}{\partial z_t}
 
 - $ s_t $ also affects $ s_{t+1} $ , thus affecting loss at future time steps 
 
-
 - Jacobian $  \frac{\partial z_t}{\partial W} = s_{t-1}^\top \quad \text{since} \quad z_t = Ux_t + Ws_{t-1} $
 
 - **$ \circ $** = element wise multiplication and y = labels 
 
-- Hence,
-    -  $$ \frac {\partial J}{\partial W} = \sum\limits_{t=1}^{T} \delta_t s_{t-1}^\top $$
-    - Computed recursively backwards in time starting from time t = T to t = 1.
+Hence,
+
+$$ \frac {\partial J}{\partial W} = \sum\limits_{t=1}^{T} \delta_t s_{t-1}^\top $$
+
+- Computed recursively backwards in time starting from time t = T to t = 1.
 
 ### Gradient w.r.t U
 
 - Weight matrx U only affects $ z_t $ at the current time step.
 - For a single time stpe t : 
-$$ \left. \frac{\partial J}{\partial W} \right|_t = \delta_t x_t^\top 
-$$
+
+$$ \left. \frac{\partial J}{\partial W} \right|_t = \delta_t x_t^\top  $$
 
 - $ \delta_t $ is same as that for W.
 
 - Hence,
-    -  $$ \frac {\partial J}{\partial U} = \sum\limits_{t=1}^{T} \delta_t x_{t}^\top $$
+
+$$ \frac {\partial J}{\partial U} = \sum\limits_{t=1}^{T} \delta_t x_{t}^\top $$
 
 ---
 
@@ -133,7 +141,11 @@ In Recurrent Neural Networks (RNNs), the **vanishing gradient problem** arises w
 
 ### Gradient Derivation
 
-Let the total loss be $$ J = \sum_{t=1}^T J_t $$. The gradient of  J  with respect to the hidden-to-hidden weights  W is:
+Let the total loss be 
+
+$$ J = \sum_{t=1}^T J_t $$
+
+The gradient of  J  with respect to the hidden-to-hidden weights W is:
 
 $$
 \frac{\partial J}{\partial W} = \sum_{t=1}^{T} \sum_{k=1}^{t} 
@@ -166,7 +178,8 @@ $$
 \left\| \frac{\partial s_t}{\partial s_k} \right\| \leq \|W\|^{t-k} \cdot \prod_{i=k+1}^{t} \|\text{diag}(1 - s_i^2)\|
 $$
 
-- $$ \|\text{diag}(1 - s_i^2)\| \leq 1 , \quad since \, ( 1 - s_i^2 \in [0,1]) $$
+$$ \|\text{diag}(1 - s_i^2)\| \leq 1 , \quad since \, ( 1 - s_i^2 \in [0,1]) $$
+
 - If $ \|W\| < 1 $ gradients shrink exponentially → **vanishing gradient**
 - If $ \|W\| > 1 $, gradients grow exponentially → **exploding gradient**
 
@@ -175,11 +188,12 @@ $$
 - This is a result of repeatedly multiplying through Jacobians during backpropagation.
 - Solutions include architectures like LSTM/GRU or gradient clipping to address these issues.
 
-# Implementing RNN from scratch in PyTorch
+---
 
-## Task : Character level RNN for classification
+## Implementing Character level RNN for classification from scratch in PyTorch
 
 ### Data :
+
 - A directory which consists of sub directories.
 - Each subdirectory's name is a name of a language.
 - They contain names of that particular language.
@@ -194,7 +208,8 @@ $$
 ### Coding the RNN :
 
 #### ***Structure*** :
-- <img src="/static/images/RNN3.png" alt="Image" width="400" height="400">
+
+{{< figure src="/static/images/RNN3.png" alt="Flow of output and hidden state generation." caption="Flow of output and hidden state generation." width="400" height="400" >}}
 
 - The input is combined with the hidden state and output logits are generated using softmax along with hthe new hidden state which is used in next time step. 
 
@@ -259,7 +274,7 @@ optimizer = torch.optim.AdamW(rnn.parameters(), lr=learning_rate)
 
 ---
 
-> - Using `nn.RNN`
+### Using **nn.RNN**
 
 ```python
 import torch.nn as nn
@@ -281,9 +296,11 @@ class CharRNN(nn.Module):
         return output
 ```
 
-# Application of RNNs
+---
 
-![Image](/static/images/RNN4.png)
+## Application of RNNs
+
+{{< figure src="/static/images/RNN4.png" alt="Application of RNN" caption="Different Arrangements of RNN cells." >}}
 
 - Each arrow is function like matric multiplication.
 - These arrows are connected to rectangles which represent vectors :
@@ -314,7 +331,7 @@ class CharRNN(nn.Module):
 
 ## Bidrectional RNN (BRNN)
 
-- <img src="/static/images/RNN5.png" alt="Image" width="550" height="300">
+{{< figure src="/static/images/RNN5.png" alt="Bidirectional RNN" caption="Bidirectional RNN" width="550" height="300" >}}
 
 - Unlike standard RNN which only uses the past context, a BRNN can use both past and future contexts.
 - It has 2 separate hidden states.
@@ -327,13 +344,16 @@ class CharRNN(nn.Module):
 ## Teacher Forcing :
 
 - Instead of feeding its own prediction to a model as input for next time step generation, the model is fed the actual ground truth.
-> At time step t, the model receives the ground truth from t-1 as input.
+- 
+> At time step `t`, the model receives the ground truth from `t-1` as input.
 
-#### Advantages
+### Advantages
+
 - This leads to faster convergence, since ground truths are more accurate.
 - Reduces the risk of the model drifting into incorrect sequences due to compunding prediction errors.
 
-#### Disadvantages
+### Disadvantages
+
 - This may lead to **error accumulation** and **poor performance** at inference time.
 - **Exposure Bias** : During inference, model won't have access to the ground truth and must rely on its own predictions.
 

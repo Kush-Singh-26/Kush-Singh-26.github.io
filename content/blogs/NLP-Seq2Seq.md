@@ -6,7 +6,7 @@ date: 2025-05-19
 pinned: false
 ---
 
-# Sequence-to-Sequence Models
+## Sequence-to-Sequence Models
 
 - Seq2Seq models are a neural network architecture designed to transform one sequence (of text) to another sequence.
 - The input and output are both sequences and can be of varying lengths.
@@ -22,7 +22,7 @@ pinned: false
 
 - It consists of a **Decoder** and an **Encoder** network.
 
-![Image](/static/images/seq2seq1.png)
+{{< figure src="/static/images/seq2seq1.png" alt="Architecture of Seq-2-Seq Models" caption="Architecture of Seq2Seq Models" >}}
 
 ### Encoder
 
@@ -140,7 +140,8 @@ class Seq2Seq(nn.Module):
         return outputs
 ```
 
-#### **Teacher Forcing** 
+#### Teacher Forcing
+
 - Feeding the actual target token instead of the predicted one to help the model learn faster.
 - Prevents the model from compounding its own early mistakes during training.
 - At each time step `t` use the correct target prediction or the model's previous prediction based on a **teacher_forcing_ratio**.
@@ -157,8 +158,6 @@ else:
 
 - Thus, *scheduled sampling* can be used  : start with a high ratio and gradually decrease it over epochs.
 
----
-
 > The complete code can be found [here](https://github.com/Kush-Singh-26/NLP/tree/main/Seq2Seq)
 
 ---
@@ -172,7 +171,7 @@ else:
 
 - If the model assigns probabilities $ p_1 , p_2 , p_3 , ... , p_T $ to a sequence of length T, the perplexity is :
 
-- $$ \text{Perplexity} = exp(- \frac{1}{T} \sum_{t = 1} ^ T \log p_t) $$
+$$ \text{Perplexity} = exp(- \frac{1}{T} \sum_{t = 1} ^ T \log p_t) $$
 
 
 - If loss function used is `nn.CrossEntropyLoss` which computes the negative **log-likelihood**, it can be exponentiated to get perplexity.
@@ -196,7 +195,7 @@ perplexity = torch.exp(loss) # np.exp(loss)
 
 ---
 
-# Drawbacks of Seq2Seq models
+## Drawbacks of Seq2Seq models
 
 1. Entire input sequence is compressed into a single fixed-size (dimension of hidden state) context vector.
     - This causes the model to struggle with long / complex sequences.

@@ -15,7 +15,7 @@ pinned: false
 
 - Given data is like :
 
-```c
+```c {.nolang}
 text,label
 "I love deep learning",1
 "NLP is fun",0
@@ -387,7 +387,7 @@ dataloader = DataLoader(dataset, batch_size=32, shuffle=True, collate_fn=collate
 - Each token index passes through this embedding layer to produce a dense vector.
 - The words in a sentence are first converted to indices via the vocabulary, then the embedding layer outputs a vector for each index. 
 
-- <img src="/static/images/NLP1.png" alt="Image" width="600" height="350">
+{{< figure src="/static/images/NLP1.png" alt="Text to Embedding" caption="Text to Embedding" width="600" height="350" >}}
 
 ```python
 embedding = nn.Embedding(num_embeddings = len(vocab), embedding_dim=100, padding_idx=vocab['<PAD>'])

@@ -23,7 +23,7 @@ pinned: false
 
 #### 2. Region Proposal Network (RPN)
 - Same as Faster R-CNN 
-- Check [Here](https://kush-singh-26.github.io/blogs/2025/04/25/CV-Object-Detection.html#faster-r-cnn)
+- Check [Here](CV-Object-Detection.md#faster-r-cnn)
 
 #### 3. RoI Align
 - ###### Problem with RoI Pooling :

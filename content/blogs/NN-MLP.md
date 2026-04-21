@@ -6,8 +6,6 @@ date: 2025-03-17
 pinned: false
 ---
 
-# Multi Layer Preceptron (MLP)
-
 ## Importing Libraries 
 
 ```python
@@ -18,12 +16,14 @@ import torchvision
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 ```
+
 - `import torch.optim as optim` : For optmization.
 - `import torchvision.transforms as tranforms` : For preprocessing data (images).
 
 ## Dataset
 
 ### MNIST Dataset
+
 - 60,000 training images and 10,000 test images.
 - Each image is 28×28 pixels and represents a handwritten digit from 0 to 9.
 - Images are grayscale, meaning each pixel has a value between 0 and 255.
@@ -32,6 +32,7 @@ import matplotlib.pyplot as plt
 - Dataset is available in `torchvision.datasets.MNIST`.
 
 ## Preprocessing 
+
 - Applying transformations to the image.
 
 ```python
@@ -90,6 +91,7 @@ for i in range(6):
     plt.axis('off')     # removes the axis
 plt.show()
 ```
+
 - `next(examples)` : Each time it is called, it retrieves the next batch from `train_loader`.
 - `images[i][0]` :
     - `images[i]` : selects the **i-th** image from the batch
@@ -104,7 +106,10 @@ MlP model will consists of the following layers :
     - Images in MNIST are of the shape **(1, 28, 28)**
     - 28x28 = 728 neurons
     - Flattened images
-> In PyTorch (channels, height, width) but in TensorFlow/Keras (height, width, channels)
+
+{{< callout type="Note" title="Caution" >}}
+In PyTorch (channels, height, width) but in TensorFlow/Keras (height, width, channels)
+{{< /callout >}}
 
 2. **Hidden Layer 1**
     - 128 neurons
@@ -119,17 +124,20 @@ MlP model will consists of the following layers :
     - One neuron for each no **[0, 1, ..., 9]**
     - `Softmax` activation
 
-![Image](/static/images/NN8.png)
+{{< figure src="/static/images/NN8.png" alt="Feed forward neural network" caption="Feed Forward Neural Network" >}}
 
 ### How to Choose the Number of Neurons?
->1. Start with a simple architecture (like 128 → 64).
->2. Use heuristics:
->    - Keep neurons between input and output sizes.
->    - Decrease neurons layer-by-layer for feature compression.
->3. Experiment:
->    - Too few neurons → underfitting (poor accuracy).
->    - Too many neurons → overfitting (memorizing training data).
->4. Use validation accuracy to tune the model.
+
+1. Start with a simple architecture (like 128 → 64).
+2. Use heuristics:
+    - Keep neurons between input and output sizes.
+    - Decrease neurons layer-by-layer for feature compression.
+3. Experiment:
+    - Too few neurons → underfitting (poor accuracy).
+    - Too many neurons → overfitting (memorizing training data).
+4. Use validation accuracy to tune the model.
+
+---
 
 ```python
 class MLP(nn.Module):
@@ -148,6 +156,7 @@ class MLP(nn.Module):
         x = self.fc3(x)
         return x
 ```
+
 - `x = x.view(x.size(0), -1)`
     - If x is a batch of images of shape (batch_size, 1, 28, 28),
     - `.view(x.size(0), -1)` reshapes it to (batch_size, 784),
@@ -168,9 +177,7 @@ class MLP(nn.Module):
             - $ W_1x_1 $ is a weight matrix (size: 128 × 784)
             - $ b_1 $ is a bias vector (size: 128)
 
-## Loss Function
-
-### Cross-Entropy Loss
+## Loss Function : Cross-Entropy Loss
 
 $$ Loss = - \sum y_i \log(\hat y_i) $$
 
@@ -196,22 +203,21 @@ model = MLP().to(device)
 
 ---
 
-## Optimizer
+## Optimizer :Adam
 
-### Adam
 - It updates model's parameters efficiently.
 ```python
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 ```
 
 ## Training the model
+
 Steps involved in training process :
 
 1. **Forward Pass** : compute predictions
 2. **Calculate Loss** : compare prediction with actual labels
 3. **Backward Pass** : compute gradients using backpropagation
 4. **Update Weights** : Adjust model parameters
-
 
 ```python
 num_epoch = 20
@@ -245,6 +251,7 @@ for epoch in range(num_epoch):
     - adjusts the weights in the direction that minimizes the loss.
 
 ## Evaluating the model
+
 - Testing the model on unseen data, i.e., test data
 
 ```python
@@ -287,8 +294,9 @@ print(f'Accuracy: {100 * correct / total:.2f}%')
 
 ---
 
-> ### Output
-```text
+### Output
+
+```text {.nolang}
 Epoch [1/20], Loss: 0.2281
 Epoch [2/20], Loss: 0.1154
 Epoch [3/20], Loss: 0.0731

@@ -14,12 +14,15 @@ navbar:
   home:
     title: "Kush Singh"
     btnLabel: "Blogs"
-  posts:
+  section:
     title: "Kush Blogs"
     btnLabel: "Home"
+  homeBadge: "Latest Updates"
 
 taxonomies:
   tags: "tags"
+  series: "series" # Chronologically sorted (earliest first)
+  events: "events" # Chronologically sorted for timeline views
 
 menu:
   - name: "Search"
@@ -42,15 +45,38 @@ footerMenu:
     url: "/rss.xml"
     target: "_blank"
 
+# Social Cards (Open Graph Images)
+socialCards:
+  background: "#141816"    # Deep Inky Black/Sage (matches --bg-body)
+  gradient:                # Gradient from Sage Ink to Aged Gold
+    - "#8ba395"            # Sage Ink (matches --accent-primary)
+    - "#b59d6d"            # Aged Gold (matches --accent-secondary)
+  angle: 135               # Gradient angle
+  textColor: "#e1e9e4"     # Slate Text (matches --text-main)
+
 imageWorkers: 8
 shouldCompressImages: true
 
 features:
+  useRawMarkdown: true # Copies .md files to output for "View Source" support
   generators:
     isSitemapEnabled: true
     isRSSEnabled: true
-    isSearchEnabled: true
     isPWAEnabled: true
+    search:
+      isEnabled: true
+      # Tune BM25 ranking and field boosts
+      ranking:
+        titleBoost: 50.0       # Strong priority for title matches
+        tagBoost: 10.0         # Priority for tag matches
+        descriptionBoost: 5.0  # Priority for description matches
+        contentBoost: 0.05     # Minimal priority for body text to favor titles
+        bm25K1: 1.2            # Term frequency saturation
+        bm25b: 0.4             # Reduced length normalization (less penalty for short titles)
+      # Federated Search: Fetch indices from multiple Kosh sites
+      endpoints:
+        - "/search.bin"        # Local index
+        # - "https://another-kosh-site.com/search.bin"
     graph:
       isEnabled: true
-      showsTags: true
+      showsTaxonomies: true

@@ -8,38 +8,39 @@ pinned: false
 
 ## Underfitting and Overfitting
 
-**Underfitting**
+### Underfitting
 - When the does not capture the underlying patterns in the data.
 - Generally occurs if the model is too simple.
 - Performs poorly on the training set 
 
-**Overfitting**
+### Overfitting
 - When the model memorizes the training data set.
 - The data available may not be sufficient or the model is too complex.
 - This leads to model performing poorly on test data / unseen data.
 - The model is not able to _generalize_.
 
-![Image](/static/images/NN9.png)
+{{< figure src="/static/images/NN9.png" alt="Underfitting vs Overfitting" caption="Underfitting vs Overfitting" >}}
 
-# Regularization
+## Regularization
 
 - It is used to **prevent overfitting** be restricting model's complexity.
 - It reduces large weights and improves generalization.
 - It achieves so by adding penalties to the loss function or introducing random noise during training.
 
-## L1 Regularization (Lasso)
-- adds the sum of the absolute values of the weights to the loss function.
+### L1 Regularization (Lasso)
+
+- Adds the sum of the absolute values of the weights to the loss function.
 - `loss = loss_og + lambda * sum(abs(w) for w in weights)`
-- it tends to produce sparse models where many weights become exactly zero
+- It tends to produce sparse models where many weights become exactly zero
     - effectively performing feature selection
 
 - `lambda` : hyperparameter controlling regularization strength
 
-## L2 Regularization (Ridge)
-- also called **Weight decay**
-- adds the sum of the squared values of the weights to the loss function.
+### L2 Regularization (Ridge)
+- Also called **Weight decay**
+- Adds the sum of the squared values of the weights to the loss function.
 - `loss = loss_og + lambda * sum(w^2 for w in weights)`
-- it penalizes large weights and tends to produce models with many small weights rather than a few large ones.
+- It penalizes large weights and tends to produce models with many small weights rather than a few large ones.
 - `optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-5)`
     - It can also be applied directly using `weight_decay` (lamda or regularization strength).
 
@@ -74,11 +75,13 @@ def train_with_regularization(model, train_loader, optimizer, criterion, l1_lamb
 ```
 
 ## Dropout
-- randomly deactivates a fraction of neurons during each training iteration.
-- prevents neurons from co-adapting too much.
-- forces the model to learn robust features.
+
+- Randomly deactivates a fraction of neurons during each training iteration.
+- Prevents neurons from co-adapting too much.
+- Forces the model to learn robust features.
 
 ### Working
+
 1. During Training:
     - Some neurons are randomly turned off (set to zero) with probability `r` (drop rate).
     - This prevents the network from relying too much on specific neurons and helps it learn more general features.
@@ -127,7 +130,7 @@ class SimpleNetWithDropout(nn.Module):
 - Modern frameworks handle the scaling during inference automatically.
 
 ## Early Stopping
-- stops training when the performance on a validation set starts to degrade, indicating that the model is beginning to overfit.
+- Stops training when the performance on a validation set starts to degrade, indicating that the model is beginning to overfit.
 - It requires a validation set to function.
 
 PyTorch implementation
@@ -165,15 +168,15 @@ def train_with_early_stopping(model, train_loader, val_loader, optimizer, criter
     return model
 ```
 
-- after each epoch it checks if the validation loss improved or not
-    - if improved
+- After each epoch it checks if the validation loss improved or not
+    - If improved
         - Saves the current model as the best model
-    - if did not improved
+    - If did not improved
         - Increases a `counter` variable which may cause early exit if the number of times this happens increases a fixed variable `patience`.
 
 --- 
 
-# Normalization 
+## Normalization 
 
 - Normalization methods standardize inputs or intermediate outputs to stabilize and speed up training.
 - Stabilizes training by keeping activations well scaled.
@@ -191,9 +194,9 @@ def train_with_early_stopping(model, train_loader, val_loader, optimizer, criter
 >    - stabilizes and accelerates training.
 
 ## Batch Normalization
-- normalizes the activations of each layer for each mini-batch,
-    - helps address internal covariate shift 
-    - allows for higher learning rates.
+- Normalizes the activations of each layer for each mini-batch,
+    - Helps address internal covariate shift 
+    - Allows for higher learning rates.
 
 ### Working
 
@@ -232,8 +235,9 @@ class ConvNetWithBatchNorm(nn.Module):
 - Also serves as regularization technique.
 
 ## Layer Normalization
-- normalizes activations per sample instead of across the batch.
-- normalizes across all features for each example independently, making it effective for recurrent networks and transformers where batch statistics may vary significantly.
+
+- Normalizes activations per sample instead of across the batch.
+- Normalizes across all features for each example independently, making it effective for recurrent networks and transformers where batch statistics may vary significantly.
 
 PyTorch implementation
 ```python
@@ -258,6 +262,7 @@ class RNNWithLayerNorm(nn.Module):
 ```
 
 ## Instance Normalization
+
 - Instance normalization normalizes each sample individually, often used in style transfer tasks.
 - Computes mean and variance for each sample and each channel.
 
@@ -266,6 +271,7 @@ self.inorm = nn.InstanceNorm2d(num_features)
 ```
 
 ## Group Normalization
+
 - Group normalization divides channels into groups and normalizes within them
 - Splits channels into groups and computes mean and variance for each group.
 
@@ -275,6 +281,7 @@ self.gn = nn.GroupNorm(num_groups, num_channels)
 
 
 ## Technique Combinations
+
 - Different regularization and normalization techniques can be combined for better results:
     - BatchNorm + Dropout: Apply dropout after batch normalization, not before
     - L2 + Dropout: These work well together and address different aspects of overfitting

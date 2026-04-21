@@ -6,7 +6,8 @@ date: 2025-08-05
 pinned: false
 ---
 
-# Need for Optimizing 
+## Need for Optimizing 
+
 The original transformer's (Vaswani et al., 2017) attention mechanism (**scaled dot-product attention**) has time complexity of $O(n^2 \cdot d)$, where $n$ = sequence length and $d$ = dimensionality of the embedding.
 
 > - Explanation of time complexity :
@@ -23,11 +24,11 @@ The original transformer's (Vaswani et al., 2017) attention mechanism (**scaled 
     3. **Multi-Query Attention (MQA)** & **Grouped-Query Attention (GQA)**
 
 
-# Key-Value Caching : Efficient Inference
+## Key-Value Caching : Efficient Inference
 
 KV-Caching is used in the decoder's self attention. It speeds up the autoregresive generation of text. To understand KV-Cache, it is important to revisit how the (causal) self attention works.
 
-## Self Attention Mechanism
+### Self Attention Mechanism
 
 > Detailed explanantion of attention and transformer can be found [here]().  
 
@@ -51,7 +52,7 @@ $$ Attention(Q,K,V) = softmax(\frac{Q K^T}{\sqrt{d_k}}) \cdot V $$
 
 ---
 
-## Token-by-Token Generation (Non KV-caching)
+### Token-by-Token Generation (Non KV-caching)
 
 - The generative transformer models / decoder only models append the token generated at time $t_i$ to the input at time $t_{i+1}$.
 - Thus, each time the model generates a new token it will :
@@ -59,7 +60,7 @@ $$ Attention(Q,K,V) = softmax(\frac{Q K^T}{\sqrt{d_k}}) \cdot V $$
     - Recompute all the self-attention activations for all the tokens in the sequence.
     - Predict the next token based on the final hidden state of the last token.
 
-```c
+```c {.nolang}
 "Generate t1" -> compute attention score for  t1
 "Generate t2" -> compute attention score for  t1, t2
 "Generate t3" -> compute attention score for  t1, t2, t3
@@ -68,7 +69,7 @@ $$ Attention(Q,K,V) = softmax(\frac{Q K^T}{\sqrt{d_k}}) \cdot V $$
 - Thus, for generating token t3, the model recomputes the attention scores from **scratch** for t1 and t2.
 - It is redundant to recompute the scoresa again for earlier tokens.
 
-## Transformer Decoding with KV-Caching 
+### Transformer Decoding with KV-Caching 
 
 KV-caching solves this redundancy by storing / caching the  intermediate outputs, i.e. the **keys and values vectors**, from self attention layers for previous tokens.
 
@@ -78,7 +79,7 @@ KV-caching solves this redundancy by storing / caching the  intermediate outputs
     - Append new K/V vectors for the cuurent token into the cache.
     - Computes attention only between the new token and all previous tokens via the cached keys/values.
 
-```c
+```c {.nolang}
 "Generate t1" -> compute & store K1, V1
 "Generate t2" -> resuse K1,V1 + compute & store K2, V2
 "Generate t3" -> resuse K1,V1 & K2,V2 + compute & store K3, V3
@@ -86,7 +87,7 @@ KV-caching solves this redundancy by storing / caching the  intermediate outputs
 
 ---
 
-![Image](/static/images/KV1.png)
+{{< figure src="/static/images/KV1.png" alt="Non KV-Cache Token Generation" caption="Non KV-Cache Token Generation" >}}
 
 > - Yellow box : scaling and applying softmax
 >- Red boxes : represent $QK^T$.
@@ -99,7 +100,7 @@ KV-caching solves this redundancy by storing / caching the  intermediate outputs
 
 ---
 
-![Image](/static/images/KV2.png)
+{{< figure src="/static/images/KV2.png" alt="KV-Cache Token Generation" caption="KV-Cache Token Generation" >}}
 
 > - Pink / Violet boxes : Retrived from cache
 
@@ -108,7 +109,7 @@ KV-caching solves this redundancy by storing / caching the  intermediate outputs
 
 > Thus, by storing the intermediate key (K) and value (V) vectors for all preceding tokens, the model only needs to compute the query (Q) for the current token and attend to the cached keys and values, dramatically reducing redundant computations.
 
-## Time Complexity analysis after KV-Caching 
+### Time Complexity analysis after KV-Caching 
 
 - At time step $t$, only the query $Q_t$ for the newly generated token is computed from the embedding : cost = $O(d)$.
 - No recomputation for K and V from $t = 1 \, to \, t-1$, as they are already cached.
@@ -132,7 +133,7 @@ $$ \sum_{t=1}^n O(t \cdot d) = O(n \cdot d) $$
 
 ---
 
-# Sliding Window Attention (SWA)
+## Sliding Window Attention (SWA)
 
 - In Self-Attention, instead of every token attending to every other token, sparcity can be introduced into the attention matrix.
 - Instead of the global receptive field of self attention, the tokens attend to all other tokens in a small local recptive field.
@@ -152,7 +153,7 @@ $$ \sum_{t=1}^n O(t \cdot d) = O(n \cdot d) $$
 
 $$ [t - \frac{w}{2}, \cdots , t + \frac{w}{2}] $$ 
 
-## Analogy to CNNs
+### Analogy to CNNs
 
 - A single convolutional layer in a CNN has a small, local receptive field but by stacking multiple convolutional layers, the receptive field grows larger.
 - A neuron in a higher layer can integrate information from a much wider area of the input image than a single kernel would suggest.
@@ -164,7 +165,7 @@ $$ [t - \frac{w}{2}, \cdots , t + \frac{w}{2}] $$
 
 > Input **→** SWA Layer 1 **→** SWA Layer 2 **→** SWA Layer 3 **→** ...
 
-```css
+```css {.nolang}
     A  B  C  D  E  F  G  H
 A [ X  X  .  .  .  .  .  . ]
 B [ X  X  X  .  .  .  .  . ]
@@ -200,7 +201,7 @@ H [ .  .  .  .  .  .  X  X ]
     
 Thus, over multiple layers, SWA will get information from all tokens in the sequence, but computation in each step will be a lot less than in vanilla self attention.
 
-```css
+```css {.nolang}
     Layer_1                 Layer_2                 Layer_3
 [ X X . . . . . . ]     [ X X X . . . . . ]     [ X X X X . . . . ]
 [ X X X . . . . . ]     [ X X X X . . . . ]     [ X X X X X . . . ]
@@ -217,9 +218,9 @@ Thus, over multiple layers, SWA will get information from all tokens in the sequ
 >- **Time** : $ O(N^2 \cdot d) \rightarrow O(N \cdot w \cdot d) $
 >   - Thus, SWA is effectively linear with respect to the sequence length.
 
-## Mathematical Formulation
+### Mathematical Formulation
 
-### For Standard Attention
+#### For Standard Attention
 
 - Output of the entire sequence :
 
@@ -229,7 +230,7 @@ $$ Attention(Q, K, V) = softmax \left( \frac{QK^T}{\sqrt{d_k}} \right) V $$
 
 $$ o_t = \sum_{i=1}^N \frac{\exp\left( \frac{q_t \cdot k_i}{\sqrt{d_k}} \right)}{\sum_{j=1}^N \exp\left( \frac{q_t \cdot k_j}{\sqrt{d_k}} \right)} v_i $$
 
-### For Sliding Window Attention
+#### For Sliding Window Attention
 
 - SWA modifies the formulation by restricting $i$ and $j$ in the summations to a local window. 
 
@@ -241,9 +242,9 @@ $$ W_t = \{ i | \max(1, t - w + 1) \le i \le t \} $$
 
 $$ o_t = \sum_{i \in W_t} \frac{\exp\left( \frac{q_t \cdot k_i}{\sqrt{d_k}} \right)}{\sum_{j \in W_t} \exp\left( \frac{q_t \cdot k_j}{\sqrt{d_k}} \right)} v_i $$
 
-## Practical Implementation of SWA
+### Practical Implementation of SWA
 
-### Longformer : The Long-Document Transformer
+#### Longformer : The Long-Document Transformer
 
 - It combines local window attention along with global task-specific attenion.
 
@@ -259,7 +260,7 @@ $$ o_t = \sum_{i \in W_t} \frac{\exp\left( \frac{q_t \cdot k_i}{\sqrt{d_k}} \rig
 - If only local attention is used then if we want `token 10` to attend / affect `token 500`, then information would have to hop through 100s of intermediated tokens.
 - Global attention bridges these long ditances by drastically reducing the hops : `token 10` $\to$ `GlobalToken` $\to$ `token 500`.
 
-#### Global Tokens 
+##### Global Tokens 
 
 - It is task dependent.
 
@@ -277,7 +278,7 @@ $$ o_t = \sum_{i \in W_t} \frac{\exp\left( \frac{q_t \cdot k_i}{\sqrt{d_k}} \rig
 - `*` : full connection
 - `X` : local connection
 
-```css
+```css {.nolang}
     G1  G2  L3  L4  L5 ...
 G1   *   *   *   *   *  ...
 G2   *   *   *   *   *  ...
@@ -299,17 +300,17 @@ L4   *   *   X   X   X  ...
 
 ---
 
-#### Dilated Sliding Window 
+##### Dilated Sliding Window 
 
 - Gaps were introduced in the attention window.
 - Instead of a token attending to positions $t-2$, $t-1$, $t$, it will attend to tokens at position $t-4$, $t-2$, $t$ if the dilation factor is 2.
 
 
-![Image](/static/images/SWA1.png)
+{{< figure src="/static/images/SWA1.png" alt="Sliding Window Attention" caption="Sliding Window Attention" >}}
 
 --- 
 
-### BigBird : Formalizing Sparse Attention
+#### BigBird : Formalizing Sparse Attention
 
 - The BigBird model is combination of 3 building blocks.
     1. **Sliding Window** / local attention (identical to core SWA)
@@ -321,7 +322,7 @@ L4   *   *   X   X   X  ...
 - Each token will attend to small, fixed number of randomly selected tokens.
 - This ensures shortcuts between far-apart tokens. 
 
-![Image](/static/images/SWA2.png)
+{{< figure src="/static/images/SWA2.png" alt="Big Bird Sliding Window Attention" caption="Big Bird Sliding Window Attention" >}}
 
 1. Random attention with $r$ = 2 (each token picks 3 random other tokens).
 2. SWA with $w$ = 3.
@@ -377,7 +378,7 @@ The authors of BigBird paper also proved that **sparsed attention** is a **unive
 
 ---
 
-## Drawbacks of SWA : Attention Sink
+### Drawbacks of SWA : Attention Sink
 
 It is a phenomenon in auto-regressive language models where the model allocates a disproportionally high amount of attention to a few (semmantically unimportant) tokens.
 
@@ -514,7 +515,7 @@ $$ Attention(Q,K,V)_m = \sum_{n=w-\omega +1}^m \sigma \left(\frac{(R_{d_{\Theta}
 
 ---
 
-# Architectural Redesign : MQA and GQA
+## Architectural Redesign : MQA and GQA
 
 During autoregressive infernece a large amount of data must be transfered from main GPU memory to on-chip cache at every single step.
 - To minimize this memory overhead, a redesign of Multi-Head Attention (MHA) is done. This issue comes due to KV-Cache. 
@@ -561,7 +562,7 @@ $$ Cache \, Size = N_L \times B \times S \times N_H \times d_k \times 2 \times b
 - If $G$ = 1, then GQA is mathematically equivalent to MQA.
     - All query heads are in a single group. 
 
-![Image](/static/images/GQAMQA.png)
+{{< figure src="/static/images/GQAMQA.png" alt ="MHA GQA MQA" caption="MHA GQA MQA" >}}
 
 ## How MHA, MQA & GQA affect KV-Cache ?
 
@@ -634,4 +635,7 @@ $$ QK^T \implies (b, H_{kv}, Q_{per\_group}, s, s) \cong (b, H_q, s, s) $$
 
 ---
 
+{{< callout type="note" title="Conclusion" >}}
 With this the methods to increase the efficiency of standard Multi-Head Attention comes to an end. We discussed KV-Caching, Sliding-Window Attention, Multi-Query Attention & then finally Grouped-Query Attention. These methods (KV-Caching & SWA) were devloped to reduce FLOPs (Floating Point Operations) while MQA and GQA were developed to reduce to address the increasing use of memory size due to use of KV-Caching.
+
+{{< /callout >}}

@@ -5,7 +5,8 @@ tags: ["NLP", "Transformers"]
 date: 2025-06-22
 pinned: true
 ---
-# Attention Is All You Need Deep Dive
+
+## Attention Is All You Need Deep Dive
 
 Transformer architecture was introduced in the paper **"Attention is All You Need"** by [Vaswani et al.](https://arxiv.org/pdf/1706.03762) in the year 2017. Transformers allowed to understand the relationships between all parts of an input parallelly. This allowed much faster training, better performance, and superior handling of complex tasks like language translation, summarization, and text generation than previous models/architectures like RNNs or LSTMs.
 <br>
@@ -23,7 +24,7 @@ This post will be broken down into the following subparts :
 8. **Embedding & Positional Encoding**
 
 
-# 1. Background
+## 1. Background
 
 - Recurrent Neural Networks (RNNs) process the input sequence token-by-token which doesn't allow for parallelization. This makes the training process slow.
 
@@ -31,17 +32,17 @@ This post will be broken down into the following subparts :
 
 - CNNs (Convolutional Neural Network) are parallelizable but they also struggle to model dependencies between distant tokens.
 
-- Attention models (like [Bahdanu](https://kush-singh-26.github.io/blogs/2025/05/28/Attention.html) and Luong Attention) were imporoving tasks like translation and summarization.
+- Attention models (like [Bahdanu](NLP-Attention.md) and Luong Attention) were imporoving tasks like translation and summarization.
 
 - The Transformer architecture took the idea of attention and made it the core component, eliminating the need for recurrence or convolutions entirely.
 
-# 2. Transformer Architecture Overview
+## 2. Transformer Architecture Overview
 
-<img src="/static/images/Transformer1.png" alt="Image" width="450" height="550">
+{{< figure src="/static/images/Transformer1.png" alt="Transformer Architecture" caption="Transformer Architecture" width="450" height="550" >}}
 
 - The model consists of an **encoder** and a **decoder**.
 
-## Encoder 
+### Encoder 
 
 - The encoder consists of a stack of 6 identical layers, which inturn consists of *2 sub-layers* (from bottom to top) :
     1. **Multi-head-self-attention mechanism** 
@@ -49,7 +50,7 @@ This post will be broken down into the following subparts :
 
 > **A residual connection is applied around each of the 2 sub-layers, follwed by layer normalization.**
 
-### Residual Connection
+#### Residual Connection
 
 - It is a shortcut path that bypasses a layer and adds the input of the layer directly to its output.
 - So, if $ F(x) = \text{SelfAttention}(x) \, or \, F(x) = \text{FFN}(x) $ , with $ x $ being the input to the sublayer $ F(x) $ , then :
@@ -60,11 +61,11 @@ $$ \text{Sum} = x + F(x) $$
 
 - It allows the model to preserve information through the layers and learn only the difference (residual).
 
-### Layer Norm
+#### Layer Norm
 
 Before understanding Layer Norm it is important to undersatnd why it is needed.
 
-#### Internal Covariate Shift
+##### Internal Covariate Shift
 
 - It is the phenomenon where the inputs to a layer (activations) keep changing as the parameters of the previous layers update during training. 
 - This causes each layer to constantly adapt to new input distributions which causes learning to be slow and unstable.
@@ -83,7 +84,6 @@ x_{21} & x_{22} & \cdots & x_{2H} \\
 x_{B1} & x_{B2} & \cdots & x_{BH}
 \end{bmatrix}
 $$
-<br><br>
 
 - Then, 
     - Each row $ x_i \in \mathbb{R}^{H} $ is a single data point.
@@ -91,14 +91,22 @@ $$
 
 - Layer Norm operates on each row independently.
 - For each data point $ x = [x_1,x_2,\dots,x_H] $ (H = number of hidden units (features)), Layer Norm computes : 
-    - ##### **Mean** : 
-        - $$ \mu = \frac{1}{H} \sum_{i=1}^H x_i $$
-    - ##### **Variance** : 
-        - $$ \sigma^2 = \frac{1}{H} \sum_{i=1}^H (x_i - \mu)^2 $$
-    - ##### **Normalize** : 
-        - $$ \hat x_i = \frac{x_i - \mu}{\sqrt{\sigma^2 + \epsilon}} $$
-    - ##### **Scale & Shift** : 
-        - $$ y_i = \gamma_i \hat x_i + \beta_i $$
+
+**Mean** : 
+
+$$ \mu = \frac{1}{H} \sum_{i=1}^H x_i $$
+
+**Variance** : 
+
+$$ \sigma^2 = \frac{1}{H} \sum_{i=1}^H (x_i - \mu)^2 $$
+
+**Normalize** : 
+
+$$ \hat x_i = \frac{x_i - \mu}{\sqrt{\sigma^2 + \epsilon}} $$
+
+**Scale & Shift** : 
+
+$$ y_i = \gamma_i \hat x_i + \beta_i $$
 
 - $ \gamma $ & $ \beta $ are learnable parameters and are of same size as x.
 - $ \epsilon $ is a small constant to avoid division by 0.
@@ -117,7 +125,7 @@ $$ \text{Output}_2 = \text{LayerNorm} (\text{Output}_1 + \text{FFN}(\text{Output
 > The outputs of each sub-layer as well as the embedding layer are of the same dimensions. In the paper it was $ d_{model} $ = 512.
 
 
-## Decoder
+### Decoder
 
 - Decoder is also very similar to the *Encoder*. 
 - It consists of a stack of 6 identical layers.
@@ -128,9 +136,9 @@ $$ \text{Output}_2 = \text{LayerNorm} (\text{Output}_1 + \text{FFN}(\text{Output
 
 - And just like in *Encoder* here also residual connections are employed around each sub-layer followed by layer normalization.
 
-# 3. Position-wise fully connected feed-forward network
+## 3. Position-wise fully connected feed-forward network
 
-- It is a 2 layer [MLP](https://kush-singh-26.github.io/blogs/2025/03/17/NN-MLP.html) (Multi Layer Perceptron) applied independently to each position (token vector) in the input sequence.
+- It is a 2 layer [MLP](NN-MLP.md) (Multi Layer Perceptron) applied independently to each position (token vector) in the input sequence.
 
 $$ \boxed{ \text{FFN}(x) = \max{(0, xW_1 + b_1)}W_2 + b_2 } $$
 
@@ -147,12 +155,11 @@ $$ \boxed{ \text{FFN}(x) = \max{(0, xW_1 + b_1)}W_2 + b_2 } $$
 > It transforms each token's representation individually allowing the model to re-map the token into a richer space (a (vector) space where token representations carry more complex and contextual information) after gathering context via the attention layer.
 
 
-<img src="/static/images/Transformer2.png" alt="Image" width="800" height="500">
+{{< figure src="/static/images/Transformer2.png" alt="Position Wise FFN" caption="Position Wise FFN" width="800" height="500" >}}
 
+## 4. Scaled Dot Product Attention
 
-# 4. Scaled Dot Product Attention
-
-[**Attention**](https://kush-singh-26.github.io/blogs/2025/05/28/Attention.html) allows the model to dynamically focus on the different parts of the input sequence when processing each token. A **weighted representation** of the entire input sequence for each token is computed so that the model can selectively **attend to** the most relevant words. This information is captured using a *usefulness score*.
+[**Attention**](NLP-Attention.md) allows the model to dynamically focus on the different parts of the input sequence when processing each token. A **weighted representation** of the entire input sequence for each token is computed so that the model can selectively **attend to** the most relevant words. This information is captured using a *usefulness score*.
 
 - The concept of *Queries*, *Keys*, and *Values* is used to compute attention.
 - Consider a database which consists of some **Key-Value** pairs.
@@ -160,7 +167,7 @@ $$ \boxed{ \text{FFN}(x) = \max{(0, xW_1 + b_1)}W_2 + b_2 } $$
 - The given query is compared to all the keys stored in the database to compute similarity scores.
 - Based on these scores, the most relevant **values** are returned.
 
-<img src="/static/images/Transformer3.png" alt="Image" width="750" height="350">
+{{< figure src="/static/images/Transformer3.png" alt="QKV in a DB" caption="QKV in a Database" width="750" height="350" >}}
 
 
 - The above analogy can be used to understand *Queries*, *Keys*, and *Values* in context of attention.
@@ -176,7 +183,7 @@ $$ \boxed{ \text{FFN}(x) = \max{(0, xW_1 + b_1)}W_2 + b_2 } $$
 >    - Compute the weighted sum of all the value vectors using the softmax weights.
 >        - This results in a single output vector which is just the enriched version of the original word representation with relevant context from other sentence.
 
-## Mathematical formulation of Scaled Dot Product Attention
+### Mathematical formulation of Scaled Dot Product Attention
 
 - $ X = [x_1, x_2, \cdots, x_n] \in \mathbb{R}^{n \times d_{model}} $
     - $ X $ is the matrix of all vectorized tokens in the input sequence of length $ n $ where each token is of dimensionality $ d_{model} $.
@@ -207,14 +214,13 @@ $$
 - These are the learned parameters / weights of the model.
 - They may be of different dimensionalities.
 
-<img src="/static/images/Transformer5.png" alt="Image" width="750" height="450">
-
+{{< figure src="/static/images/Transformer5.png" alt="Tokens to QKV Vectors" caption="Tokens to QKV Vectors" width="750" height="450" >}}
 
 The main idea behind **scaled dot product attention** mechanism is to :
 1. Compare each *query* with all the *keys* to get attention weights.
 2. Use these weights to compute a weighted sum over the *values*.
 
-### a. Dot Product
+#### a. Dot Product
 
 > - Similarity between the query and key is computed using their **dot product**.
 >$ q \cdot k = \sum_{j=1}^d q_j k_j = \left\lVert q \right\rVert \left\lVert k \right\rVert \cos\theta $
@@ -228,7 +234,7 @@ $$ \boxed{\text{scores} = QK^T \in \mathbb{R}^{n \times n}} $$
 
 - Where each element's score [ $ scores_{ij} = q_i \cdot k_j $ ] represents how much each token $ i $ attends to token $ j $.
 
-### b. Scaling
+#### b. Scaling
 
 - Now the scores are *scaled*. If the dimensionality of the vectors is large (eg. $ d_k  = 512 $), then the dot product can produce large values.
 - When these scores are passed through softmax function, the output will have one element get all the attention and others nearly 0.
@@ -238,7 +244,7 @@ $$ \boxed{\text{scores} = QK^T \in \mathbb{R}^{n \times n}} $$
 
 $$ \boxed{\text{scaled scores} = \frac{QK^T}{\sqrt{d_k}} } $$
 
-### c. Applying Softmax
+#### c. Applying Softmax
 
 $$ \text{softmax}(z)_i = \frac{\exp{z_i}}{\sum_{j=1}^N \exp{z_j}} $$ function is applied row-wise, i.e. for each token $ i $, $ \alpha_i = \text{softmax}(\frac{q_i \cdot K^T}{\sqrt{d_k}}) $ is computed.
 
@@ -252,7 +258,7 @@ $$ \boxed{ \alpha = softmax(\frac{QK^T}{\sqrt{d_k}}) \in \mathbb{R}^{n \times n}
 - Each row being a probability distribution sums to 1.
 - softmax returns a vector when a vector is passed to it but a matrix when a matrix is passed to it where each row is a softmaxed vector.   
 
-### d. Multiply with Values
+#### d. Multiply with Values
 
 $$ \boxed{ Attention(Q,K,V) = softmax(\frac{QK^T}{\sqrt{d_k}})V \in {n \times d_v}}$$
 
@@ -263,9 +269,9 @@ $$ \boxed{ Attention(Q,K,V) = softmax(\frac{QK^T}{\sqrt{d_k}})V \in {n \times d_
 
 > This gives a **new vector representation** for token $i$, which **summarizes information from the whole sequence**, weightd by attention.
 
-<img src="/static/images/Transformer4.png" alt="Image" width="450" height="450">
+{{< figure src="/static/images/Transformer4.png" alt="Scaled Dot-Product Attention" caption="Scaled Dot-Product Attention" width="450" height="450" >}}
 
-# 5. Multi-Head Attention 
+## 5. Multi-Head Attention 
 
 - Multi-head attention takes the scaled dot-product attention a step further by performing it multiple times in parallel with different learned linear projections of the queries, keys and values.
 
@@ -287,21 +293,21 @@ $$ \boxed{ Attention(Q,K,V) = softmax(\frac{QK^T}{\sqrt{d_k}})V \in {n \times d_
 - There are *2 ways* to understand Multi-Head Attention (MHA). 
 - **Both ways are mathematically equivalent**.
 - They differ in their computational arrangements.
-    1. ##### The Conceptual Model :
+    1. **The Conceptual Model** :
         - It is the same approach as mentioned in the original paper.
         - It explains the idea of multiple heads learning different feature representations in parallel.
-    2. ##### The Practical Implementation :
+    2. **The Practical Implementation** :
         - It is the optimized approach used in modern deep-learning libraries (PyTorch & TensorFlow).
         - It reframes the computation into a single, large, batched operation.
         - It is designed to be efficient on GPU hardware.
 
-## The Conceptual Model
+### The Conceptual Model
 
 - This model follows a logic like : $ create \rightarrow split \rightarrow process $.
 
 > Create main / master **$Q$,$K$,$V$** matrices and then for each head independently project these down to smaller dimension and then calculate attention.
 
-### 1. Initial Generation of Master Q,K,V :
+#### 1. Initial Generation of Master Q,K,V :
 
 $$
 \begin{array}{rl}
@@ -315,7 +321,7 @@ $$
 - $W_{master}^y$ are learnable weight matrices each with a shape `[d_model, d_model]` (eg. `[512, 512]`).
 - Resulting **$Q$,$K$,$V$** matrices are the inputs to the MHA each of shape : `[batch_size, seq_len, d_model]` (eg. `[32, 50, 512]`).
 
-### 2. Split : [Head-specific Projections]
+#### 2. Split : [Head-specific Projections]
 
 - For each head $i$ a second set of learned linear projections are defined.
 - Weight matrices for each head $i$ : $W_i^Q, W_i^K, W_i^V$ are of shape `[d_model, d_k]` (e.g., `[512, 64]`).
@@ -332,31 +338,31 @@ $$
 - Resulting shape of $Q_i$,$K_i$,$V_i$: `[32, 50, 64]`.
 - This step is performed in parallel for all 8 heads.
 
-### 3. Parallel Attention Calculation
+#### 3. Parallel Attention Calculation
 
 $$ head_i = Attention(Q_i,K_i,V_i) = softmax(\frac{Q_i K_i^T}{\sqrt{d_k}}) V_i $$
 
-- Each head independently calculates the attention score using its unique $Q_i, K_i, V_i$.
-- The output for each $head_i$ is a tensor of shape `[32, 50, 64]`.
+- Each head independently calculates the attention score using its unique $ Q_i, K_i, V_i $.
+- The output for each $ head_i $ is a tensor of shape `[32, 50, 64]`.
 
-### 4. Concatenation and Final Projection
+#### 4. Concatenation and Final Projection
 
 - Outputs from all 8 heads are concatenated along the last dimension.
     -  `(batch, seq, 64)` $ \times $ 8 = `(batch, seq, 512)` = `(32, 50, 512)`
 
-- The concatenated tensor is passed through one last linear projection $W^O$ of shape `[512, 512]` to produce the final MHA output. 
+- The concatenated tensor is passed through one last linear projection $ W^O $ of shape `[512, 512]` to produce the final MHA output. 
 
-$$ \text{MHA Output} = Concat(head_1, \cdots, head_8) W^O$$
+$$ \text{MHA Output} = Concat(head_1, \cdots, head_8) W^O $$
 
-<img src="/static/images/Transformer6.png" alt="Image" width="500" height="550">
+{{< figure src="/static/images/Transformer6.png" alt="Conceptual Model of MHA" caption="Conceptual Model of MHA" width="500" height="550" >}}
 
-## The Practical Implementation
+### The Practical Implementation
 
 - This model follows a logic like : $ project \rightarrow split $.
 
 > Perform one large projection that contains all head projections at once and then reshape the result to get the separate heads.
 
-### 1. Fusing the projection steps
+#### 1. Fusing the projection steps
 
 - The projections steps (1 & 2 steps of the *conceptual model*) are combined into one.
 - One large weight matrix is used instead of multiple small weight matrices to compute $Q,K,V$.
@@ -377,7 +383,7 @@ $$
 
 - Each of these 3 tensors (matrices) are of shape : `[32, 50, 512]`.
 
-### 2. Reshape and Transpose for Heads [Split part]
+#### 2. Reshape and Transpose for Heads [Split part]
 
 - Currently the tensors $Q,K,V$ are of shape `[32, 50, 512]` or `[batch_size, seq_len, embed dim]`.
 - The last dimension is **reshaped** into `[h, d_k]`.
@@ -415,7 +421,7 @@ Another way to look at this :
 - Let `batch_size` = 2 (i.e. 2 sentences are being processed at once), `seq_len` = 3 and `num_heads` = 4.
 - Before transpose, let the data in memory be arranged like this :
 
-```
+```text {.nolang}
 // batch 1
 Toeken A1 : [Head1_data, Head2_data, Head3_data, Head4_data]
 Toeken A2 : [Head1_data, Head2_data, Head3_data, Head4_data]
@@ -432,7 +438,7 @@ Toeken B3 : [Head1_data, Head2_data, Head3_data, Head4_data]
 
 - After Transpose :
 
-```
+```text {.nolang}
 // batch 1
 Head 1 : [Token A1_data, Token A2_data, Token A3_data]
 Head 2 : [Token A1_data, Token A2_data, Token A3_data]
@@ -449,12 +455,12 @@ Head 4 : [Token B1_data, Token B2_data, Token B3_data]
 - The library will see `[batch_size, num_heads]` dimensions as one large batch of task.
     - That is, it will see 2 * 4 = 8 independent problems to solve and all the data it needs is in one block.
 
----
-
 - After transpose(1,2) the tensor can be considered as **a batch of (batch_size, num_heads) individual matrices each of size (seq_len, dim_head)**.
 - ***This allows to perform a single, efficiet matrix multiplication that calculates the attection score for all heads and all sequences in the batch simultaneously***.  
 
-### 3. Batch Scaled Dot-Product Attention Calculation
+---
+
+#### 3. Batch Scaled Dot-Product Attention Calculation
 
 - Now both $Q$ and $K$ have the same shape = `[batch_size, num_heads, seq_len, dim_head]`.
 - $K$ will need to be transposed for computing scaled dot product attention.
@@ -469,7 +475,7 @@ Head 4 : [Token B1_data, Token B2_data, Token B3_data]
     - Resulting shape is : `[batch_size, num_heads, seq_len, dim_head]`
 
 
-### 4. Reverse, Reshape and Final Projection (Concatenation):
+#### 4. Reverse, Reshape and Final Projection (Concatenation):
 
 - The final output of the MHA layer which will be the input of the next layer (FFN) needs to be of shape `[batch_size, seq_len, d_model]`.
 - To convert the current tensor :
@@ -496,9 +502,9 @@ Head 4 : [Token B1_data, Token B2_data, Token B3_data]
 
 > We now end up with a tensor of same shape as the one which was the input to the MHA, but it is enriched with contextual information from the attention mechanism.
 
-<img src="/static/images/Transformer7.png" alt="Image" width="800" height="850">
+{{< figure src="/static/images/Transformer7.png" alt="Practical Implementation of MHA" caption="Practical Implementation of MHA" width="800" height="850" >}}
 
-# 6. Masked Multi-Head Attention
+## 6. Masked Multi-Head Attention
 
 It is used in the **decoder block** of the transformer model. It is used to allow the decoder to process sequences in parallel while preserving the **autoregressive property** of transformers.
 
@@ -663,7 +669,7 @@ $$ head_i = softmax(\frac{Q_i K_i^T}{\sqrt{d_k}} + M) V_i $$
 
 ---
 
-## Broadcasting
+### Broadcasting
 
 - It describes a set of rules on how to perform **element-wise operations** on tensors of different, but compatible, shapes *without without explicitly copying data*.
 - It is done automatically by libraries like PyTorch for operations like addition, subtraction, multiplication, etc.
@@ -680,7 +686,7 @@ $$ head_i = softmax(\frac{Q_i K_i^T}{\sqrt{d_k}} + M) V_i $$
 
 - No actual data is copied and unnecessary data duplication is avoided.
 
-### How is it done in MHA-Masking :
+#### How is it done in MHA-Masking :
 
 - `attn_scores` is of shape : `[batch_size, num_heads, seq_len, seq_len]`.
     - eg. `[32, 8, 50, 50]`
@@ -697,7 +703,7 @@ $$ head_i = softmax(\frac{Q_i K_i^T}{\sqrt{d_k}} + M) V_i $$
 - `attn_score`  : `[32, 8, 50, 50]`
 - `mask`        : `[ 1, 1, 50, 50]`
 
-#### 3. Apply rule 2 (check compatibility) :
+##### 3. Apply rule 2 (check compatibility) :
 
 - `dim(-1)` : 50 = 50. Thus they are equal.
 - `dim(-2)` : 50 = 50. Thus they are equal.
@@ -709,34 +715,34 @@ $$ head_i = softmax(\frac{Q_i K_i^T}{\sqrt{d_k}} + M) V_i $$
 - Now, the tensor of shape `[1, 1, 50, 50]` is stretched along `dim(-3)` to the shape : `[1, 8, 50, 50]`.
 - The resultant tensor is stretched along `dim(-4)` to the shape of the `attn_score` : `[32, 8, 50, 50 ]`
 
-<img src="/static/images/Transformer8.png" alt="Image" width="500" height="250">
+{{< figure src="/static/images/Transformer8.png" alt="Broadcasting example" caption="Broadcasting Example" width="500" height="250" >}}
 
 
-# 7. Types of MHA Used
+## 7. Types of MHA Used
 
 - In transformer architecture, there are 3 ways in which Multi-Head Attention is utilized :
     1. Self Attention
     2. Cross Attention
     3. Masked Atention (Already covered above)
 
-## Self Attention
+### Self Attention
 
 - When the query, keys, and values all come from the same sequence / place (output of the previous layer), the mechanism is known as self-attention. 
 - These layers are present in the *Encoder* block.
 - A word in the sentence will **attend to all words / positions in the previous layer of the encoder**.
 
-## Cross Attention / Encoder-Decoder Attention
+### Cross Attention / Encoder-Decoder Attention
 
 - It is the MHA layer of the *Decoder* stack, which comes just after the Masked MHA.
 - The **Queries** come from the previous *decoder* layer,
 - The **Keys** and **Values** come from the output of the *encoder*.
 - This allows the model to attend to all the positions in the previous layer of the encoder.
 
-<img src="/static/images/Transformer9.png" alt="Image" width="800" height="280">
+{{< figure src="/static/images/Transformer9.png" alt="Self Attention vs. Cross Attention" caption="Self Attention vs. Cross Attention" width="800" height="280" >}}
 
-# 8. Embedding & Positional Encoding
+## 8. Embedding & Positional Encoding
 
-## Embeddings
+### Embeddings
 
 - There are 2 Embedding layers :
     a. Convert input tokens to vectors
@@ -754,9 +760,9 @@ $$ head_i = softmax(\frac{Q_i K_i^T}{\sqrt{d_k}} + M) V_i $$
 ><br>
 >- It is done to normalize variance.
 
-## Positional Encoding
+### Positional Encoding
 
-### Need of Positional Encoding (PE) :
+#### Need of Positional Encoding (PE) :
 
 - Transformers don't have any notion of sequence order.
 - They process all tokens in parallel.
@@ -767,7 +773,7 @@ $$ head_i = softmax(\frac{Q_i K_i^T}{\sqrt{d_k}} + M) V_i $$
 >    - Positional Encodings must be same for a position irresepective of the sequence lenghts or the input sequnce.
 >    - They must not be too large else they may push the embedding vectors in such a way that their semantic similarity may change. 
 
-### Working of PE :
+#### Working of PE :
 
 > The method used in the paper used fixed non-trainable PE. Newer models used learnable PE.
 
@@ -810,7 +816,7 @@ $$ PE_{(pos,2i+1)} = \cos\left( \frac{pos}{10000^{\frac{2i}{d_{model}}}} \right)
 - `d_model` = 6. Thus, $i$ goes from 0 to 2 (6/2 -1).
 - Thus there are 3 frequency pairs each consisting of a sine and a cosine wave.
 
-<img src="/static/images/Transformer10.png" alt="Image" width="650" height="400">
+{{< figure src="/static/images/Transformer10.png" alt="Positional Encoding" caption="Positional Encoding" width="650" height="400" >}}
 
 ### Visualizing Positional Encoding
 
@@ -833,7 +839,7 @@ d_model = 128
 pe_matrix = pe(max_seq_len, d_model)
 ```
 
-<img src="/static/images/Transformer11.png" alt="Image" width="650" height="400">
+{{< figure src="/static/images/Transformer11.png" alt="Visualizing Positional Encoding" caption="Visualizing Positional Encoding" width="650" height="400" >}}
 
 ### Practical Implementation
 
@@ -857,11 +863,11 @@ $$ \exp\left ( -\ln{(10000)} \cdot \frac{2i}{d_{model}} \right ) $$
 
 ---
 
-# Detailed Flow of Information in Transformer
+## Detailed Flow of Information in Transformer
 
 Now that all the major parts of the transformer are covered, it's time to see how information flows through the transformer. This is going to be a high level description of the first diagram.
 
-## Encoder
+### Encoder
 
 - Sentences are encoded using **Byte Pair Encoding (BPE)**.
     - In this algorithm, most frequent pairs of bytes (chars) are iteratively merged to form larger units.
@@ -876,9 +882,9 @@ Now that all the major parts of the transformer are covered, it's time to see ho
 
 > Now the encoders can be stacked, where output from one encoder becomes the input of the next encoder.
 
-## Decoder
+### Decoder
 
-### During Training
+#### During Training
 
 - **Teacher Forcing Method** is used during training where the entire ground truth output sequence is fed to the decoder at once.
 - Ground truth values added with the positional encoding are fed into Masked Multi-Head Self Attention and the output is a sequence where each token has attended to the preceding tokens.
@@ -889,7 +895,7 @@ Now that all the major parts of the transformer are covered, it's time to see ho
 
 > The loss is then calculated by comparing these predicted probabilities with the actual next tokens in the ground-truth sequence.
 
-### During Inference (Auto-Regressive)
+#### During Inference (Auto-Regressive)
 
 - The decoder's first input is the start token `<sos>`. It is converted to into an embedding and PE is added to it.
 - It is the input to the the Masked Muti Head Self Attention.
@@ -899,7 +905,7 @@ Now that all the major parts of the transformer are covered, it's time to see ho
 - This new sequence then becomes the input to masked MHA layer in the next step.
 - This process is continued till the final end of sequence token `<eos>` is not generated.
 
-<img src="/static/images/Transformer12.png" alt="Image" width="800" height="1500">
+{{< figure src="/static/images/Transformer12.png" alt="Complete Flow of Transformer" caption="Complete Flow of Transformer" width="800" height="1500" >}}
 
 ---
 

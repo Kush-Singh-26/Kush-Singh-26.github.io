@@ -10,19 +10,22 @@ pinned: false
 import torch.nn as nn
 ```
 
-# Loss Functions
-- measure how well a model’s predictions align with the actual outputs.
-- the choice of loss function depends on the task :
+## Loss Functions
 
-## Loss Functions for Regression
+- Measures how well a model’s predictions align with the actual outputs.
+- The choice of loss function depends on the task.
 
-### Mean Squared Error (MSE) 
-- $$ MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 $$
-- mean of squares of differences of predicted and actual values
+### Loss Functions for Regression
+
+#### Mean Squared Error (MSE) 
+
+ $$ MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 $$
+
+- Mean of squares of differences of predicted and actual values
 - Penalizes large errors more than small errors.
 - Sensitive to outliers.
 
-- Pytorch Implementation
+Pytorch Implementation
 
 ```python
 loss_fn = nn.MSELoss()
@@ -30,45 +33,50 @@ loss_fn = nn.MSELoss()
 
 - `L2 Loss` is the same as MSE but without the mean part
 
-### Mean Absolute Error (MAE)
-- $$ MAE = \frac{1}{n} \sum_{i=1}^{n} | y_i - \hat{y}_i | $$
-- more robust to outliers
+#### Mean Absolute Error (MAE)
 
-- Pytorch Implementation
+$$ MAE = \frac{1}{n} \sum_{i=1}^{n} | y_i - \hat{y}_i | $$
+
+- More robust to outliers.
+
+Pytorch Implementation
 
 ```python
 loss_fn = nn.L1Loss()
 ```
 
-## Loss Functions for Classification
+### Loss Functions for Classification
 
-### Cross-Entropy Loss (Softmax + Log Loss)
-- $$ L = - \sum_{i=1}^{n} y_i log(\hat{y}_i) $$
-- for multiclass classification
+#### Cross-Entropy Loss (Softmax + Log Loss)
 
-- Pytorch Implementation
+$$ L = - \sum_{i=1}^{n} y_i log(\hat{y}_i) $$
+
+- For multiclass classification.
+
+Pytorch Implementation
 
 ```python
 loss_fn = nn.CrossEntropyLoss()
 ```
 
-### Binary Cross-Entropy Loss (Sigmoid + Log Loss)
-- $$ BCE = - \frac{1}{n} \sum_{i=1}^{n} [  y_i log(\hat{y}_i) + (1 - y_i) log(1-\hat{y}_i) ] $$
-- for binary classification
+#### Binary Cross-Entropy Loss (Sigmoid + Log Loss)
 
-- Pytorch Implementation
+$$ BCE = - \frac{1}{n} \sum_{i=1}^{n} [  y_i log(\hat{y}_i) + (1 - y_i) log(1-\hat{y}_i) ] $$
+
+- For binary classification.
+
+Pytorch Implementation
 
 ```python
 loss_fn = nn.BCELoss()
 ```
 
-# Optimizers
+## Optimizers
 
-- Optimizers adjust model parameters (weights and biases) to `minimize the loss function` by computing gradients and updating weights accordingly.
-
-## Strategies to optimize the loss function
+- Optimizers adjust model parameters (weights and biases) to `minimize the loss function` by computing gradients and updating weights accordingly. Some of the strategies to optimize the loss functions are discussed below.
 
 ### 1. Random Search
+
 - Try out different random values for parameters.
 - The set of parameters which give the least loss will be the optimum parameters
 - Accuracy : 15.5% (1000 tries)
@@ -77,7 +85,9 @@ loss_fn = nn.BCELoss()
 
 - **Gradient**
     - It is the collection of partial derivatives / slopes, organized into a vector, that tells you how a multi-variable function changes.
-- $$ \frac{df(x)}{dx} = \lim_{h\to 0} \frac{f(x+h) - f(x)}{h} $$
+
+$$ \frac{df(x)}{dx} = \lim_{h\to 0} \frac{f(x+h) - f(x)}{h} $$
+
 - Numerical gradient computation is based on finite difference approximation.
 - It estimates the gradient (derivative) of a function f(x) by slightly perturbing (modifying) x and measuring the change in f(x).
 - This method does not require explicit differentiation, making it useful for gradient checking.
@@ -91,7 +101,9 @@ loss_fn = nn.BCELoss()
 
 - Uses calculus to derive exact gradients.
 - Loss is a function of `W`
-- $$  L_i=\sum_{j\neq y_i} max(0,s_j-{s_y}_i+1)\space and\space s=Wx $$
+
+$$  L_i=\sum_{j\neq y_i} max(0,s_j-{s_y}_i+1)\space and\space s=Wx $$
+
 - Goal is to find those parameter W<sup>*</sup> which minimies the loss function.
 - Minima of function implies the gradient of Loss function w.r.t its weight is minimum.
 - Goal is to minimize $$ \nabla_W\space L $$
@@ -105,43 +117,50 @@ loss_fn = nn.BCELoss()
 
 - Uses the entire batch / dataset to train.
 - Process of repeatedly evaluating the gradient and then performng a parameter update
-- $$ \theta = \theta - \alpha \nabla J(\theta) $$
-    - $\theta$ : model parameters
-    - $\alpha$ : learning rate
-    - $\nabla J(\theta)$ : gradient of the loss function
+
+$$ \theta = \theta - \alpha \nabla J(\theta) $$
+
+   - $\theta$ : model parameters
+   - $\alpha$ : learning rate
+   - $\nabla J(\theta)$ : gradient of the loss function
+
 - The gradient of a function always points in the direction of the steepest ascent (increase in function value).
 - In gradient descent, we move in the opposite direction of the gradient to minimize the function.
 
-<img src="/static/images/NN4.png" alt="Image" width="450" height="350">
+{{< figure src="/static/images/NN4.png" alt="Gradient Descent" caption="Visualization of Gradient Descent" width="450" height="350" >}}
 
-> Calculations:  
-> $ L(W) = W^2 $
-> - The gradient descent update rule is: $ W^{(t+1)} = W^{(t)} - \alpha \nabla_W L(W) $  
-> - $\nabla_W L(W) = 2W $  (Gradient of the function)  
-> - $\alpha = 0.3$  (Learning rate)  
-> - Initial value: $W^{(0)} = 4$ 
->
-> - Step-by-Step Parameter Updates  
->
-> **Initially**  
-> $ W^{(0)} = 4 $ 
-> $ \nabla_W L(W^{(0)}) = 2(4) = 8 $
-> $ W^{(1)} = 4 - 0.3 \times 8 = 4 - 2.4 = 1.6 $
->
-> **Step 1**  
-> $ W^{(1)} = 1.6 $
-> $ \nabla_W L(W^{(1)}) = 2(1.6) = 3.2 $
-> $ W^{(2)} = 1.6 - 0.3 \times 3.2 = 1.6 - 0.96 = 0.64 $
->
-> **Step 2**  
-> $ W^{(2)} = 0.64 $
-> $ \nabla_W L(W^{(2)}) = 2(0.64) = 1.28 $
-> $ W^{(3)} = 0.64 - 0.3 \times 1.28 = 0.64 - 0.384 = 0.256 $
->
->**Step 3**  
->$ W^{(3)} = 0.256 $
->$ \nabla_W L(W^{(3)}) = 2(0.256) = 0.512 $
->$ W^{(4)} = 0.256 - 0.3 \times 0.512 = 0.256 - 0.1536 = 0.1024 $
+{{< callout type="info" title="Calculations" >}}
+
+ $ L(W) = W^2 $
+ - The gradient descent update rule is: $ W^{(t+1)} = W^{(t)} - \alpha \nabla_W L(W) $  
+ - $\nabla_W L(W) = 2W $  (Gradient of the function)  
+ - $\alpha = 0.3$  (Learning rate)  
+ - Initial value: $W^{(0)} = 4$ 
+
+ - Step-by-Step Parameter Updates  
+
+ **Initially**  
+ $ W^{(0)} = 4 $ 
+ $ \nabla_W L(W^{(0)}) = 2(4) = 8 $
+ $ W^{(1)} = 4 - 0.3 \times 8 = 4 - 2.4 = 1.6 $
+
+ **Step 1**  
+ $ W^{(1)} = 1.6 $
+ $ \nabla_W L(W^{(1)}) = 2(1.6) = 3.2 $
+ $ W^{(2)} = 1.6 - 0.3 \times 3.2 = 1.6 - 0.96 = 0.64 $
+
+ **Step 2**  
+ $ W^{(2)} = 0.64 $
+ $ \nabla_W L(W^{(2)}) = 2(0.64) = 1.28 $
+ $ W^{(3)} = 0.64 - 0.3 \times 1.28 = 0.64 - 0.384 = 0.256 $
+
+**Step 3**  
+$ W^{(3)} = 0.256 $
+$ \nabla_W L(W^{(3)}) = 2(0.256) = 0.512 $
+$ W^{(4)} = 0.256 - 0.3 \times 0.512 = 0.256 - 0.1536 = 0.1024 $
+
+{{< /callout >}}
+
 
 Python implementation :
 
@@ -230,9 +249,9 @@ for epoch in range(100):
 - updates the model parameters using gradients computed from a single randomly chosen data point (or a small mini-batch) rather than the full dataset. 
     - This introduces **stochasticity** (presence and influence of randomness or unpredictability in a model) in the updates, causing fluctuations in the optimization path.
 
-> Thus SGD has high variance. 
+> Thus, SGD has high variance. 
 
-- when the loss function has different curvatures in different directions i.e., when the function is steep in one direction and shallow in another
+- When the loss function has different curvatures in different directions i.e., when the function is steep in one direction and shallow in another
     - Fast Changes in One Direction (Steep Slope)
         - The gradient is large, so the updates are big in this direction.
         - The algorithm overshoots and oscillates back and forth.
@@ -244,13 +263,13 @@ for epoch in range(100):
     
 > This causes the optimization path to look like a zig-zag, wasting a lot of time oscillating instead of moving efficiently toward the minimum.
 
-![Image](/static/images/NN5.png)
+{{< figure src="/static/images/NN5.png" alt="Types of Gradient Descent" caption="Batch, Stochastic & Mini-Batch Gradient Descent" >}}
 
-- If the loss function has local minima or saddle point
+---
 
-> Since that point has zero gradient, the gradient descent will stop and the optimizer gets stuck, in the case of local minima. 
+> If the loss function has local minima or saddle point, that point will have zero gradient, the gradient descent will stop and the optimizer gets stuck, in the case of local minima. 
 
-<img src="/static/images/NN6.png" alt="Image" width="450" height="250">
+{{< figure src="/static/images/NN6.png" alt="Local Minima" caption="Gradient Descent Stuck in local Minima" width="450" height="250" >}}
 
 ### 7. SGD with Momentum
 
@@ -268,8 +287,10 @@ for epoch in range(100):
 - In vanilla SGD, updates are made solely based on the current gradient.
 - But SGD with momentum introduces a **velocity component** that accumulates past gradients to guide updates more effectively. 
 - The update equations are:  
-    - $$ v_{t+1} = \rho v_t + \nabla f(x_t) $$
-    - $$ x_{t+1} = x_t - \alpha v_{t+1} $$
+
+$$ v_{t+1} = \rho v_t + \nabla f(x_t) $$
+
+$$ x_{t+1} = x_t - \alpha v_{t+1} $$
 
 - $ v_t $ : velocity (actual moving average of past gradients used to update parameters / accumulates past gradients.)
     - It acts as a smoother, reducing variance in gradient updates.
@@ -310,12 +331,14 @@ PyTorch implementation
 `optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)`
 
 ### 8. Nesterov Momentum
-<img src="/static/images/NN7.png" alt="Image" width="650" height="250">
+
+{{< figure src="/static/images/NN7.png" alt="Momentum Updates" caption="Momentum Update & Nesterov Momentum Update" width="650" height="250" >}}
 
 - Instead of computing the gradient at the current position, Nesterov Momentum "looks ahead" by first making a partial update using the momentum term and then computing the gradient at this "lookahead" position.
 
-- $$ v_{t+1}=\rho v_t-\alpha \nabla f(x_t+\rho v_t) $$
-- $$ x_{t+1}=x_t+v_{t+1} $$
+$$ v_{t+1}=\rho v_t-\alpha \nabla f(x_t+\rho v_t) $$
+
+$$ x_{t+1}=x_t+v_{t+1} $$
 
 - It prevents overshooting
 - Faster convergence
@@ -344,7 +367,8 @@ for i in range(50):
 ```
 
 ### 9. AdaGrad (Adaptive Gradient Algorithm)
-- Instead of using a fixed learning rate 𝛼, Adagrad scales the learning rate based on the sum of past squared gradients.
+
+- Instead of using a fixed learning rate $\alpha$ , Adagrad scales the learning rate based on the sum of past squared gradients.
 - Parameters with larger gradients get smaller updates, while parameters with smaller gradients get larger updates.
 - $ G_t = \sum_{i=1}^{t} g_i g_i^T $ :  accumulated outer product of gradients (a full matrix instead of a scalar sum).
 - $ g_t $ : gradient at time t
@@ -369,15 +393,16 @@ PyTorch Implementation
 - It helps mitigate issues related to vanishing and exploding gradients by **adjusting the learning rate for each parameter dynamically**.
 - Incorporates a moving average of squared gradients to normalize updates.
 
-- $$E[g^2]_{t+1}=\beta E[g^2]_t+(1-\beta)g(x_t)^2 $$
-    - E[...] : mean or average or Expected value
-    - $g$ : gradient
-    - $\beta$ : decay rate momentum 
-        - typically = 0.9
-        - determines how much past gradients influence the current update
+$$ E[g^2]_{t+1}=\beta E[g^2]_t+(1-\beta)g(x_t)^2 $$
+
+- E[...] : mean or average or Expected value
+- $g$ : gradient
+- $\beta$ : decay rate momentum 
+    - typically = 0.9
+    - determines how much past gradients influence the current update
 - RMSprop balances between past and present gradients to smooth learning rate updates.
-    - Higher β → More weight to past values, smoother updates.
-    - Lower β → More weight to recent values, more responsive but noisier updates.
+    - Higher $ \beta \rightarrow $  More weight to past values, smoother updates.
+    - Lower $ \beta \rightarrow $ More weight to recent values, more responsive but noisier updates.
 
 $$ θ_{t+1} = θ_t​ − \frac{\alpha}{\sqrt{E[g^2]_{t​+1}}} g(x_t)$$
 
@@ -413,17 +438,21 @@ PyTorch Implementation
 - $ v_t = \beta_2 * v_{t-1} + (1-\beta_2) * g_t^2 \rightarrow $ from RMSProp
 
 #### Bias Correction
-- Since both $$ m_{t-1} \quad and \quad v_{t-1} $$ are initialized as zero vectors, Adam applies bias correction to compensate for initial estimates.
-- $$ \hat{m}_{t+1} = \hat{m_t}-\alpha m_t $$
-- $$ \hat{v}_{t+1}=\hat{v}_t-\frac{\alpha}{\sqrt{\hat{v}_t+\epsilon}}g(v_t) $$
+- Since both $ m_{t-1} \quad \text{and} \quad v_{t-1} $ are initialized as zero vectors, Adam applies bias correction to compensate for initial estimates.
+
+$$ \hat{m}_{t+1} = \hat{m_t}-\alpha m_t $$
+
+$$ \hat{v}_{t+1}=\hat{v}_t-\frac{\alpha}{\sqrt{\hat{v}_t+\epsilon}}g(v_t) $$
 
 - Update rule for Adam
-    - $$ x_{t+1}= x_t- \frac{(\alpha * \hat{m}_t)}{\sqrt{(\hat{v}_t + \varepsilon)}} $$
+
+$$ x_{t+1}= x_t- \frac{(\alpha * \hat{m}_t)}{\sqrt{(\hat{v}_t + \varepsilon)}} $$
+
 - $m_t$ is the bias corrected first moment estimate and $v_t$ is the bias corrected second estimate.
 
-- $β^1$ (exponential decay rate for the first moment estimate): 0.9.
+- $ \beta^1 $ (exponential decay rate for the first moment estimate): 0.9.
 
-- $β^2$ (exponential decay rate for the second moment estimate): 0.999.
+- $ \beta^2 $ (exponential decay rate for the second moment estimate): 0.999.
 
 Python Implementation
 
@@ -460,7 +489,7 @@ scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)
 
 ---
 
-## **Summary** 
+## Summary 
 
 | Optimizer  | Key Feature                      |
 |------------|----------------------------------|
