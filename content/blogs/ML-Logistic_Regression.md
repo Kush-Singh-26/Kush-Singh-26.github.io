@@ -68,7 +68,7 @@ $$ P = P(y=1|x) = \frac{1}{1+e^{-z}} = \sigma(z) $$
 $\sigma(z)$ is called the **Sigmoid Function**.
 
 
-![Sigmoid Mapping inputs to [0,1]](/static/images/Ml-9.png)
+{{< figure src="/static/images/Ml-9.png" alt="Sigmoid Mapping inputs to [0,1]" caption="Sigmoid Mapping inputs to [0,1]" >}}
 
 ---
 
@@ -116,13 +116,13 @@ MSE is used in Linear Regression because it creates a bowl-shaped convex curve. 
 
 However, applying MSE in Logistic Regression which uses a sigmoid function (non-linear function) will result in a **non-convex**, wavy and complex graph.
 
-<!--!!! info Convex Functions
-  If a line segment between any 2 points of the function does not lie below the graph.-->
+{{< callout type="info" title="Convex Functions" >}}
+If a line segment between any 2 points of the function does not lie below the graph.
+{{< /callout >}}
 
 The non-convex curve has many *valleys* (local minima). If the algorithm starts in the wrong spot, it might get stuck in a shallow valley and think it has found the best solution when it hasn't. Hence, MSE is not used for Logistic Regression.
 
-![MSE vs Log-loss](/static/images/Ml-7.png)
-
+{{< figure src="/static/images/Ml-7.png" alt="MSE vs Log-Loss" caption="MSE vs Log-Loss" >}}
 
 ---
 
@@ -169,8 +169,9 @@ $$ \boxed{J(\mathbf{w}) = \mathcal{L}_{BCE} = - \frac{1}{m} \sum_{i=1}^m \left[ 
 
 ## Gradient Descent Derivation
 
-<!--!!! success Goal
-    Minimize $J(\mathbf{w})$. For this, the gradient $\frac{\partial J}{\partial w_j} $ is needed.-->
+{{< callout type="success" title="Goal" >}}
+Minimize $J(\mathbf{w})$. For this, the gradient $\frac{\partial J}{\partial w_j} $ is needed.
+{{< /callout >}}
     
 ### 1. Derivative of Sigmoid Function
 
@@ -220,8 +221,9 @@ Update the weights for each training example $(x^{(i)}, y^{(i)})$ individually:
 
 $$ w_j := w_j - \alpha (\hat y^{(i)} - y^{(i)})x_j^{(i)}  $$
 
-<!--!!! note
-    This rule is identical in form to the [Linear Regression update rule](/ML-Linear_Regression.md) but the definition of $\hat{y}$ has changed from linear ($\mathbf{w}^T\mathbf{x}$) to sigmoid ($\sigma(\mathbf{w}^T\mathbf{x})$).-->
+{{< callout type="note" title="note" >}}
+This rule is identical in form to the [Linear Regression update rule](/ML-Linear_Regression.md) but the definition of $\hat{y}$ has changed from linear ($\mathbf{w}^T\mathbf{x}$) to sigmoid ($\sigma(\mathbf{w}^T\mathbf{x})$).
+{{< /callout >}}
 
 ---
 
@@ -263,7 +265,7 @@ $$\mathbf{w}^T\mathbf{x} + b = 0$$
 - While the decision boundary is linear, the relationship between the input features and the predicted probability is non-linear (S-shaped or sigmoidal). 
 - The "linear" label strictly refers to the shape of the separation boundary in space, not the probability curve.
 
-![Linear Separation in Feature Space](/static/images/Ml-8.png)
+{{< figure src="/static/images/Ml-8.png" alt="Linear Separation in Feature Space" caption="Linear Separation in Feature Space" >}}
 
 ---
 

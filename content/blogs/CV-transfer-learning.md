@@ -6,7 +6,7 @@ date: 2025-03-22
 pinned: false
 ---
 
-# Transfer Learning
+## Transfer Learning
 
 - Training deep learning models from scratch requires massive amounts of data and computational resources. 
 - **Transfer learning** allows to use pre-trained models, which have already learned useful features from large datasets like **ImageNet**. 
@@ -21,31 +21,32 @@ pinned: false
 - Modify the classifier to suit new dataset.
 - The pre-trained ImageNet Feature Extractor has learned valuable features for detecting many different object types. 
 - Assume such features are general enough that we only need to re-train the classifier portion of the network.
-- ![Image](/static/images/TL1.png)
+
+{{< figure src="/static/images/TL1.png" alt="Deep Convolutional Neural Network" caption="Deep Convolutional Neural Network" >}}
 
 
 ## Some image trasformations
 
-- #### `transforms.RandomResizedCrop(size = 256, scale =(0.8, 1.0))`
+- `transforms.RandomResizedCrop(size = 256, scale =(0.8, 1.0))`
     - randomly crops the image to a fixed size (256x256 pixels).
     - scaling factor (0.8, 1.0) means the cropped region will be between 80% to 100% of the original image's size.
 
-- #### `transforms.RandomRotation(degrees=15)`
+- `transforms.RandomRotation(degrees=15)`
     - rotates the image by a random angle in the range **[-15, +15]** degrees.
     - makes the model more robust to different orientations
 
-- #### `transforms.RandomHorizontalFlip()`
+- `transforms.RandomHorizontalFlip()`
     -  **flips** the image horizontally (left ↔ right) with a probability of 0.5.
     - thus the model will generalize better by making it invariant to horizontal flips.
 
-- #### `transforms.CenterCrop(size=224)`
+- `transforms.CenterCrop(size=224)`
     - crops the central **224x224** region from the image.
 
-- #### `transforms.ToTensor()`
+- `transforms.ToTensor()`
     - converts PIL image (NumPy array) to PyTorch Tensor.
     - scales the pixel values from [0, 255] (unit8) to [0, 1] (float32).
 
-- #### `transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])`
+- `transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])`
     - normalizes the image using the mean and standard deviation values of the ImageNet dataset.
 
 ---

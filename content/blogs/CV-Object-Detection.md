@@ -6,7 +6,7 @@ date: 2025-03-25
 pinned: false
 ---
 
-# Object Detection , R-CNN, Fast R-CNN & Faster R-CNN
+## Object Detection , R-CNN, Fast R-CNN & Faster R-CNN
 
 - The input to the model is an image, and the output is an array of bounding boxes, and a class label for every bounding box.
 - There can be multiple objects in the image and thr task may be to identify and locate them in the image.
@@ -28,39 +28,44 @@ pinned: false
     1. Region proposal
     2. Onject Classification
 
-- ![Image](/static/images/OD1.png)
+{{< figure src="/static/images/OD1.png" alt="R-CNN architecture" caption="R-CNN architecture." >}}
 
+R-CNN workflow consists of 4 steps :
 
-- R-CNN workflow consists of 4 steps :
-    - #### Region Proposal Generation 
-        - Genrate approx 2000 region proposals per image using the *Selective Search* algo.
-        - These proposals serve to identify potential areas within an image that are likely to contain objects, thereby focusing the subsequent computational resources on the most relevant parts of the image rather than exhaustively searching the entire image.
-        - ***Selective Search*** : 
-            - It is a greedy hierarchial (bottom up) clustering approach 
-            1. Over-segmenting the image into small regions.
-            2. Then merging similar regions step by step to form larger ones.
-            3. Collecting all regions seen during the process as region proposals.
-            
-            - combines similar regions based on texture, color, and other visual cues to identify potential object locations.
-        
-    - #### Feature Extraction
-        - Each proposed region is resized to a fixed dimension (commonly 224×224 pixels) and passed through a pre-trained CNN to extract high-dimensional feature representations.
+### Region Proposal Generation 
+
+- Genrate approx 2000 region proposals per image using the *Selective Search* algo.
+- These proposals serve to identify potential areas within an image that are likely to contain objects, thereby focusing the subsequent computational resources on the most relevant parts of the image rather than exhaustively searching the entire image.
+- ***Selective Search*** : 
+    - It is a greedy hierarchial (bottom up) clustering approach 
+    1. Over-segmenting the image into small regions.
+    2. Then merging similar regions step by step to form larger ones.
+    3. Collecting all regions seen during the process as region proposals.
     
-    - #### Object Classification
-        - The extracted feature vectors are fed into a set of class-specific SVMs, where each SVM determines whether the region contains an object of a particular class.
+    - combines similar regions based on texture, color, and other visual cues to identify potential object locations.
     
-    - #### Bounding Box Regression
-        - adjusts the coordinates of the proposed regions to better align with the actual object boundaries.       
-    <br>
+### Feature Extraction
 
-- ![Image](/static/images/OD2.png)
+- Each proposed region is resized to a fixed dimension (commonly 224×224 pixels) and passed through a pre-trained CNN to extract high-dimensional feature representations.
+
+### Object Classification
+
+- The extracted feature vectors are fed into a set of class-specific SVMs, where each SVM determines whether the region contains an object of a particular class.
+
+### Bounding Box Regression
+
+- adjusts the coordinates of the proposed regions to better align with the actual object boundaries.       
+
+{{< figure src="/static/images/OD2.png" alt="R-CNN object detection architecture" caption="R-CNN object detection architecture" >}}
 
 ### Mathematics of R-CNN
 
 - Let the proposal box from selective search be :
-    - $$ P = (x_p, y_p, w_p, h_p)$$ 
-        - xp , yp : center of the proposal bax
-        - wp, hp : width and height
+
+$$ P = (x_p, y_p, w_p, h_p)$$ 
+
+- xp , yp : center of the proposal bax
+- wp, hp : width and height
 
 - Ground truth box :
     - G = (x, y, w, h)
@@ -76,35 +81,38 @@ pinned: false
 
 #### **During training**
 
-- #### Predict offsets
+- Predict offsets
     - Pass the proposal features through a regression head (a few fully connected layers) in neural network.
     - It outputs predicted deltas for each proposal:
         - `t̂ = model(proposal_features)  →  [t̂x, t̂y, t̂w, t̂h]`
     
-- #### Calculate Loss (Smooth L1 Loss)
-    - $$ \mathcal{L}_{\text{reg}} = \sum_{i \in \{x, y, w, h\}} \text{SmoothL1}(\hat{t}_i - t_i) $$
-    - $$ \text{SmoothL1}(x) = 
+- ***Calculate Loss (Smooth L1 Loss)***
+
+$$ \mathcal{L}_{\text{reg}} = \sum_{i \in \{x, y, w, h\}} \text{SmoothL1}(\hat{t}_i - t_i) $$
+
+$$ \text{SmoothL1}(x) = 
 \begin{cases}
 0.5 \, x^2 / \beta, & \text{if } |x| < \beta \\
 |x| - 0.5 \beta, & \text{otherwise}
 \end{cases}
  $$
-    - where `x = t̂i - ti` 
-    - $ \beta $ is a threshold (usually = 1)
-        -  controls the transition between L2 loss (quadratic) and L1 loss (linear).
 
-- #### Backpropagate
-    - combine this regression loss with the classification loss (e.g. softmax for object classes), and backpropagate to train the model:
-        - $ L = L_{cls} + \lambda \cdot L_{reg} $
-​
+- where `x = t̂i - ti` 
+- $ \beta $ is a threshold (usually = 1)
+    -  controls the transition between L2 loss (quadratic) and L1 loss (linear).
+
+- ***Backpropagate***
+
+- combine this regression loss with the classification loss (e.g. softmax for object classes), and backpropagate to train the model:
+    - $ L = L_{cls} + \lambda \cdot L_{reg} $
 
 #### **During inference**
 
 - Apply the predicted set of deltas to the proposal boxes
-    - $ x = t^x \cdot w_p + x_p $ <br>
-    - $ y = t^y \cdot h_p + y_p $ <br>
-    - $ w = w_p \cdot \exp(t^w) $ <br>
-    - $ h = h_p \cdot \exp(t^h) $ <br>
+    - $ x = t^x \cdot w_p + x_p $ 
+    - $ y = t^y \cdot h_p + y_p $
+    - $ w = w_p \cdot \exp(t^w) $
+    - $ h = h_p \cdot \exp(t^h) $
 
 - This gives refined bounding box that better fits the object.
 
@@ -144,7 +152,7 @@ pinned: false
 - To process these proposals using fully connected layers, they need to be converted into fixed (uniform) sizes (eg. 7 x 7).
 - RoI Pooling fixes this mismatch by "compressing" each RoI into a fixed-size grid, while preserving spatial information.
 
-- ![Image](/static/images/OD3.png)
+{{<figure src="/static/images/OD3.png" alt="Fast R-CNN architecture" caption="Fast R-CNN architecture" >}}
 
 - #### Steps of RoI Pooling
     - **Given :**
@@ -194,25 +202,29 @@ pinned: false
 >    - This gives one single value.
 >- Thus we will get 7×7 feature map.
 
-- #### Mathematically
-    - $ R = [x_1, y_1, x_2, y_2] $ is a region on the feature map.
-    - Output size = H x W.
+#### Mathematically
 
-    - Each bin covers :
-        - $$ h_{bin} = \frac{y_2 - y_1}{H} , \quad w_{bin} = \frac{x_2 - x_1}{W} $$
-    
-    - For each bin apply, 
-        - $$ output_{i,j} = max $$
-        - $$ \text{output}_{i,j} = \max_{(x, y) \in \text{bin}(i, j)} \text{features}(x, y) $$
+- $ R = [x_1, y_1, x_2, y_2] $ is a region on the feature map.
+- Output size = H x W.
 
-- ![Image](/static/images/OD4.png)
+- Each bin covers :
+
+$$ h_{bin} = \frac{y_2 - y_1}{H} , \quad w_{bin} = \frac{x_2 - x_1}{W} $$
+
+- For each bin apply, 
+
+$$ output_{i,j} = max $$
+
+$$ \text{output}_{i,j} = \max_{(x, y) \in \text{bin}(i, j)} \text{features}(x, y) $$
+
+{{<figure src="/static/images/OD4.png" alt="Fast R-CNN Object Detection" caption="Fast R-CNN Object Detection" >}}
+
 
 - The 7×7 pooled feature map (from each RoI) is flattened into a 1D vector.
 - The flattened vector is passed through fully connected layers.
     - They help to learn higher-level features from RoI.
 - After the FC layers, the network splits into two heads:
 
-<br>        
 
 |Branch | Purpose | Output|
 |---|---|---|
@@ -232,14 +244,17 @@ $$ L(p,u,t,v) = L_{cls}(p,u) + \lambda[u \geq 1] L_{loc}(t,v) $$
 - λ = balance weight (usually set to 1).
 - [u≥1] = indicator function → only apply bounding box loss if the RoI is not background.
 
-- ##### $ L_{cls} $ : Classification loss
-    - $$ L_{cls}(p,u) = -log p_u $$
-    - `pu`  is the probability the model assigned to the correct class u.
-    - u = 0 means the RoI is background
+**$ L_{cls} $ : Classification loss**
 
-- ##### Localisation Loss 
-    - Smooth L1 loss applied on the bounding box coordinates.
-    - only computed when RoI is foreground.
+$$ L_{cls}(p,u) = -log p_u $$
+
+- `pu`  is the probability the model assigned to the correct class u.
+- u = 0 means the RoI is background
+
+**Localisation Loss**
+    
+- Smooth L1 loss applied on the bounding box coordinates.
+- only computed when RoI is foreground.
 
 ---
 
@@ -265,7 +280,7 @@ $$ L(p,u,t,v) = L_{cls}(p,u) + \lambda[u \geq 1] L_{loc}(t,v) $$
         - *Class scores* (object category)
         - *Bounding box refinements*
 
-- <img src="/static/images/OD7.png" alt="Image" width="450" height="450">
+{{< figure src="/static/images/OD7.png" alt="Faster R-CNN" caption="Faster R-CNN" width="450" height="450" >}}
 
 ### Region Proposal Networks (RPN) 
 
@@ -286,7 +301,7 @@ $$ L(p,u,t,v) = L_{cls}(p,u) + \lambda[u \geq 1] L_{loc}(t,v) $$
     - A bounding box regression:
         - How to move and resize this anchor to better fit the object.
 
-##### RPN Training :
+#### RPN Training :
 
 - Label anchors 
     - **Positive Anchors** :
@@ -295,11 +310,12 @@ $$ L(p,u,t,v) = L_{cls}(p,u) + \lambda[u \geq 1] L_{loc}(t,v) $$
     - **Negative Anchors** :
         - Anchors whose IoU < 0.3 with all ground-truth boxes
 
-> IoU = Intersection over Union
->- <img src="/static/images/OD5.png" alt="Image" width="450" height="250">
->- It is an evaluation metric used to measure the accuracy of an object detector on a particular dataset.
+{{< callout type="info" title="IoU = Intersection over Union" >}}
+{{< figure src="/static/images/OD5.png" alt="Intersection Over Union" caption="Intersection Over Union" width="450" height="250" >}}
+It is an evaluation metric used to measure the accuracy of an object detector on a particular dataset.
+{{< /callout >}}
 
-##### RPN Loss
+#### RPN Loss
 
 $$ L(p_i,t_i) = \frac{1}{N_{cls}} \sum_i L_{cls}(p_i,p_i ^*) + \lambda \frac{1}{N_{reg}} \sum_i p_i ^* L_{reg} (t_i, t_i ^*) $$
 
@@ -317,7 +333,7 @@ $$ L(p_i,t_i) = \frac{1}{N_{cls}} \sum_i L_{cls}(p_i,p_i ^*) + \lambda \frac{1}{
 
 ---
 
-- <img src="/static/images/OD6.png" alt="Image" width="450" height="250">
+{{< figure src="/static/images/OD6.png" alt="Region Proposal Network (RPN)" caption="Region Proposal Network (RPN)" width="450" height="250" >}}
 
 - Input image is passed through a CNN backbone and a feature map is obtained.
 - A small sliding window (3x3) slides over every spatial location.
@@ -345,11 +361,11 @@ $$ L(p_i,t_i) = \frac{1}{N_{cls}} \sum_i L_{cls}(p_i,p_i ^*) + \lambda \frac{1}{
 
 - Rest same as Fast R-CNN
 
-- <img src="/static/images/OD8.png" alt="Image" width="700" height="250">
+{{< figure src="/static/images/OD8.png" alt="Faster R-CNN Architecture for Object Detection" caption="Faster R-CNN Architecture for Object Detection" width="700" height="250" >}}
 
 --- 
 
-# Object Detection using PyTorch
+## Object Detection using PyTorch
 
 ### Importing the model
 

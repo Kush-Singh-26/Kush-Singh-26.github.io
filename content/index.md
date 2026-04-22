@@ -1,4 +1,6 @@
 ---
-title: "Beyond Binary"
+title: "Kush Singh"
 layout: "home"
+hidden: true
 ---
+

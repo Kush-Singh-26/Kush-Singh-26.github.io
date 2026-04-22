@@ -12,7 +12,7 @@ To optimize a model, its performance must be defined. In classification, raw acc
 
 For a binary classifier, the predictions are categorized into 4 buckets based on the intersection of the predicted class and the actual truth values.
 
-![Confusion Matrix](/static/images/Ml-10.png)
+{{< figure src="/static/images/Ml-10.png" alt="Confusion Matrix" caption="Confusion Matrix" >}}
 
 - **True Positive** (TP): Predicted (+) and Actual (+).
 - **True Negative** (TN): Predicted (-) and Actual (-).
@@ -63,12 +63,13 @@ $$F_1 = \frac{2 \cdot \text{Precision} \cdot \text{Recall}}{\text{Precision} + \
 
 ### 6. Area Under ROC Curve (AUC-ROC)
 
-!!! info ROC Curve Definition
-    The **Receiver Operating Characteristic (ROC)** curve plots the **Recall (TPR)** against the **False Positive Rate** $(1 - \text{Specificity})$ at various threshold settings.
+{{< callout type="info" title="ROC Curve Definition" >}}
+The **Receiver Operating Characteristic (ROC)** curve plots the **Recall (TPR)** against the **False Positive Rate** $(1 - \text{Specificity})$ at various threshold settings.
+{{< /callout >}}
 
 The Area Under this Curve (AUC) represents the probability that the classifier will rank a randomly chosen positive instance higher than a randomly chosen negative one.
 
-![AUC-ROC](/static/images/Ml-13.png)
+{{< figure src="/static/images/Ml-13.png" alt="AUC-ROC" caption="AUC-ROC" >}}
 
 > In case of more than 2 classes, compute Precision/Recall for each class independently, then average the scores. Treats all classes equally (good for checking performance on rare classes).
 
@@ -92,8 +93,7 @@ Variance is error caused by **too much sensitivity** to the training data. A hig
 
 Variance measures how much the model’s predictions would change if it were trained on a different dataset.
 
-<img src="/static/images/Ml-14.png" alt="Bias-Variance" width="500" height="450">
-
+{{< figure src="/static/images/Ml-14.png" alt="Bias-Variance" caption="Bias-Variance" width="500" height="450" >}}
 
 ### Mathematical Derivation of MSE Decomposition
 
@@ -131,14 +131,14 @@ Thus, the error is made up of bias and variance and it is important to find the 
 - **High Complexity** : Low Bias, High Variance. The model is too flexible and captures noise.
 - The **Sweet Spot** : The goal is to find the complexity level where the sum of Bias$^2$ and Variance is minimized.
 
-![Bias-Variance Tradeoff](/static/images/Ml-15.png)
+{{< figure src="/static/images/Ml-15.png" alt="Bias-Variance Tradeoff" caption="Bias-Variance Tradeoff" >}}
 
 ---
 
 - **Underfitting** : Occurs when a model is too simple to capture underlying patterns, performing poorly on both training and test data. 
 - **Overfitting** : Occurs when a model is too complex and learns noise in the training data as if it were a real pattern. It leads to high accuracy on training data but poor performance on testing data.
 
-![Underfitting & Overfitting](/static/images/Ml-16.png)
+{{< figure src="/static/images/Ml-16.png" alt="Underfitting & Overfitting" caption="Underfitting & Overfitting" >}}
 
 ---
 
@@ -163,8 +163,9 @@ $$\hat{\beta}_{ridge} = \underset{\beta}{\text{argmin}} \left( \sum_{i=1}^n (y_i
 
 - **Shrinks coefficients toward zero but never exactly to zero**. It includes all features in the final model (no variable selection).
 
-!!! tip L2 Regularization (Ridge)
-    The constraint region $\beta_1^2 + \beta_2^2 \leq s$ is a circle. The RSS ellipses usually hit the circle at a non-axis point, keeping $\beta$ non-zero.
+{{< callout type="tip" title="L2 Regularization (Ridge)" >}}
+The constraint region $\beta_1^2 + \beta_2^2 \leq s$ is a circle. The RSS ellipses usually hit the circle at a non-axis point, keeping $\beta$ non-zero.
+{{< /callout >}}
 
 ---
 
@@ -180,13 +181,13 @@ $$\hat{\beta}_{lasso} = \underset{\beta}{\text{argmin}} \left( \sum_{i=1}^n (y_i
 
 - **Can shrink coefficients exactly to zero, effectively performing feature selection**. It creates sparse models.
 
-!!! tip L1 Regularization (Lasso)
-    The constraint region $|\beta_1| + |\beta_2| \leq s$ is a diamond. The RSS ellipses often hit the "corners" of the diamond (the axes), forcing some coefficients to zero.
+{{< callout type="tip" title="L1 Regularization (Lasso)" >}}
+The constraint region $|\beta_1| + |\beta_2| \leq s$ is a diamond. The RSS ellipses often hit the "corners" of the diamond (the axes), forcing some coefficients to zero.
+{{< /callout >}}
 
 - It is not differentiable at 0.
 
-![L1 vs L2 regularization](/static/images/Ml-17.png)
-
+{{< figure src="/static/images/Ml-17.png" alt="L1 vs L2 regularization" caption="L1 vs L2 regularization" >}}
 
 ---
 

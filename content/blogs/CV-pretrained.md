@@ -6,9 +6,9 @@ date: 2025-03-22
 pinned: false
 ---
 
-#### Using a pretrained model to perform classification tasks.
+## Using a pretrained model to perform classification tasks.
 
-## Some pre-trained models available in `torchvision.models` :
+### Some pre-trained models available in `torchvision.models` :
 
 - **AlexNet**: The first CNN based model to win the ImageNet challenge.
 
@@ -20,7 +20,7 @@ pinned: false
 
 - **DenseNet**: Uses feature reusability.
 
-# Steps for using pretrained models
+## Steps for using pretrained models
 
 ### 1. Load a Pre-trained Model
 
@@ -38,8 +38,8 @@ model.eval()
 
     - if the model was used for training then `model.train()`.
 
-> `model = models.resnet50(weights='DEFAULT')` <br>
-It is the syntax for newer PyTorch versions.
+> `model = models.resnet50(weights='DEFAULT')`
+> - It is the syntax for newer PyTorch versions.
 
 ### 2. Preprocess the Input Image
 

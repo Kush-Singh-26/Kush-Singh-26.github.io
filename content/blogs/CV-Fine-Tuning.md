@@ -6,7 +6,7 @@ date: 2025-03-22
 pinned: false
 ---
 
-# Fine Tuning a pre trained model
+## Fine Tuning a pre trained model
 
 - Here, instead of freezing all the feature extraction layers, only fist `n` layers will be freezed.
 - Last `m` layers will remain trainable along with the classifier.
@@ -70,7 +70,6 @@ train_data = datasets.ImageFolder(root = train_root, transform = train_transform
 ## Freezing the first n layers
 
 ```python
-
 for param in model.features[:10].parameters():
     param.requires_grad = False
 ```

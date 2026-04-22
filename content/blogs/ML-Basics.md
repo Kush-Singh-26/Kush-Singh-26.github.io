@@ -20,7 +20,7 @@ Tabular datasets consists of rows and columns :
 |---|---|---|---|
 | $p_1$ |130|55|
 |$p_2$|140|65|
-|$\vdots$|$\vdots$|$\vdots$|
+| $ \vdots $ | $ \vdots $ | $ \vdots $ |
 |$p_n$|160|75|
 
 To perform statistical analysis, the datasets is viewed as **samples drawn from a probability distribution**.
@@ -80,9 +80,10 @@ If even no. of values :
 
 $$ \text{Median} = \frac{1}{2} [x_{\frac{n}{2}} + x_{\frac{n+1}{2}}] $$
 
-!!! important
-    When outliers are present in the dataset, it is better to use **median**.
-    
+{{< callout type="info" title="Note" >}}
+When outliers are present in the dataset, it is better to use **median**.
+{{< /callout >}}
+
 ### Moment 2 (Measures of Dispersion)
 
 #### 3. Variance
@@ -114,7 +115,7 @@ $$ \text{Skewness} = \frac{1}{n} \sum{\left(\frac{x_i - \mu}{\sigma}\right)^3} $
 - **Negative Skew** : Tail extends to the left (left skewed).
 - **Zero Skew** : Perfectly symmetrical (like a standard Normal distribution).
 
-![Skewness](/static/images/Ml-1.png)
+{{< figure src="/static/images/Ml-1.png" alt="Skewness" caption="Skewness" >}}
 
 ### Moment 4 / **Kurtosis**
 
@@ -122,8 +123,9 @@ It defines the shape in terms of peak (sharpness) and tail (heaviness).
 
 $$ \text{Kurtosis} = \frac{1}{n} \sum{\left(\frac{x_i - \mu}{\sigma}\right)^4} $$
 
-!!! tip Bessel's Correction
-    In the denominator, use $n-1$ when a **sample of the population** is considered. Otherwise, when the whole population is used, use $n$.
+{{< callout type="note" title="Bessel's Correction" >}}
+In the denominator, use $n-1$ when a **sample of the population** is considered. Otherwise, when the whole population is used, use $n$.
+{{< /callout >}}
     
 ---
 
@@ -146,7 +148,7 @@ It is a standard way of displaying the distribution of data based on **5-number 
 
 - **Outliers** : Individual points plotted beyond the whiskers.
 
-![Box Plot](/static/images/Ml-3.png)
+{{< figure src="/static/images/Ml-3.png" alt="Box Plot" caption="Box Plot" >}}
 
 ---
 
@@ -166,7 +168,7 @@ It measures the direction of the linear relationship between variables.
 - **Negative Covariance** : As $X$ increases, $Y$ tends to decrease.
 - **Zero Covariance** : No linear relationship between the 2 RVs.
 
-![Covariance](/static/images/Ml-2.png)
+{{< figure src="/static/images/Ml-2.png" alt="Covariance" caption="Covariance" >}}
 
 ---
 
@@ -181,9 +183,13 @@ $$ \rho_{X,Y} = \frac{Cov(X,Y)}{\sigma_X \sigma_Y} $$
 
 ---
 
-!!! example Mathematical Property
-    Covariance of a RV '$X$' with itself will be $(E[X-E[X])(E[X-E[X]]) = E[(X-E[X])^2] = \sigma_X^2 $. <br>
-    Thus, $Cov(X,X) = Var(X)$.
+{{< callout type="note" title="Mathematical Property" >}}
+Covariance of a RV '$X$' with itself will be 
+
+$$ (E[X-E[X])(E[X-E[X]]) = E[(X-E[X])^2] = \sigma_X^2 $$ 
+
+Thus, $Cov(X,X) = Var(X)$.
+{{< /callout >}}
 
 ### Covariance Matrix
 
@@ -202,8 +208,9 @@ Cov(X_d, X_1) & Cov(X_d, X_2) & \cdots & Var(X_d)
 - **Off-Diagonal elements** : Covariances between feature pairs.
   - $Cov(X,Y) = Cov(Y,X)$ , this means that the matrix is symmetric.
 
-!!! tip Key Insight
-    If one feature is a perfect linear combination of other features, then there is redundancy in the information, and the covariance matrix is singular (i.e., its rank is less than the number of features).
+{{< callout type="tip" title="Key Insights">}}
+If one feature is a perfect linear combination of other features, then there is redundancy in the information, and the covariance matrix is singular (i.e., its rank is less than the number of features).
+{{< /callout >}}
 
 ---
 

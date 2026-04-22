@@ -6,7 +6,7 @@ date: 2025-09-22
 pinned: false
 ---
 
-# What is MoE?
+## What is MoE?
 
 - **Mixture of Experts** or **MoE** is a type of ensemble models that combines several small expert sub-networks.
 - Instead of relying on a single, monolithic model to master a vast and complex problem space, the MoE approach decomposes the problem into smaller, more manageable subproblems.
@@ -16,17 +16,17 @@ pinned: false
 - The dense Feed Forward Network (*FFN*) layer is replaced with the *MoE layer*.
 - It consists of two main elements :
 
-- ### *Sparse* MoE Layers
-    - They have a certain number of experts / FFNs.
-    - They are **sparse** as only a few are active at any given time, depending on the nature of the input.
+### *Sparse* MoE Layers
+  - They have a certain number of experts / FFNs.
+  - They are **sparse** as only a few are active at any given time, depending on the nature of the input.
 
-- ### Gate Network or *Router*
-    - It determines which tokens are sent to which expert.
-    - The router is composed of learned parameters and is pretrained at the same time as the rest of the network.
+### Gate Network or *Router*
+  - It determines which tokens are sent to which expert.
+  - The router is composed of learned parameters and is pretrained at the same time as the rest of the network.
 
 > Thus, an MoE model routes different types of data to experts that have been trained to become highly proficient in handling those specific patterns, resulting in a more capable and efficient system overall.   
 
-# History of MoEs
+## History of MoEs
 
 The first formal introduction of MoE was done in the paper [Adaptive Mixtures of Local Experts](https://www.cs.toronto.edu/~fritz/absps/jjnh91.pdf), long before the rise of deep learning and the transformer architecture, in 1991.
 
@@ -34,7 +34,7 @@ The first formal introduction of MoE was done in the paper [Adaptive Mixtures of
 - The gating network would learn to partition this space, assigning different inputs to different experts. 
 - The final prediction was often a weighted combination of the outputs from all experts, with the gating network providing the weights.
 
-<img src="/static/images/MoE1.png" alt="Image" width="650" height="450">
+{{< figure src="/static/images/MoE1.png" alt="Hierarchical Mixture of Experts (HME) model" caption="Hierarchical Mixture of Experts (HME) model" width="650" height="450" >}}
 
 
 ## Diff. b/w <u>Early work</u> & <u>Modern practices of MoE</u>
@@ -46,11 +46,11 @@ The first formal introduction of MoE was done in the paper [Adaptive Mixtures of
 | Designed to partition the input space, each expert should specialize in different data regions. | Goal is to scale model capacity without proportional compute increase. |
 | The gating network was trained jointly to learn this partitioning. | Additional losses are added to ensure experts don’t collapse. |
 
-# Sparsely Gated MoE & Conditional Computation
+## Sparsely Gated MoE & Conditional Computation
 
 The idea of MoE was scaled to LSTMs by introducing sparsity which allowed to keep fast inference even at high scale in the paper [OUTRAGEOUSLY LARGE NEURAL NETWORKS:THE SPARSELY-GATED MIXTURE-OF-EXPERTS LAYER](https://arxiv.org/abs/1701.06538)
 
-<img src="/static/images/MoE2.png" alt="Image" width="650" height="450">
+{{< figure src="/static/images/MoE2.png" alt="Sparsely Gated MoE" caption="Sparsely Gated MoE" width="650" height="450" >}}
 
 > **Sparsity / conditional computation** means only running some parts of the whole system, unlike traditional dense model where all the parameters are used for all the inputs.
 
@@ -128,64 +128,72 @@ v_i, & \text{if } v_i \text{ is in the top-}k \text{ elements of } v \\
 >- Each time step’s hidden vector is treated like an independent token going through the MoE layer.
 >- The gating and expert selection happen for each vector independently, but the computation is batched for efficiency.
 
-# MoE in Transformers
+---
+
+## MoE in Transformers
 
 MoE were applied successfully in encoder-decoder transformer in [Switch Transformers](https://arxiv.org/abs/2101.03961), by **converting the feed-forward layers of the model into MoE layers**.
 
 - Each token is passed individually through feed-forward / MoE layer.
     - Thus, each token is individually routed to its set of corresponding experts.
 
-<img src="/static/images/MoE3.png" alt="Image" width="650" height="450">
+{{< figure src="/static/images/MoE3.png" alt="Switch Transformer" caption="Switch Transformer" width="650" height="450" >}}
 
-## Top-1 Routing
+### Top-1 Routing
 
 - Instead of routing to Top-$N$ experts, the token is routed to only *1* token.
 - This reduces computation & communication costs, while improving the model's performance.
 - This is called a **switch layer**.
 
-- $$ p_i(x) = \frac{e^{h(x)_i}}{\sum_{j=1}^N e^{h(x)_j}} $$
-    - Router is small linear layer with weights : $W_x$
-    - For an input token's vector ($x$), router computes score :
-        - $ h(x) = W_r \cdot x $
-        - It is a vector of size : $N = $ number of experts. 
-    - Then a softmax transformation is applied to convert this into a probability distribution over experts ($ p_i(x) $)
+$$ p_i(x) = \frac{e^{h(x)_i}}{\sum_{j=1}^N e^{h(x)_j}} $$
 
-- $$ y = \sum_{i \in T} p_i(x) E_i(x) $$
-    - $T$ : top-$K$ experts
-    - This represents the final output of MoE layer : 
-        - > weighted sum of the expert outputs, weighted by the gate values.
+  - Router is small linear layer with weights : $W_x$
+  - For an input token's vector ($x$), router computes score :
+      - $ h(x) = W_r \cdot x $
+      - It is a vector of size : $N = $ number of experts. 
+  - Then a softmax transformation is applied to convert this into a probability distribution over experts ($ p_i(x) $)
+
+$$ y = \sum_{i \in T} p_i(x) E_i(x) $$
+
+  - $T$ : top-$K$ experts
+  - This represents the final output of MoE layer : 
+      - weighted sum of the expert outputs, weighted by the gate values.
 
 - Since, only $1$ expert is to be choosen ($k = 1$) :
-- $$ y = E_{i^*}(x) $$
-    - $$
-i^* = \arg\max_{i} p_i(x)
-    $$
-        - argument of maximum or *which index $i$ makes p_i(x) largest.*
 
-## Load Balancing
+$$ y = E_{i^*}(x) $$
 
-- $$ loss = \alpha \cdot N \cdot \sum_{i=1}^N f_i \cdot P_i $$
-    - $N$ : number of experts
-    - $\alpha$ : small hyperparameter
-    - $f_i$ : fraction of tokens that actually get dispatched to expert $i$
-    - $P_i$ : fraction of router probability mass that expert $i$ receives
+$$ i^* = \arg\max_{i} p_i(x) $$
+        
+- argument of maximum or *which index $i$ makes p_i(x) largest.*
+
+### Load Balancing
+
+$$ loss = \alpha \cdot N \cdot \sum_{i=1}^N f_i \cdot P_i $$
+
+  - $N$ : number of experts
+  - $\alpha$ : small hyperparameter
+  - $f_i$ : fraction of tokens that actually get dispatched to expert $i$
+  - $P_i$ : fraction of router probability mass that expert $i$ receives
 
 --- 
 
 Where :
 
-- $$ f_i = \frac{1}{T} \sum_{x \in B} 1\{\arg\max p(x) = i\} $$
-    - $B$ : mini-batch of tokens of size $T$
-    - $p(x)$ : router probability for token $x$
-    - $\arg \max p(x)$ : the choosen expert for token $x$
-    - $ 1 \{ \cdot \} $ : indicator function (1 if condition is true, else 0)
-        - Here it will be true when the choosen expert is $expert_i$
-    - > So it tells, out of the total number of tokens, how many token's choosen expert is $expert_i$.
+$$ f_i = \frac{1}{T} \sum_{x \in B} 1\{\arg\max p(x) = i\} $$
 
-- $$ P_i = \frac{1}{T} \sum_{x \in B} p_i(x) $$
-    - $p_i(x)$ : probability mass assigned to expert $i$ for token $x$.
-    - Higer value of $P_i$ means router gives high probabilty to expert $i$.
-    - > It measures how much the router wants to use expert $i$, even if argmax ignores it. <br>It is the average probability mass across the batch that router assigns to expert $i$.
+- $B$ : mini-batch of tokens of size $T$
+- $p(x)$ : router probability for token $x$
+- $\arg \max p(x)$ : the choosen expert for token $x$
+- $ 1 \{ \cdot \} $ : indicator function (1 if condition is true, else 0)
+    - Here it will be true when the choosen expert is $expert_i$
+- So it tells, out of the total number of tokens, how many token's choosen expert is $expert_i$.
+
+$$ P_i = \frac{1}{T} \sum_{x \in B} p_i(x) $$
+
+- $p_i(x)$ : probability mass assigned to expert $i$ for token $x$.
+- Higer value of $P_i$ means router gives high probabilty to expert $i$.
+- > It measures how much the router wants to use expert $i$, even if argmax ignores it. <br>It is the average probability mass across the batch that router assigns to expert $i$.
 
 So, 
 - $f_i$ : gives **hard usage**, i.e., the actual routing of the token
@@ -230,6 +238,8 @@ Where:
 
 > If capacity is exceeded, i.e., more tokens want to go to an expert than it can hold, then :
 >- **extra tokens are dropped and are passed to the next layer by residual connections**.
+
+---
 
 ## ST-MoE / Router $z$-loss
 
@@ -294,7 +304,7 @@ Example :
 > Thus, using just the balance loss might lead to brittle and unstable training.
 >- To fix this router $z$-loss was introduced.
 
-## Router $z$-loss
+### Router $z$-loss
 
 $$ L_z(z) = \alpha \cdot \left(\log{\sum_{j=1}^N e^{z_j}} \right)^2 $$
 
@@ -322,33 +332,37 @@ $$ L = L_{task} + L_{balance} + L_{z} $$
 
 - **Total number of parameters are almost 47 billion but it only uses around 13 billion active parameters for any given token during inference**.
 
-# Pros & Cons of MoE
+---
 
-## Advantages 
+## Pros & Cons of MoE
 
-### Computation Efficiency
+### Advantages 
+
+#### Computation Efficiency
 
 - MoE models have a massive number of parameters but don't use all of them for a given input. 
 - This leads to much faster inference compared to a dense model of the same size.
 
-### Scalability
+#### Scalability
 
 - MoE offers a clear path to scale models to trillions of parameters without a proportional increase in computational cost.
 
 
-## Disadvantages
+### Disadvantages
 
-### Training Complexity
+#### Training Complexity
 
 - Prone to instability
 - Load balancing adds more complexity
 - Neads huge datasets to use
 
-### High VRAM Usage
+#### High VRAM Usage
 
 - All the parameters have to loaded (47B) into the memory even if only some (13B) parameters are used at a time.
 
-# Sources 
+---
+
+## Sources 
 
 - [Mixture-of-Experts (MoE): The Birth and Rise of Conditional Computation](https://cameronrwolfe.substack.com/p/conditional-computation-the-birth)
 - [Mixture of Experts Explained](https://huggingface.co/blog/moe)

@@ -12,8 +12,9 @@ It is a statistical process for estimating the relationships between a **depende
 - **Input $X$** : Attribute variables or features (typically numerical values).
 - **Output $Y$** : Response variable that is aimed to be predicted.
  
-!!! abstract Objective
-    The goal is to estimate a function $f(X, \beta)$ such that $Y \approx f(X, \beta)$.
+{{< callout type="goal" title="Objective" >}}
+The goal is to estimate a function $f(X, \beta)$ such that $Y \approx f(X, \beta)$.
+{{< /callout >}}
     
 It is called linear regression because this relation is assumed to be linear with an additive error term $\epsilon$ representing statistical noise.
 
@@ -39,7 +40,7 @@ The fitted values or the *prediction* is :
 
 $$ \hat y_i = \hat \beta_0 + \hat \beta_1 x_i $$
 
-![Residuals in linear regression](/static/images/Ml-4.png)
+{{< figure src="/static/images/Ml-4.png" alt="Residuals in linear regression" caption="Residuals in linear regression" >}}
 
 ---
 
@@ -53,8 +54,9 @@ Residual Sum of Squares (SSE) cost function $L$ is defined as :
 
 $$ L(\beta_0,\beta_1) = \sum_{i=1}^n \epsilon_i^2 = \sum_{i=1}^n (y_i - \hat y_i)^2 = \sum_{i=1}^n (y_i - (\beta_0 + \beta_1 x_i))^2 $$
 
-!!! success Goal
-    Minimize $\sum_{i=1}^n (y_i - \hat y_i)^2$
+{{< callout type="success" title="Goal" >}}
+Minimize $\sum_{i=1}^n (y_i - \hat y_i)^2$
+{{< /callout >}}
     
 To find the optimal $\beta_0$ and $\beta_1$, we take partial derivative w.r.t each parameter and set them to 0.
 
@@ -221,9 +223,10 @@ $$ \underbrace{\hat{Y}}_{N \times 1} = \underbrace{X}_{N \times (n+1)} \cdot \un
 
 ## Closed Form / Normal Form Equation
 
-!!! tip
-    To find the coefficient $w$, minimize the sum of squared error (SSE).
-    
+{{< callout type="tip" title="goal">}}
+To find the coefficient $w$, minimize the sum of squared error (SSE).
+{{< /callout >}}
+
 ### Define the cost function
 
 Cost function (quantifies the error between a model's predicted outputs and the actual target values) :
@@ -313,7 +316,7 @@ $$\boxed{ w = (X^T X)^{-1}X^T y }$$
 
 When the normal equation becomes too computationally expensive, we use *Gradient Descent* : an iterative optimization algorithm.
 
-![Convex Bowl](/static/images/Ml-5.png)
+{{< figure src="/static/images/Ml-5.png" alt="Convex Bowl" caption="Convex Bowl" >}}
 
 ### Cost Funtion (Mean Squared Error Form) 
 
@@ -347,7 +350,7 @@ $$\frac{\partial J(w)}{\partial w_j} = \frac{1}{n} \sum_{i=1}^{n} (w^T x^{(i)} -
 
 ### Learning Rate ($\alpha$)
 
-![Different Alpha values result](/static/images/Ml-11.png)
+{{< figure src="/static/images/Ml-11.png" alt="Different Alpha values result" caption="Different Alpha values result" >}}
 
 It is a critical hyperparameter that controls the step size taken towards a minimum of a loss function during optimization
 
@@ -355,9 +358,9 @@ It is a critical hyperparameter that controls the step size taken towards a mini
 - $\alpha$ too large: The steps may overshoot the minimum, causing the algorithm to oscillate or diverge (cost increases).
 - Optimal $\alpha$: Smoothly reaches the minima.
 
-![Learning rate in bowl](/static/images/Ml-12.png)
+{{< figure src="/static/images/Ml-12.png" alt="Learning rate in bowl" caption="Learning rate in bowl" >}}
 
-![Learning Rate Trajectories](/static/images/Ml-6.png)
+{{< figure src="/static/images/Ml-6.png" alt="Learning Rate Trajectories" caption="Learning Rate Trajectories" >}}
 
 ---
 

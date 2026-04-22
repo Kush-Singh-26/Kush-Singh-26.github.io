@@ -6,7 +6,7 @@ date: 2025-03-24
 pinned: false
 ---
 
-# Image Segmentation
+## Image Segmentation
 
 - A segmentation algorithm takes an image as input and outputs a collection of regions (or segments) which can be represented as
     - A collection of contours.
@@ -14,10 +14,9 @@ pinned: false
 
 > **Superpixels** : perceptually meaningful groups of pixels formed by clustering neighboring pixels that have similar low-level properties such as color, texture, intensity, or spatial proximity. 
 
-
-# Semantic Segmentation
-
-- Image analysis task in which each pixel is classsified into a class.
+{{< callout type="info" title="Semantic Segmentation" >}}
+Image analysis task in which each pixel is classsified into a class.
+{{< /callout >}}
 
 ## Performing Semantic Segmentation using PyTorch
 
@@ -39,7 +38,7 @@ pinned: false
 
 - FCN = *Fully Convolutional Networks*
 
-- <img src="/static/images/SS1.png" alt="Image" width="700" height="350">
+{{< figure src="/static/images/SS1.png" alt="Fully Convolutional Network" caption="Fully Convolutional Network" width="700" height="350" >}}
 
 ```python
 fcn = models.segmentation.fcn_resnet101(
@@ -91,7 +90,8 @@ print(np.unique(om))
     - here the input is `[C, H, W]`, where each if the `C` channels contains the score for that class at each pixel.
     - thus, At every pixel `(h, w)`, find the class index `c` where the value is highest. 
     - This gives a 2D tensor
-    - > For each pixel (i.e., for each (h, w)), look across classes (dim=0), and pick the class with the highest score.
+
+> For each pixel (i.e., for each (h, w)), look across classes (dim=0), and pick the class with the highest score.
 
 - `.detach()`
     - Detaches the tensor from the computation graph (so no gradients will be tracked).
@@ -102,7 +102,7 @@ print(np.unique(om))
 - `.numpy()`
     - converts the tensor to a numpy array.
 
-- > **om** : A 2D NumPy array of shape (H, W) where each value is a class index from 0 to 20.
+> **om** : A 2D NumPy array of shape (H, W) where each value is a class index from 0 to 20.
 
 ### Converting the segmentation map into a colour image
 
@@ -176,10 +176,12 @@ dlab = models.segmentation.deeplabv3_resnet101(
 - **mAP** : *mean Average Precision*, evaluate the precision-recall curve.
 - **Recall** : measure how well the model captures all relevant pixels (true positives).
 - **Dice coefficient** : measures the overlap between predicted and ground truth masks.
-    - $$ Dice = \frac{2 . |A \cup B|}{|A| + |B|} $$
-        - `A` : predicted mask
-        - `B` : ground truth mask
-        - `|A ∩ B|`: number of pixels where both masks overlap (true positives)
+
+$$ Dice = \frac{2 . |A \cup B|}{|A| + |B|} $$
+
+- `A` : predicted mask
+- `B` : ground truth mask
+- `|A ∩ B|`: number of pixels where both masks overlap (true positives)
 
 ### Datasets for Semantic segmentation
 

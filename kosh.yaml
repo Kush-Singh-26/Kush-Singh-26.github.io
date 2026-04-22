@@ -47,12 +47,10 @@ footerMenu:
 
 # Social Cards (Open Graph Images)
 socialCards:
-  background: "#141816"    # Deep Inky Black/Sage (matches --bg-body)
-  gradient:                # Gradient from Sage Ink to Aged Gold
-    - "#8ba395"            # Sage Ink (matches --accent-primary)
-    - "#b59d6d"            # Aged Gold (matches --accent-secondary)
-  angle: 135               # Gradient angle
-  textColor: "#e1e9e4"     # Slate Text (matches --text-main)
+  background: "#141816"    # Deep Inky Black
+  gradient: []             # Classy solid look
+  angle: 135
+  textColor: "#e1e9e4"     # Scholar's Slate
 
 imageWorkers: 8
 shouldCompressImages: true

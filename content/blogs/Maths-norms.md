@@ -65,8 +65,7 @@ In a ML model, the best weights ($w_1, w_2$) are needed to minimie the error. Th
 
 It is difficut to draw the 3D landscape/bowl on paper, so a 2D topographic map is used where all the points on same ring have equal error/altitude, as shown in the image below.
 
-
-<img src="/static/images/M4ML1.png" alt="Loss-landscape" width="500" height="250">
+{{< figure src="/static/images/M4ML1.png" alt="Loss-landscape" caption="Loss-Landscape" width="500" height="250" >}}
 
 ---
 
@@ -77,8 +76,7 @@ In **Regularization** or leash 2 forces are fighting each other :
 
 2. ***Constraint / Leash*** : A leash tied around the origin which only allows to travel a distance of $c$ from the start.
 
-<img src="/static/images/M4ML2.png" alt="Regularization" width="600" height="450">
-
+{{< figure src="/static/images/M4ML2.png" alt="Regularization" caption="Regularization" width="600" height="450" >}}
 
 - $\hat \beta$ is the target.
 

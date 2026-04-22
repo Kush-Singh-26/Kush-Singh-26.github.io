@@ -6,7 +6,8 @@ taxonomies:
   tags: ["documentation", "kitchen-sink", "features"]
   categories: ["Guide"]
 weight: 1
-isPinned: true
+pinned: false
+draft: true
 ---
 
 # The Kitchen Sink

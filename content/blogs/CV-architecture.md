@@ -13,22 +13,25 @@ pinned: false
     2. Pooling Layer
     3. Fully Connected Layer
 
-# Convolutional Layer
+## Convolutional Layer
 
 - The trainable parameters of this layer are called **filters** or **kernels**.
 - This layer applies the filters to the input image, **extracting essential features** such as edges, textures, and patterns. 
--  Mathematical formula of convolution :
-    - $$ O(x,y) = \sum_{c=0}^{C-1} \sum_{i = 0}^{K-1} \sum_{j = 0}^{K-1} W_c(i,j) \cdot I_c(x+i, y+j) $$
-        - `O(x,y)` is the output feature map at position (x,y).
-        - `I(x+i, y+j)` is the input feature map or image  pixel at channel c, and spatial location `(x+i, y+j)`.
-        - `W_c(x,y)` is the filter of size `(K,K)`, for input channel c.
-        - `K` is the size of the kernel. 
-        - `c` is the number of input channels.
 
-        - The 3 summations iterate over :
-            1. c = 0 to C-1 (input channels).
-            2. i = 0 to K-1 (kernel height).
-            3. j = 0 to K-1 (kernel width).
+Mathematical formula of convolution :
+ 
+$$ O(x,y) = \sum_{c=0}^{C-1} \sum_{i = 0}^{K-1} \sum_{j = 0}^{K-1} W_c(i,j) \cdot I_c(x+i, y+j) $$
+
+- `O(x,y)` is the output feature map at position (x,y).
+- `I(x+i, y+j)` is the input feature map or image  pixel at channel c, and spatial location `(x+i, y+j)`.
+- `W_c(x,y)` is the filter of size `(K,K)`, for input channel c.
+- `K` is the size of the kernel. 
+- `c` is the number of input channels.
+
+- The 3 summations iterate over :
+    1. c = 0 to C-1 (input channels).
+    2. i = 0 to K-1 (kernel height).
+    3. j = 0 to K-1 (kernel width).
 
 - Each layer has _C_ slices.
     - _C_ : the number of input channels.
@@ -38,7 +41,7 @@ pinned: false
 - Slide the filter over the entire input to repeat this process for all spatial positions.
 - Each filter produces one output channel, so if we apply M filters, we obtain M output channels.
 
-<img src="/static/images/CNN1.png" alt="Image" width="1000" height="325">
+{{< figure src="/static/images/CNN1.png" alt="Convolution" caption="Convolution" width="1000" height="325" >}}
 
 - This convolution process is also called **cross-correlation** in CNNs.
 
@@ -79,8 +82,7 @@ pinned: false
 
 > **A 3×3 filter with dilation=2 behaves like a 5×5 filter but with fewer parameters.**
 
-
-<img src="/static/images/CNN2.png" alt="Image" width="700" height="300">
+{{< figure src="/static/images/CNN2.png" alt="Kernel & Dilation" caption="Kernel & Dilation" width="700" height="300" >}}
 
 ### 5 `in_channels` & `out_channels`
 -  `in_channels` : Number of channels in the input image
@@ -105,53 +107,59 @@ pinned: false
 >    - Without an activation function, stacking multiple convolutional layers would still result in a linear transformation, limiting the network’s ability to learn complex features.
 >    - Thus, non-linearity needs to be introduced for the model to capture more abstract and high-level features.
 
-<img src="/static/images/CNN3.png" alt="Image" width="700" height="300">
+{{< figure src="/static/images/CNN3.png" alt="Complete Convolution Process" caption="Complete Convolution Process" width="700" height="300" >}}
 
 ---
 
 ## Some terms regarding CNNs
 
 ### 1. **Parameter Sharing**
+
 - The same _set_ of filters (kernels) is applied across the entire input feature map (this is called parameter sharing).
 - This reduces the number of parameters and helps in learning spatially invariant features (e.g., detecting an edge anywhere in an image).
 
 ### 2. **Receptive Field**
+
 - The portion of the input image that a specific neuron in a convolutional layer "looks at" or is connected to, influencing its output.
 
 
-- <img src="/static/images/CNN4.png" alt="Image" width="650" height="250">
+{{< figure src="/static/images/CNN4.png" alt="Receptive Field in CNN" caption="Receptive Field in CNN" width="650" height="250" >}}
 
 ### 3. Local Connectivity
+
 - Unlike fully connected networks, each neuron in a CNN is only connected to a small local region (receptive field) of the input.
 - This reduces the number of connections and makes CNNs efficient for handling high-dimensional data like images.
 - Example: In a 32×32 image, a 3×3 filter connects to only 9 pixels at a time, instead of all 1024 pixels.
 
 This leads to CNNs to having a smaller number of parameters.
 
-# Pooling Layers
+---
+
+## Pooling Layers
 
 - Pooling layers are used to reduce the spatial dimensions of feature maps while preserving important features. 
 - This helps in reducing computational cost and making the network more robust to small translations of the input.
 - Downsampling is happening.
 
-## Types of Pooling
+### Types of Pooling
 
-1. **Max Pooling**
-2. **Average Pooling**
+1. Max Pooling
+2. Average Pooling
 
-### Max Pooling 
+#### Max Pooling 
+
 - Mostly used.
 - Selects the **maximum** value from each region of the feature map.
 - Helps retain the most important features (e.g., edges, textures).
 - Makes CNNs translation invariant (small shifts in input don’t affect results).
 
-
-- <img src="/static/images/CNN5.png" alt="Image" width="600" height="200">
+{{< figure src="/static/images/CNN5.png" alt="Max Pool" caption="Max Pool" width="600" height="200" >}}
 
 - In PyTorch : `MaxPool2d`
     - Same parameters as `conv2d` discussed above.
 
 ### Average Pooling
+
 - Computes the average of all values in a pooling window.
 - Retains more background information than max pooling.
 - Useful when preserving smoothness is more important than sharp features.
@@ -159,7 +167,9 @@ This leads to CNNs to having a smaller number of parameters.
 > - A Strided Convolution (eg. with stride=2) can achieve downsampling without losing as much information.
 >- Thus there use in modern CNNs are being reduced.
 
-# Fully Connected Layer
+---
+
+## Fully Connected Layer
 
 - It is also called a **Dense Layer**. 
 - Each neuron of this layer is connected to every neuron in the previous layer. 
@@ -169,12 +179,12 @@ This leads to CNNs to having a smaller number of parameters.
 
 ---
 
-# PyTorch Implementation
+## PyTorch Implementation
 
 - Implementation of a simple CNN model is similar to that of the MLP model ([here](NN-MLP.md)).
 - Only thing different is the definition of the model.
 
-<img src="/static/images/CNN6.png" alt="Image" width="700" height="300">
+{{< figure src="/static/images/CNN6.png" alt="Complete flow of CNN" caption="Complete flow of CNN" width="700" height="300" >}}
 
 All the layers in the CNN are modelled around this image.
 
@@ -221,7 +231,7 @@ class CNN(nn.Module):
     - `optimizer = optim.Adam(model.parameters(), lr=0.001)`
 
 > ### Output
->```text{.nolang}
+>```text {.nolang}
 >Epoch [1/20], Loss: 0.0830
 >Epoch [2/20], Loss: 0.0047
 >Epoch [3/20], Loss: 0.0095
@@ -243,16 +253,13 @@ class CNN(nn.Module):
 >Epoch [19/20], Loss: 0.0000
 >Epoch [20/20], Loss: 0.0004
 >```
-
 >**Accuracy: 98.92%**
 
 ---
 
-> The full python code can be accessed [here](https://github.com/Kush-Singh-26/Learning-Pytorch/blob/main/CNN.py)
-
-> Colab Notebook of the above code can be accessed [here](https://github.com/Kush-Singh-26/Learning-Pytorch/blob/main/MNIST_CNN.ipynb)
-
-> Trained model parameters can be accessed [here](https://github.com/Kush-Singh-26/Learning-Pytorch/blob/main/mnist_cnn.pth)
+> - The full python code can be accessed [here](https://github.com/Kush-Singh-26/Learning-Pytorch/blob/main/CNN.py)
+> - Colab Notebook of the above code can be accessed [here](https://github.com/Kush-Singh-26/Learning-Pytorch/blob/main/MNIST_CNN.ipynb)
+> - Trained model parameters can be accessed [here](https://github.com/Kush-Singh-26/Learning-Pytorch/blob/main/mnist_cnn.pth)
 
 ---
 

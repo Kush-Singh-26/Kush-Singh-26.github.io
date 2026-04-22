@@ -13,9 +13,9 @@ pinned: false
 
 - **Mask R-CNN** is used for instance segmentation tasks.
 
-# Mask R-CNN
+## Mask R-CNN
 
-## Components of Mask R-CNN :
+### Components of Mask R-CNN :
 
 #### 1. Backbone Network
 - A CNN to extract feature map from image.
@@ -26,19 +26,21 @@ pinned: false
 - Check [Here](CV-Object-Detection.md#faster-r-cnn)
 
 #### 3. RoI Align
-- ###### Problem with RoI Pooling :
+
+- ##### Problem with RoI Pooling :
     - it quantizes coordinates, causing misalignments.
     - when dividing the region proposal into fixed size grid, it would round coordinates to nearest integers.
     - this misalignments dropped accuracy.
 
 #### 4. Head Networks
 
-Branch | Task | Output | Loss
-Classification | What class is it? | $$ p \in \mathbb{R}^{K+1} $$ (K classes + background) | Cross-entropy loss
-Bounding box regression | Where is it exactly? | $$ t \in \mathbb{R}^{4K} $$ (4 for each class) | Smooth L1 loss
-Mask prediction | Pixel-wise object mask | Binary mask of size m×mm \times mm×m per class | Per-pixel binary cross-entropy loss
+| Branch | Task | Output | Loss |
+|---|---|---|---|
+|Classification | What class is it? | $ p \in \mathbb{R}^{K+1} $ (K classes + background) | Cross-entropy loss|
+|Bounding box regression | Where is it exactly? | $ t \in \mathbb{R}^{4K} $ (4 for each class) | Smooth L1 loss|
+|Mask prediction | Pixel-wise object mask | Binary mask of size m×m per class | Per-pixel binary cross-entropy loss|
 
-- <img src="/static/images/IS3.png" alt="Image" width="750" height="350">
+{{< figure src="/static/images/IS3.png" alt="Mask R-CNN" caption="Mask R-CNN" width="750" height="350" >}}
 
 ---
 
@@ -52,7 +54,7 @@ Mask prediction | Pixel-wise object mask | Binary mask of size m×mm \times mm×
 4. Use **bilinear interpolation** to compute feature map values at those points.
 5. Aggregate (take average, max) to get the final feature for that bin.
 
-##### Example
+#### Example
 - Let a feature map be :
 
 | y\x | 0 | 1 | 2 | 3 |
@@ -82,7 +84,7 @@ Mask prediction | Pixel-wise object mask | Binary mask of size m×mm \times mm×
 
 - Calculate the center of each of the bins :
 
-- <img src="/static/images/IS1.png" alt="Image" width="450" height="350">
+{{< figure src="/static/images/IS1.png" alt="ROI Align" caption="ROI Align" width="450" height="350" >}}
 
 - Each of the red points are the center of their respective bins.
 
@@ -120,13 +122,14 @@ Mask prediction | Pixel-wise object mask | Binary mask of size m×mm \times mm×
 
 > - If multiple were sampled per bin then take their average or max to summarize into a single feature value for that bin. 
 
-- ![Image]({{"/images/IS2.png"  | relative_url }})
-    - dashed grid  = feature map
-    - solid lines = RoI with 2x2 bins
-    - 4 sampling points in each bin
-    - Compute the value of each sampling point using bilinear interpolation from the nearby grid points on the feature map.
-    - Aggregate the result using avg. or max. to get a single representative value.
-    - Output is a feature map for each RoI.
+{{< figure src="/static/images/IS2.png" alt="ROI Align" caption="ROI Align" >}}
+
+- dashed grid  = feature map
+- solid lines = RoI with 2x2 bins
+- 4 sampling points in each bin
+- Compute the value of each sampling point using bilinear interpolation from the nearby grid points on the feature map.
+- Aggregate the result using avg. or max. to get a single representative value.
+- Output is a feature map for each RoI.
 
 
 - Repeating this for all RoIs.
@@ -166,15 +169,14 @@ Mask prediction | Pixel-wise object mask | Binary mask of size m×mm \times mm×
 
 - ### Loss
 
-- $$ M_{pred} $$ = predicted masks.
-- $$ M_{gt} $$ = ground truth binary masks.
+$$ M_{pred} = \text{predicted masks} $$
+$$ M_{gt} = \text{ground truth binary masks} $$
 
 - For each pixel apply binary cross-entropy loss between predicted mask and ground-truth mask:
-    - Loss = $$ -[M_{gt}log(M_{pred}) \, + (1-M_{gt})log(1-M_{pred})] $$
+    - Loss = $ -[M_{gt}log(M_{pred}) \, + (1-M_{gt})log(1-M_{pred})] $
     - Sum it over all pixels inside RoI.
 
-
-- Total Loss = L = $$ L_{cls} \, + \, L_{bbox} \, + \, L_{mask} $$
+- Total Loss $(L)$ = $ L_{cls} \, + \, L_{bbox} \, + \, L_{mask} $
 
 ## Implementation in PyTorch
 

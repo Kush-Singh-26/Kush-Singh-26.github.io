@@ -57,7 +57,7 @@ This transforms the basis vectors into 2 new vectors :
 
 > These 2 vectors will form a parallelogram. Det is the area of this parallelogram.
 
-![2D matrix determinant derivation](/static/images/M4ML6.png)
+{{< figure src="/static/images/M4ML6.png" alt="2D matrix determinant derivation" caption="2D matrix determinant derivation" >}}
 
 To find the area of the rectangle, subtract the area of the big box and the empty spaces surrounding the parallelogram.
 

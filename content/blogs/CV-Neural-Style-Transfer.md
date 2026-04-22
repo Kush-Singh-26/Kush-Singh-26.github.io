@@ -6,7 +6,7 @@ date: 2025-03-28
 pinned: false
 ---
 
-# Neural Style Transfer
+## Neural Style Transfer
 
 - Generate new images that are combination of :
     - **Content** of one image
@@ -27,31 +27,31 @@ pinned: false
 - It is the Mean Squared Error (MSE) Loss between target image features and generated image features at a single deeper layer.
 - Ensures that the generated image has similar high-level content as the content image.
 
-
 ### Style Loss 
 
-- #### Gram Matrix :
-    - Reshapes a tensor of an intermediate feature map of form (b,c,h,w) to form (c, h*w)
-    - Matrix multiplication of this reshaped matrix with its transpose.
-    - Normalize the matrix.    
-<br>
+#### Gram Matrix
 
-- <img src="/static/images/NST1.png" alt="Image" width="750" height="300">
+- Reshapes a tensor of an intermediate feature map of form (b,c,h,w) to form (c, h*w)
+- Matrix multiplication of this reshaped matrix with its transpose.
+- Normalize the matrix.    
 
+{{< figure src="/static/images/NST1.png" alt="Calculation of Gram matrix" caption="Calculation of Gram matrix" width="750" height="300" >}}
 
 - The Gram matrix captures the intensity and co-occurrence of features, not their locations.
 - The style loss for a single layer l is the MSE between the target and generated Gram matrices.
 
 ### Total Loss
+
 - Weighted combination of content and style loss
-- $$ L_{total} \, = \, \alpha * L_{content} \, + \, \beta * L_{style} $$
+
+$$ L_{total} \, = \, \alpha * L_{content} \, + \, \beta * L_{style} $$
 
 ### For Inference :
 
 - The trained gram matrix is used for getting the style.
 - Thus, only the style loss if used.
 
-> > Colab Notebook with the complete implementation can be accessed [here](https://github.com/Kush-Singh-26/Neural-Style-Transfer/blob/main/Neural_Style_Transfer.ipynb)
+> Colab Notebook with the complete implementation can be accessed [here](https://github.com/Kush-Singh-26/Neural-Style-Transfer/blob/main/Neural_Style_Transfer.ipynb)
 
 > - Live Implementation can be accessed [here](https://huggingface.co/spaces/Kush26/Neural_Style_Transfer).
 >- It runs on cpu, so it will take a lot of time.

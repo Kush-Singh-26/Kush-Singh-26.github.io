@@ -6,7 +6,7 @@ tags: ["Transformers"]
 pinned: true
 ---
 
-# Writing an Inference Engine for transformer from scratch
+## Writing an Inference Engine for transformer from scratch
 
 This is kind of a work-log / explanation of the [**pure C++ Transformer Inference Engine**](https://github.com/Kush-Singh-26/Inference_Engine). I made this to use and learn more about C++ other than just DSA stuff. 
 
@@ -18,7 +18,7 @@ This project operates operates imperatively (immdeiate mode) similar to `llama.c
 
 When an operation like : `C = A * B` is called, graph based system often just adds a *Multiplication Node* to a graph to be run later. But here, the actual math loops are executed the moment it is called.
 
-# Core parts of the engine
+## Core parts of the engine
 
 ## MatMul
 
@@ -77,7 +77,7 @@ static Matrix matmul(const Matrix& A, const Matrix& B){
             return C;
 ```
 
-<img src="/static/images/Infer1.png" alt="Image" width="800" height="300">
+{{< figure src="/static/images/Infer1.png" alt="Matrix Multiplication : row-major memory layout" caption="Matrix Multiplication : row-major memory layout" width="800" height="300" >}}
 
 - This improved `ikj` loop instead of the old `ijk` loop loads `A[i,k]` once and then access an entire row of Matrix B via `B[k][j]` from RAM.
 - So instead of completely computing a value by constantly jumping between rows, this loop reads the complete row of B and then goes to next row and accumulating the final value.
@@ -384,9 +384,9 @@ The table below contains the list of all intrinsic functions used in the `tensor
 
 ---
 
-# MatMul
+## MatMul
 
-## `matmul_2d`
+### `matmul_2d`
 
 Now lets see how `matmul_2d` works. It is the core of the `float` x `float` multiplications.
 
@@ -521,7 +521,7 @@ This was for when `A` has only one row. For the cases where there are more than 
 
 ---
 
-## `matmul_q8_out`
+### `matmul_q8_out`
 
 To further optimize the performance, **quantization is applied**. *Weights* are converted from the standard `32-bit floats (4 byte)` to `8-bit integers (1 byte)` along with a scaling factor. This reduces the memory footprint of the model.
 
@@ -589,7 +589,7 @@ This completes the core part of the engine.
 > Other operations like `transpose`, `softmax` are also implemented using intrinsics.
 
 
-# Working of the Model 
+## Working of the Model 
 
 - It uses `MultiHeadAttention` class with KV-Cache for decoding.
 
@@ -599,7 +599,7 @@ This completes the core part of the engine.
 
 - `Parallelism` : Loops are parallelized for `for` operations like embedding addition, head extraction, and tensor addition.
 
-## Inference operation
+### Inference operation
 
 The `Transformer` class orchestrates the generation:
 

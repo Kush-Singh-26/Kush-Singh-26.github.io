@@ -55,7 +55,7 @@ $$ \mathbf{a} \cdot \mathbf{b} = |a||b| \cos(\theta) $$
 
 So, dot product is basically **Length of A** x **Length of B** x **Percentage of alignment ($\cos\theta$)**.
 
-![cosine similarity](/static/images/M4ML3.png)
+{{< figure src="/static/images/M4ML3.png" alt="cosine similarity" caption="cosine similarity" >}}
 
 From trigonometry,
 

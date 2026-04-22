@@ -53,7 +53,7 @@ $$ \begin{bmatrix}1 & 1 \\ 0 & 1 \end{bmatrix} $$
 
 Below image shows the exact matrices transformations as covered above.
 
-![Standard Matrix transformations (Scaling, Rotation & SHearing)](/static/images/M4ML5.png)
+{{< figure src="/static/images/M4ML5.png" alt="Standard Matrix transformations (Scaling, Rotation & SHearing)" caption="Standard Matrix transformations (Scaling, Rotation & SHearing)" >}}
 
 ## Matrix Vector Multiplication
 
