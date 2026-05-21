@@ -28,6 +28,8 @@ menu:
   - name: "Search"
     id: "search-btn"
     class: "nav-btn"
+  - name: "Docs"
+    url: "/docs/"
   - name: "Tags"
     url: "/blogs/tags/"
   - name: "Graph"
