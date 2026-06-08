@@ -23,6 +23,7 @@ projects:
   - eyebrow: "Deep Learning"
     title: "Transformer Translate"
     description: "Built from scratch with mixed precision. Achieved BLEU 23.64 (En→Hi)."
+    image: "images/portfolio/transformer-translate.png"
     tags: ["PyTorch", "Transformers", "AMP"]
     github: "https://github.com/Kush-Singh-26/Transformer_Translate"
     demo: "https://transformer-translate.vercel.app/"
@@ -50,6 +51,7 @@ projects:
   - eyebrow: "Neural Networks"
     title: "Style Transfer"
     description: "Neural Image Style Transfer algorithm merging content and artistic style via feature maps."
+    image: "images/portfolio/style-transfer.png"
     tags: ["PyTorch", "VGG-19", "CNN"]
     github: "https://github.com/Kush-Singh-26/Neural-Style-Transfer"
 
@@ -62,12 +64,18 @@ competencies:
     items: "Docker · Kubernetes · Linux · GitHub Actions · HTML5/CSS3"
 
 timeline:
+  - hash: "b4g1d23"
+    date: "2026 July"
+    title: "LG Soft India"
+    subtitle: "Internship"
+    ref: "HEAD → main"
+    meta: "Upcoming"
+
   - hash: "a3f9c12"
     date: "2023 - present"
     title: "KIIT University, Bhubaneswar"
     subtitle: "B.Tech in Computer Science"
-    meta: "CGPA: 9.16"
-    ref: "HEAD → main"
+    meta: "CGPA: 9.17"
 
   - hash: "d71b804"
     date: "2022"
