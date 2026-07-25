@@ -55,6 +55,53 @@ socialCards:
 imageWorkers: 8
 shouldCompressImages: true
 
+# D2 diagram theme. Base IDs are close to the blog palette; the overrides below
+# retint each variant so diagrams match the blog's light/dark colors.
+# Neutral scale N1->N7 is darkest->lightest. Hex values are derived from the
+# blog theme.css oklch palette.
+d2:
+  lightThemeID: 104   # Everglade Green (greenish base)
+  darkThemeID: 200    # Dark Mauve (retinted below)
+  strokeWidth: 0.75   # thinner diagram lines
+  lightOverrides:
+    n1: "#100A03"   # text-main (darkest)
+    n2: "#2A2418"
+    n3: "#403A2F"   # text-secondary
+    n4: "#5E5749"
+    n5: "#847C6C"
+    n6: "#ABA28F"
+    n7: "#F9F4EE"   # bg-body (lightest)
+    b1: "#425C4E"   # sage
+    b2: "#59441F"   # aged gold
+    b3: "#2E4D57"   # scholar blue
+    b4: "#724A3C"   # clay red
+    b5: "#2E4B60"   # deep indigo
+    b6: "#55695D"   # muted sage
+    aa2: "#59441F"
+    aa4: "#2E4D57"
+    aa5: "#724A3C"
+    ab4: "#2E4B60"
+    ab5: "#55695D"
+  darkOverrides:
+    n1: "#D9E0DC"   # text-main (lightest)
+    n2: "#B6BEB8"
+    n3: "#8E968F"
+    n4: "#646C65"
+    n5: "#404841"
+    n6: "#1F2620"
+    n7: "#060A08"   # bg-body (darkest)
+    b1: "#7B9787"   # sage
+    b2: "#B29B74"   # aged gold
+    b3: "#93B4C0"   # scholar blue
+    b4: "#C09283"   # clay red
+    b5: "#57768C"   # deep indigo
+    b6: "#71867A"   # muted sage
+    aa2: "#B29B74"
+    aa4: "#93B4C0"
+    aa5: "#C09283"
+    ab4: "#57768C"
+    ab5: "#71867A"
+
 features:
   useRawMarkdown: true # Copies .md files to output for "View Source" support
   generators:

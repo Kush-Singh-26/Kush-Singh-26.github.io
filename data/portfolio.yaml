@@ -67,9 +67,9 @@ timeline:
   - hash: "b4g1d23"
     date: "2026 July"
     title: "LG Soft India"
-    subtitle: "Internship"
+    subtitle: "Software Engineering Internship"
     ref: "HEAD → main"
-    meta: "Upcoming"
+    # meta: "Upcoming"
 
   - hash: "a3f9c12"
     date: "2023 - present"
