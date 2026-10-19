@@ -1,4 +1,3 @@
-identity: "usr // kush_singh"
 headline: "Kush Singh"
 subHeadline: "Exploring the depths of software engineering, one layer of abstraction at a time."
 
@@ -56,20 +55,19 @@ projects:
     github: "https://github.com/Kush-Singh-26/Neural-Style-Transfer"
 
 competencies:
-  - category: "// languages"
-    items: "C++ · C · Python · JavaScript · Java · Golang"
-  - category: "// deep learning"
-    items: "PyTorch · HF Transformers · NumPy · Pandas · Scikit-Learn"
-  - category: "// devops &amp; web"
-    items: "Docker · Kubernetes · Linux · GitHub Actions · HTML5/CSS3"
+  - category: "languages"
+    items: ["C++", "C", "Python", "JavaScript", "Java", "Golang"]
+  - category: "deep learning"
+    items: ["PyTorch", "HF Transformers", "NumPy", "Pandas", "Scikit-Learn"]
+  - category: "devops & web"
+    items: ["Docker", "Kubernetes", "Linux", "GitHub Actions", "HTML5/CSS3"]
 
 timeline:
   - hash: "b4g1d23"
-    date: "2026 July"
+    date: "2026 July - present"
     title: "LG Soft India"
     subtitle: "Software Engineering Internship"
     ref: "HEAD → main"
-    # meta: "Upcoming"
 
   - hash: "a3f9c12"
     date: "2023 - present"

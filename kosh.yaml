@@ -102,6 +102,10 @@ d2:
     ab4: "#57768C"
     ab5: "#71867A"
 
+# Mermaid diagram SSR (pure Go, no external dependencies).
+mermaid:
+  enabled: true
+
 features:
   useRawMarkdown: true # Copies .md files to output for "View Source" support
   generators:

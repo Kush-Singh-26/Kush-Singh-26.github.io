@@ -76,10 +76,10 @@ Block math:
 $$ \frac{1}{n} \sum_{i=1}^{n} x_i $$
 
 ### D2 Diagrams
-```d2
-shape: sequence_diagram
-Alice -> Bob: What's up?
-Bob -> Alice: Not much, just using Kosh!
+```mermaid
+sequenceDiagram
+    Alice->>Bob: What's up?
+    Bob->>Alice: Not much, just using Kosh!
 ```
 
 ### Syntax Highlighting
