@@ -29,7 +29,7 @@ projects:
 
   - eyebrow: "Web Systems"
     title: "Kosh SSG"
-    description: "Custom static site generator in Golang with Markdown-to-HTML conversion &amp; KaTeX support."
+    description: "Custom static site generator in Golang with Markdown-to-HTML conversion & KaTeX support."
     tags: ["Golang", "Markdown", "KaTeX"]
     github: "https://github.com/Kush-Singh-26/blogs"
     demo: "https://kush-singh-26.github.io/blogs/"
