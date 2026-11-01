@@ -55,6 +55,12 @@ socialCards:
 imageWorkers: 8
 shouldCompressImages: true
 
+# Extra runtime API origins for the portfolio heatmaps.
+csp:
+  extraConnectSrc:
+    - "https://github-contributions-api.jogruber.de"
+    - "https://leetcode-api-faisalshohag.vercel.app"
+
 # D2 diagram theme. Base IDs are close to the blog palette; the overrides below
 # retint each variant so diagrams match the blog's light/dark colors.
 # Neutral scale N1->N7 is darkest->lightest. Hex values are derived from the
