@@ -1,0 +1,2 @@
+# Self-hosted analytics endpoint. The theme loads the tracker only when set.
+endpoint: "https://self-hosted-analytics-collector.kush26cs.workers.dev/e"

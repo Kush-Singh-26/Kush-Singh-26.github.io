@@ -60,6 +60,7 @@ csp:
   extraConnectSrc:
     - "https://github-contributions-api.jogruber.de"
     - "https://leetcode-api-faisalshohag.vercel.app"
+    - "https://self-hosted-analytics-collector.kush26cs.workers.dev"
 
 # D2 diagram theme. Base IDs are close to the blog palette; the overrides below
 # retint each variant so diagrams match the blog's light/dark colors.
