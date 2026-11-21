@@ -585,8 +585,22 @@ $$ softmax(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}} $$
  $$
 >
 > - Now softmax is applied to each row of $S'$.
-> - For row 0 : $ softmax([1.2, -\infty, -\infty, -\infty]) $ = [1, 0, 0, 0].
-> - For row 1 : $ softmax([0.3, 2.0, -\infty, -\infty]) = \frac{1}{e^{0.3} + e^{2.0}} [e^{0.3}, e^{2.0}] = [0.1544, 0.8456, 0, 0] $
+>
+> **Row 0:**
+>
+> $$
+> \operatorname{softmax}([1.2, -\infty, -\infty, -\infty]) = [1, 0, 0, 0]
+> $$
+>
+> **Row 1:**
+>
+> $$
+> \begin{aligned}
+> &\operatorname{softmax}([0.3, 2.0, -\infty, -\infty]) \\
+> &= \frac{[e^{0.3}, e^{2.0}]}{e^{0.3} + e^{2.0}}
+>   = [0.1544, 0.8456, 0, 0]
+> \end{aligned}
+> $$
 > - And so on ...
 >
 > - Final $A$ matrix is :
@@ -634,8 +648,22 @@ $$ softmax(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}} $$
  $$
 >
 > - Now softmax is applied to each row of $S'$.
-> - For row 0 : $ softmax([1.2, -\infty, -\infty, -\infty]) $ = [1, 0, 0, 0].
-> - For row 1 : $ softmax([0.3, 2.0, -\infty, -\infty]) = \frac{1}{e^{0.3} + e^{2.0}} [e^{0.3}, e^{2.0}] = [0.1544, 0.8456, 0, 0] $
+>
+> **Row 0:**
+>
+> $$
+> \operatorname{softmax}([1.2, -\infty, -\infty, -\infty]) = [1, 0, 0, 0]
+> $$
+>
+> **Row 1:**
+>
+> $$
+> \begin{aligned}
+> &\operatorname{softmax}([0.3, 2.0, -\infty, -\infty]) \\
+> &= \frac{[e^{0.3}, e^{2.0}]}{e^{0.3} + e^{2.0}}
+>   = [0.1544, 0.8456, 0, 0]
+> \end{aligned}
+> $$
 > - And so on ...
 >
 > - Final $A$ matrix is :

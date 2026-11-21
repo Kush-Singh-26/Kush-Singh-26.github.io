@@ -3,6 +3,17 @@
 let wasmBinaryCache = null;
 let wasmBinaryCachePromise = null;
 
+// raylib's InitWindow writes its build-time name ("MathAnimationEngine")
+// into document.title, clobbering the page's own title.
+(function keepPageTitle() {
+    const titleEl = document.querySelector('title');
+    if (!titleEl) return;
+    const pageTitle = titleEl.textContent;
+    new MutationObserver(() => {
+        if (titleEl.textContent !== pageTitle) titleEl.textContent = pageTitle;
+    }).observe(titleEl, { childList: true, characterData: true, subtree: true });
+})();
+
 // Inject shared styles once
 (function injectStyles() {
   if (document.getElementById('wasm-sim-styles')) return;
